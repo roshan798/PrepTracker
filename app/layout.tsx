@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import './globals.css';
+import './css/globals.css';
 import { AppProvider } from '@/lib/store';
 
 export const metadata: Metadata = {

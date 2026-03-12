@@ -39,18 +39,18 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
     };
 
     const toolbarButtons = [
-        { label: 'B', title: 'Bold', action: () => insertSyntax('**', '**', 'bold text') },
-        { label: 'I', title: 'Italic', action: () => insertSyntax('*', '*', 'italic text') },
-        { label: 'S', title: 'Strikethrough', action: () => insertSyntax('~~', '~~', 'strikethrough') },
-        { label: 'H1', title: 'Heading 1', action: () => insertSyntax('# ', '', 'Heading') },
+        { label: 'B', title: 'Bold (Ctrl+B)', action: () => insertSyntax('**', '**', 'bold text') },
+        { label: 'I', title: 'Italic (Ctrl+I)', action: () => insertSyntax('*', '*', 'italic text') },
+        { label: 'S', title: 'Strikethrough (Ctrl+U)', action: () => insertSyntax('~~', '~~', 'strikethrough') },
+        { label: 'H1', title: 'Heading 1 (Ctrl+Shift+H)', action: () => insertSyntax('# ', '', 'Heading') },
         { label: 'H2', title: 'Heading 2', action: () => insertSyntax('## ', '', 'Heading') },
-        { label: '`', title: 'Inline code', action: () => insertSyntax('`', '`', 'code') },
-        { label: '```', title: 'Code block', action: () => insertSyntax('```\n', '\n```', 'code here') },
-        { label: '>', title: 'Blockquote', action: () => insertSyntax('> ', '', 'quote') },
+        { label: '`', title: 'Inline code (Ctrl+`)', action: () => insertSyntax('`', '`', 'code') },
+        { label: '```', title: 'Code block (Ctrl+Shift+C)', action: () => insertSyntax('```\n', '\n```', 'code here') },
+        { label: '>', title: 'Blockquote (Ctrl+Shift+B)', action: () => insertSyntax('> ', '', 'quote') },
         { label: '—', title: 'Horizontal rule', action: () => insertSyntax('\n---\n', '') },
         { label: '•', title: 'Bullet list', action: () => insertSyntax('- ', '', 'list item') },
         { label: '1.', title: 'Numbered list', action: () => insertSyntax('1. ', '', 'list item') },
-        { label: '🔗', title: 'Link', action: () => insertSyntax('[', '](url)', 'link text') },
+        { label: '🔗', title: 'Link (Ctrl+K)', action: () => insertSyntax('[', '](url)', 'link text') },
     ];
 
     return (
@@ -58,15 +58,16 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
             {/* Toolbar */}
             <div className="note-editor-toolbar">
                 {toolbarButtons.map((btn) => (
-                    <button
-                        key={btn.label}
-                        onClick={btn.action}
-                        title={btn.title}
-                        className="note-toolbar-btn"
-                        type="button"
-                    >
-                        {btn.label}
-                    </button>
+                    <div key={btn.label} className="note-toolbar-wrap">
+                        <button
+                            onClick={btn.action}
+                            className="note-toolbar-btn"
+                            type="button"
+                        >
+                            {btn.label}
+                        </button>
+                        <div className="note-toolbar-tooltip">{btn.title}</div>
+                    </div>
                 ))}
                 <div className="note-toolbar-spacer" />
                 <button
@@ -96,6 +97,17 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
                             handleSave();
                         }
                         if (e.key === 'Escape') onCancel();
+
+                        // ── Formatting shortcuts ──────────────────────────
+                        const mod = e.ctrlKey || e.metaKey;
+                        if (mod && e.key === 'b') { e.preventDefault(); insertSyntax('**', '**', 'bold text'); }
+                        if (mod && e.key === 'i') { e.preventDefault(); insertSyntax('*', '*', 'italic text'); }
+                        if (mod && e.key === 'u') { e.preventDefault(); insertSyntax('~~', '~~', 'strikethrough'); }
+                        if (mod && e.key === 'k') { e.preventDefault(); insertSyntax('[', '](url)', 'link text'); }
+                        if (mod && e.key === '`') { e.preventDefault(); insertSyntax('`', '`', 'code'); }
+                        if (mod && e.shiftKey && e.key === 'C') { e.preventDefault(); insertSyntax('```\n', '\n```', 'code here'); }
+                        if (mod && e.shiftKey && e.key === 'H') { e.preventDefault(); insertSyntax('# ', '', 'Heading'); }
+                        if (mod && e.shiftKey && e.key === 'B') { e.preventDefault(); insertSyntax('> ', '', 'quote'); }
                     }}
                 />
             ) : (

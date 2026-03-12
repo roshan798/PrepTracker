@@ -4,6 +4,7 @@ import { NoteItem } from './types';
 import { genId, parseValue, serializeNotes, syntheticEvent } from './utils';
 import NoteCard from './NoteCard';
 import NoteEditor from './NoteEditor';
+import "../../app/css/notes.css";
 
 export interface NotesProps {
   value: string;

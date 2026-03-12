@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #F0F4FF;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E8EDF8;
+  --text-primary: #0D1B2A;
+  --text-secondary: #3D4F6B;
+  --border: #D0D9F0;
+  --accent-cyan: #00BCD4;
+  --accent-violet: #7B5EA7;
+  --accent-rose: #E74C5E;
+}
+
+.dark {
+  --bg-primary: #080F1A;
+  --bg-secondary: #0D1825;
+  --bg-tertiary: #111D2E;
+  --text-primary: #E2ECF7;
+  --text-secondary: #7A9BB5;
+  --border: #1A2D42;
+  --accent-cyan: #00E5FF;
+  --accent-violet: #9D7FD4;
+  --accent-rose: #FF4B6E;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: 'Syne', sans-serif;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Grid background pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Progress bar animation */
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: var(--progress);
+  }
+}
+
+.progress-bar {
+  animation: progressFill 1s ease-out forwards;
+}
+
+/* Confetti */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  animation: confettiFall linear forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Fade in animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeSlideIn 0.35s ease-out forwards;
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 20px 5px rgba(0, 229, 255, 0.25);
+  }
+}
+
+/* Card hover */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Status badge transitions */
+.status-transition {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Accordion animation */
+@keyframes accordionOpen {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 2000px;
+  }
+}
+
+.accordion-content {
+  overflow: hidden;
+}
+
+/* Textarea focus */
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.15);
+}
+
+/* Sidebar scrollbar hidden on mobile */
+@media (max-width: 768px) {
+  .sidebar-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Toast notification */
+@keyframes toastSlide {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-slide {
+  animation: toastSlide 0.3s ease-out forwards;
+}
