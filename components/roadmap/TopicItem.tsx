@@ -7,6 +7,8 @@ import StatusSelect from '@/components/ui/StatusSelect';
 import SubtopicItem from './SubtopicItem';
 import { ChevronDown, ChevronRight, Plus, Trash2, StickyNote } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
+import Notes from '../Notes/Notes';
+import { NotesToggleButton } from '../ui/NotesToggleButton';
 
 interface TopicItemProps {
   roadmapId: string;
@@ -89,11 +91,11 @@ export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemP
           </div>
         )}
 
-        <button onClick={() => setShowNotes(!showNotes)}
-          className={`p-2 rounded-lg transition-colors ${showNotes ? 'text-amber-400' : 'hover:opacity-70'}`}
-          style={{ color: showNotes ? undefined : 'var(--text-secondary)' }}>
-          <StickyNote size={14} />
-        </button>
+        <NotesToggleButton
+          value={topic.notes}
+          showNotes={showNotes}
+          onToggle={() => setShowNotes(!showNotes)}
+        />
 
         <StatusSelect status={topic.status} onChange={(s) => updateTopic({ status: s })} />
 
@@ -107,16 +109,12 @@ export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemP
       {showNotes && (
         <div className="px-5 pb-4 border-t" style={{ borderColor: 'var(--border)' }}>
           <div className="pt-3">
-            <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-              📝 Topic Notes
-            </label>
-            <textarea
+            <Notes
+              label="📝 Topic Notes"
               value={topic.notes}
               onChange={(e) => updateTopic({ notes: e.target.value })}
               placeholder="Add notes, key concepts, links, or personal tips..."
               rows={4}
-              className="w-full px-3 py-2.5 rounded-xl border text-sm resize-none font-mono"
-              style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
             />
           </div>
         </div>
