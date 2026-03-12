@@ -73,6 +73,61 @@ preptracker/
     └── manifest.json       # PWA manifest
 ```
 
+## Creating Your Own Roadmap
+
+Want a fully custom roadmap? Edit the predefined data directly.
+
+### Steps
+
+**1. Clone the repo**
+```bash
+git clone <your-fork>
+cd preptracker
+```
+
+**2. Open `lib/data.ts`**
+
+All roadmaps live in the `PREDEFINED_ROADMAPS` array. Each entry follows the `Roadmap` type defined in `lib/types.ts`.
+
+**3. Add or replace a roadmap entry**
+```ts
+export const PREDEFINED_ROADMAPS: Roadmap[] = [
+  {
+    id: 'my-roadmap',
+    title: 'My Custom Roadmap',
+    icon: '🎯',
+    description: 'Short description here',
+    topics: [
+      {
+        id: 'topic-1',
+        title: 'Week 1: Topic Name',
+        description: 'What this week covers',
+        subtopics: [...],
+        problems: [...],
+      },
+    ],
+  },
+  // ...existing roadmaps
+];
+```
+
+**4. Let AI generate it for you**
+
+Paste this prompt into ChatGPT / Claude:
+
+> "Generate a `Roadmap` object for [your topic] following this TypeScript type: [paste contents of `lib/types.ts`]. Return only valid TypeScript that fits the `Roadmap[]` array in `data.ts`."
+
+Then paste the output directly into `PREDEFINED_ROADMAPS`.
+
+**5. Restart the dev server**
+```bash
+npm run dev
+```
+
+Your roadmap will appear in the sidebar automatically.
+
+> **Tip:** After customizing, use the **Export** button to back up your progress as JSON — it captures your statuses, notes, and problem completions.
+
 ## Tech Stack
 - **Next.js 14** (App Router)
 - **TypeScript** (strict)
