@@ -1,10 +1,11 @@
 'use client';
-import { Sun, Moon, Download, Upload, Menu, X, Zap } from 'lucide-react';
+import { Sun, Moon, Download, Upload, Menu, X, Zap, BarChart2 } from 'lucide-react';
 import { useAppState, useAppDispatch } from '@/lib/store';
 import { downloadJSON } from '@/lib/utils';
 import { useRef, useState } from 'react';
 import Toast from '@/components/ui/Toast';
 import { AppState } from '@/lib/types';
+import Link from 'next/link';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -66,6 +67,10 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
           </span>
         </div>
 
+        <Link href="/metrics" style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all hover:opacity-80">
+          <BarChart2 size={16} />
+          <span>Metrics</span>
+        </Link>
         <div className="flex items-center gap-2">
           <button onClick={handleExport}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all hover:opacity-80"
