@@ -1,5 +1,4 @@
 import { Roadmap } from '../lib/types';
-// export const DATA_VERSION = 8;
 export const PREDEFINED_ROADMAPS: Roadmap[] = [
   {
     id: 'dsa-roadmap',
@@ -26,11 +25,13 @@ export const PREDEFINED_ROADMAPS: Roadmap[] = [
             status: 'not-started',
             notes: '',
             problems: [
+              { id: 'p1', name: 'Two Sum', difficulty: 'easy', status: 'not-started', notes: '', leetcodeNumber: 1, url: 'https://leetcode.com/problems/two-sum/' },
               { id: 'p2', name: 'Best Time to Buy and Sell Stock', difficulty: 'easy', status: 'not-started', notes: '', leetcodeNumber: 121, url: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/' },
               { id: 'p3', name: 'Contains Duplicate', difficulty: 'easy', status: 'not-started', notes: '', leetcodeNumber: 217, url: 'https://leetcode.com/problems/contains-duplicate/' },
               { id: 'p4', name: 'Product of Array Except Self', difficulty: 'medium', status: 'not-started', notes: '', leetcodeNumber: 238, url: 'https://leetcode.com/problems/product-of-array-except-self/' },
               { id: 'p5', name: "Maximum Subarray (Kadane's)", difficulty: 'medium', status: 'not-started', notes: '', leetcodeNumber: 53, url: 'https://leetcode.com/problems/maximum-subarray/' },
-
+              { id: 'p5a', name: 'Move Zeroes', difficulty: 'easy', status: 'not-started', notes: '', leetcodeNumber: 283, url: 'https://leetcode.com/problems/move-zeroes/' },
+              { id: 'p5b', name: 'Rotate Array', difficulty: 'medium', status: 'not-started', notes: '', leetcodeNumber: 189, url: 'https://leetcode.com/problems/rotate-array/' },
             ],
           },
           {
