@@ -10,10 +10,15 @@ export default function MarkdownPreview({ content, empty }: { content: string; e
     const rendered = renderMarkdown(content);
 
     useLayoutEffect(() => {
-        ref.current?.querySelectorAll('code.md-code-block').forEach((block) => {
-            delete (block as HTMLElement).dataset.highlighted;
-            hljs.highlightElement(block as HTMLElement);
-        });
+        if (!ref.current) return;
+        try {
+            ref.current.querySelectorAll('code.md-code-block').forEach((block) => {
+                delete (block as HTMLElement).dataset.highlighted;
+                hljs.highlightElement(block as HTMLElement);
+            });
+        } catch (error) {
+            console.warn('Highlight.js failed:', error);  // Skip on error
+        }
     });
 
     if (!rendered)
