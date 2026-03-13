@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/atom-one-dark.css';
+import 'highlight.js/styles/github-dark.min.css';
 import { renderMarkdown } from './utils';
 
 hljs.configure({ ignoreUnescapedHTML: true });
