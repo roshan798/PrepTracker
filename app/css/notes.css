@@ -505,8 +505,8 @@
     position: relative;
 }
 
-.notes-markdown-body .md-pre[data-lang]::before {
-    content: attr(data-lang);
+.notes-markdown-body .md-pre[data-language]::before {
+    content: attr(data-language);
     position: absolute;
     top: 6px;
     right: 10px;
@@ -521,7 +521,7 @@
 .notes-markdown-body .md-code-block {
     font-family: ui-monospace, 'Cascadia Code', monospace;
     font-size: 0.82em;
-    color: #94a3b8;
+    /* color: #94a3b8; */
     white-space: pre;
     display: block;
 }
