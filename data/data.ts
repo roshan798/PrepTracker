@@ -1,4 +1,5 @@
 import { Roadmap } from '../lib/types';
+export const DATA_VERSION = 2;
 export const PREDEFINED_ROADMAPS: Roadmap[] = [
   {
     id: 'dsa-roadmap',
@@ -1538,4 +1539,604 @@ export const PREDEFINED_ROADMAPS: Roadmap[] = [
       },
     ],
   },
+  {
+    id: 'java-swe',
+    name: 'Java for Software Engineers',
+    description: 'Java roadmap for developers who already know programming. Skips basics, focuses on what makes Java unique — JVM, concurrency, generics, Spring Boot, and production patterns.',
+    emoji: '☕',
+    type: 'predefined',
+    duration: '14 weeks',
+    color: '#f97316',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    topics: [
+
+      // ─── WEEK 1 — QUICK JAVA ORIENTATION ──────────────────────────────────────
+      {
+        id: 'java-orientation',
+        name: 'Week 1 — Java vs JS: What\'s Actually Different',
+        description: 'Only the Java-specific things you don\'t already know from JS',
+        status: 'not-started',
+        notes: '',
+        week: 1,
+        subtopics: [
+          {
+            id: 'java-type-system',
+            name: 'Java\'s Type System (unlike JS)',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-ts-1', name: 'Static typing — compile-time vs runtime errors', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-type-system' },
+              { id: 'jv-ts-2', name: 'Primitive vs Reference types — stack vs heap storage', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-primitives-vs-objects' },
+              { id: 'jv-ts-3', name: 'Autoboxing & unboxing — Integer vs int, NullPointerException trap', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-autoboxing-unboxing-performance' },
+              { id: 'jv-ts-4', name: 'String interning & == vs .equals() trap', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/string-pool-java/' },
+            ],
+          },
+          {
+            id: 'java-class-model',
+            name: 'Java\'s Class Model vs JS Prototypes',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-cm-1', name: 'Access modifiers — private, protected, package-private, public', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-access-modifiers' },
+              { id: 'jv-cm-2', name: 'final — variables, methods, classes (no JS equivalent)', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-final' },
+              { id: 'jv-cm-3', name: 'equals() & hashCode() contract — must implement together', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-equals-hashcode-contracts' },
+              { id: 'jv-cm-4', name: 'Immutable classes — why & how (the Java way)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-immutable-object' },
+            ],
+          },
+          {
+            id: 'java-compile-run',
+            name: 'JVM vs Node.js Runtime Model',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-cr-1', name: 'javac → bytecode → JVM — how it differs from Node.js', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/java-compilation-process/' },
+              { id: 'jv-cr-2', name: 'JIT compilation — why Java gets faster over time', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/graal-java-jit-compiler' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 2 — OOP JAVA-STYLE ──────────────────────────────────────────────
+      {
+        id: 'java-oop-deep',
+        name: 'Week 2 — OOP: Java\'s Unique Constructs',
+        description: 'Interfaces, sealed classes, records, enums — things JS doesn\'t have',
+        status: 'not-started',
+        notes: '',
+        week: 2,
+        subtopics: [
+          {
+            id: 'java-interfaces-deep',
+            name: 'Interfaces — Far More Powerful Than JS',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-id-1', name: 'Default & static methods in interfaces (Java 8+)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-static-default-methods' },
+              { id: 'jv-id-2', name: 'Functional interfaces — @FunctionalInterface', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-8-functional-interfaces' },
+              { id: 'jv-id-3', name: 'Interface vs Abstract class — the real tradeoffs', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-interface-vs-abstract-class' },
+            ],
+          },
+          {
+            id: 'java-modern-types',
+            name: 'Modern Java Types (Java 14–21)',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-mt-1', name: 'Records — immutable data classes, zero boilerplate', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-record-keyword' },
+              { id: 'jv-mt-2', name: 'Sealed classes — controlled inheritance hierarchies', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-sealed-classes-interfaces' },
+              { id: 'jv-mt-3', name: 'Pattern matching instanceof (Java 16+)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-pattern-matching-instanceof' },
+              { id: 'jv-mt-4', name: 'Pattern matching for switch (Java 21)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-pattern-matching-switch' },
+              { id: 'jv-mt-5', name: 'Text blocks (Java 15+) — multiline strings', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-text-blocks' },
+            ],
+          },
+          {
+            id: 'java-enums-deep',
+            name: 'Enums — Much Richer Than TS Enums',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-en-1', name: 'Enums with fields, constructors, and methods', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/a-guide-to-java-enums' },
+              { id: 'jv-en-2', name: 'Abstract methods per enum constant', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-enum-abstract-method' },
+              { id: 'jv-en-3', name: 'EnumMap & EnumSet — optimized enum-keyed structures', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-enum-map' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 3 — GENERICS ────────────────────────────────────────────────────
+      {
+        id: 'java-generics',
+        name: 'Week 3 — Generics (No JS Equivalent)',
+        description: 'Type parameters, wildcards, type erasure — critical for reading any Java library',
+        status: 'not-started',
+        notes: '',
+        week: 3,
+        subtopics: [
+          {
+            id: 'java-generics-core',
+            name: 'Generic Classes & Methods',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-gc-1', name: 'Generic classes — <T>, <K,V>', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generics' },
+              { id: 'jv-gc-2', name: 'Generic methods — independent <T> on method', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generic-methods' },
+              { id: 'jv-gc-3', name: 'Bounded types — <T extends Comparable<T>>', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generics' },
+            ],
+          },
+          {
+            id: 'java-wildcards',
+            name: 'Wildcards & Type Erasure',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-wc-1', name: '? extends T — producer (covariant, read-only)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generics-caveats' },
+              { id: 'jv-wc-2', name: '? super T — consumer (contravariant, write-only)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generics-caveats' },
+              { id: 'jv-wc-3', name: 'PECS rule — Producer Extends, Consumer Super', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-generics-caveats' },
+              { id: 'jv-wc-4', name: 'Type erasure — why List<String> == List<Integer> at runtime', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-type-erasure' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 4 — COLLECTIONS ─────────────────────────────────────────────────
+      {
+        id: 'java-collections',
+        name: 'Week 4 — Collections Framework Deep Dive',
+        description: 'The right collection for each use case — internals matter here',
+        status: 'not-started',
+        notes: '',
+        week: 4,
+        subtopics: [
+          {
+            id: 'java-map-internals',
+            name: 'Map Internals — What JS Hides From You',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-mi-1', name: 'HashMap — hashing, buckets, load factor, resize', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/internal-working-of-hashmap-java/' },
+              { id: 'jv-mi-2', name: 'HashMap treeification — buckets → red-black trees (Java 8+)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-hashmap-advanced' },
+              { id: 'jv-mi-3', name: 'TreeMap — Red-Black tree, O(log n), NavigableMap API', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-treemap' },
+              { id: 'jv-mi-4', name: 'LinkedHashMap — LRU cache pattern', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-linked-hashmap' },
+              { id: 'jv-mi-5', name: 'Map.computeIfAbsent, merge, getOrDefault — modern idioms', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-map-computeifabsent' },
+            ],
+          },
+          {
+            id: 'java-queue-heap',
+            name: 'Queue, Deque & PriorityQueue',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-qh-1', name: 'ArrayDeque as Stack and Queue (replaces legacy Stack class)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-array-deque' },
+              { id: 'jv-qh-2', name: 'PriorityQueue — min-heap, custom Comparator', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-queue' },
+              { id: 'jv-qh-3', name: 'List.of, Map.of, Set.of — immutable collection factories', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-immutable-list' },
+            ],
+          },
+          {
+            id: 'java-comparators',
+            name: 'Ordering & Comparators',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-comp-1', name: 'Comparable vs Comparator — natural vs custom order', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-comparator-comparable' },
+              { id: 'jv-comp-2', name: 'Comparator.comparing().thenComparing().reversed()', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-8-comparator-comparing' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 5 — FUNCTIONAL JAVA ─────────────────────────────────────────────
+      {
+        id: 'java-functional',
+        name: 'Week 5 — Functional Java (Streams, Lambdas, Optional)',
+        description: 'Java\'s structured answer to functional programming',
+        status: 'not-started',
+        notes: '',
+        week: 5,
+        subtopics: [
+          {
+            id: 'java-lambdas',
+            name: 'Lambdas & Functional Interfaces',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-lf-1', name: 'Effectively final — why captured variables can\'t change', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-effectively-final' },
+              { id: 'jv-lf-2', name: 'Built-ins: Function<T,R>, BiFunction, Predicate, Supplier, Consumer', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-8-functional-interfaces' },
+              { id: 'jv-lf-3', name: 'Method references — 4 types (static, instance, arbitrary, constructor)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-method-references' },
+            ],
+          },
+          {
+            id: 'java-streams',
+            name: 'Stream API — Java\'s Most Used Feature',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-st-1', name: 'Lazy evaluation — streams don\'t execute until terminal op', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-stream-lazy-evaluation' },
+              { id: 'jv-st-2', name: 'flatMap — flatten List<List<T>> into List<T>', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-difference-map-and-flatmap' },
+              { id: 'jv-st-3', name: 'Collectors.groupingBy, partitioningBy, joining, toMap', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-collectors' },
+              { id: 'jv-st-4', name: 'reduce — fold operations, identity element', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-stream-reduce' },
+              { id: 'jv-st-5', name: 'Parallel streams — ForkJoinPool, when NOT to use', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-when-to-use-parallel-stream' },
+              { id: 'jv-st-6', name: 'Stream.iterate, Stream.generate, IntStream.range', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-intstream-range' },
+            ],
+          },
+          {
+            id: 'java-optional',
+            name: 'Optional — Null Safety Done Right',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-op-1', name: 'Optional.of vs ofNullable vs empty', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-optional' },
+              { id: 'jv-op-2', name: 'map, flatMap, filter on Optional', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-optional-uses' },
+              { id: 'jv-op-3', name: 'orElse vs orElseGet — the hidden performance difference', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-optional-or-else-vs-or-else-get' },
+              { id: 'jv-op-4', name: 'When NOT to use Optional (fields, method params, collections)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-optional-uses' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 6-7 — CONCURRENCY ───────────────────────────────────────────────
+      {
+        id: 'java-concurrency',
+        name: 'Week 6-7 — Concurrency (Java\'s Superpower)',
+        description: 'Real multithreading — completely different from JS\'s single-threaded event loop',
+        status: 'not-started',
+        notes: '',
+        week: 6,
+        subtopics: [
+          {
+            id: 'java-threads-model',
+            name: 'Threading Model vs JS Event Loop',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-tm-1', name: 'Threads vs event loop — blocking vs non-blocking model', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-thread-vs-event-loop' },
+              { id: 'jv-tm-2', name: 'Race conditions — shared mutable state problem', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-common-concurrency-pitfalls' },
+              { id: 'jv-tm-3', name: 'synchronized — intrinsic locks, monitor pattern', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-synchronized' },
+              { id: 'jv-tm-4', name: 'volatile — memory visibility guarantee, happens-before', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-volatile' },
+              { id: 'jv-tm-5', name: 'Deadlock — causes, detection, prevention strategies', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/deadlock-in-java-multithreading/' },
+            ],
+          },
+          {
+            id: 'java-executor',
+            name: 'ExecutorService & CompletableFuture',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-ex-1', name: 'ExecutorService — submit, invokeAll, shutdown vs shutdownNow', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-executor-service-tutorial' },
+              { id: 'jv-ex-2', name: 'Thread pools — Fixed, Cached, Scheduled, Work-Stealing', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/thread-pool-java-and-guava' },
+              { id: 'jv-ex-3', name: 'CompletableFuture — Java\'s Promise/async-await equivalent', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-completablefuture' },
+              { id: 'jv-ex-4', name: 'thenApply vs thenCompose vs thenCombine — chaining async ops', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-completablefuture-allof' },
+              { id: 'jv-ex-5', name: 'exceptionally, handle — async error handling', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-exceptions-completablefuture' },
+            ],
+          },
+          {
+            id: 'java-concurrent-tools',
+            name: 'Concurrent Collections & Locks',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-ct-1', name: 'ConcurrentHashMap — segment locking, atomic compute ops', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-concurrent-map' },
+              { id: 'jv-ct-2', name: 'AtomicInteger, AtomicReference — lock-free CAS', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-atomic-variables' },
+              { id: 'jv-ct-3', name: 'ReentrantLock — tryLock, fairness, condition variables', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-reentrant-locks' },
+              { id: 'jv-ct-4', name: 'BlockingQueue — producer-consumer pattern', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-blocking-queue' },
+              { id: 'jv-ct-5', name: 'CountDownLatch, CyclicBarrier, Semaphore', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-countdown-latch' },
+            ],
+          },
+          {
+            id: 'java-virtual-threads',
+            name: 'Virtual Threads — Java 21 Revolution',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-vt-1', name: 'Virtual threads vs platform threads — millions vs thousands', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-virtual-thread-vs-thread' },
+              { id: 'jv-vt-2', name: 'Thread.ofVirtual(), Executors.newVirtualThreadPerTaskExecutor()', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-21-virtual-threads' },
+              { id: 'jv-vt-3', name: 'Structured concurrency — StructuredTaskScope (Java 21)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-structured-concurrency' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 8 — JVM ─────────────────────────────────────────────────────────
+      {
+        id: 'java-jvm',
+        name: 'Week 8 — JVM Internals (No JS Equivalent)',
+        description: 'Memory model, GC, reflection, dynamic proxies',
+        status: 'not-started',
+        notes: '',
+        week: 8,
+        subtopics: [
+          {
+            id: 'java-memory-model',
+            name: 'Memory Model & Garbage Collection',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-mm-1', name: 'Heap regions — Young gen, Old gen, Metaspace', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-stack-heap' },
+              { id: 'jv-mm-2', name: 'GC algorithms — G1GC (default), ZGC, Shenandoah', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/jvm-garbage-collectors' },
+              { id: 'jv-mm-3', name: 'Memory leaks in Java — common patterns & detection', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-memory-leaks' },
+              { id: 'jv-mm-4', name: 'GC tuning flags — -Xms, -Xmx, -XX:+UseZGC', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-garbage-collection-tuning' },
+            ],
+          },
+          {
+            id: 'java-reflection',
+            name: 'Reflection & Annotations (Spring\'s Foundation)',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'jv-rf-1', name: 'Reflection API — getDeclaredMethods, invoke, setAccessible', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-reflection' },
+              { id: 'jv-rf-2', name: 'Custom annotations — @interface, retention, target', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-custom-annotation' },
+              { id: 'jv-rf-3', name: 'Dynamic proxies — InvocationHandler (how Spring AOP works internally)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/java-dynamic-proxies' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 9-10 — SPRING CORE ──────────────────────────────────────────────
+      {
+        id: 'java-spring-core',
+        name: 'Week 9-10 — Spring Core: IoC, DI & AOP',
+        description: 'The foundation every Spring Boot app is built on',
+        status: 'not-started',
+        notes: '',
+        week: 9,
+        subtopics: [
+          {
+            id: 'spring-ioc',
+            name: 'IoC Container & Dependency Injection',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-ioc-1', name: 'Inversion of Control — why it exists vs new keyword', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring' },
+              { id: 'sp-ioc-2', name: 'Constructor vs field vs setter injection — which to use', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/constructor-injection-in-spring' },
+              { id: 'sp-ioc-3', name: '@Component, @Service, @Repository, @Controller — real differences', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-component-repository-service' },
+              { id: 'sp-ioc-4', name: '@Autowired, @Qualifier, @Primary — resolving ambiguity', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-autowire' },
+              { id: 'sp-ioc-5', name: 'Bean scopes — singleton, prototype, request, session', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-bean-scopes' },
+              { id: 'sp-ioc-6', name: 'Bean lifecycle — @PostConstruct, @PreDestroy', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-postconstruct-predestroy' },
+            ],
+          },
+          {
+            id: 'spring-config',
+            name: 'Configuration & Profiles',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-cfg-1', name: '@Configuration & @Bean — Java-based config vs XML', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-javaconfig' },
+              { id: 'sp-cfg-2', name: '@ConfigurationProperties — type-safe config binding', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/configuration-properties-in-spring-boot' },
+              { id: 'sp-cfg-3', name: 'Spring Profiles — dev/prod/test environments', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-profiles' },
+              { id: 'sp-cfg-4', name: '@ConditionalOnProperty, @ConditionalOnClass — conditional beans', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-conditional-annotations' },
+            ],
+          },
+          {
+            id: 'spring-aop',
+            name: 'AOP — Cross-Cutting Concerns',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-aop-1', name: 'AOP concepts — aspect, pointcut, advice, join point', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-aop' },
+              { id: 'sp-aop-2', name: '@Before, @After, @Around — intercepting method calls', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-aop-pointcut-tutorial' },
+              { id: 'sp-aop-3', name: 'Logging & performance tracking with @Around (real use case)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-aop-annotation' },
+              { id: 'sp-aop-4', name: 'JDK dynamic proxy vs CGLIB — how Spring picks the proxy type', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-aop-vs-aspectj' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 10-11 — SPRING BOOT ─────────────────────────────────────────────
+      {
+        id: 'java-spring-boot',
+        name: 'Week 10-11 — Spring Boot: REST APIs & Internals',
+        description: 'Auto-configuration, REST, validation, error handling',
+        status: 'not-started',
+        notes: '',
+        week: 10,
+        subtopics: [
+          {
+            id: 'spring-boot-core',
+            name: 'Spring Boot Internals',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sb-core-1', name: 'Auto-configuration — how @SpringBootApplication scans & wires', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-autoconfiguration' },
+              { id: 'sb-core-2', name: 'spring.factories & SPI mechanism — how starters work', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-custom-auto-configuration' },
+              { id: 'sb-core-3', name: 'Writing a custom Spring Boot starter', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-custom-starter' },
+              { id: 'sb-core-4', name: 'application.yml — structured config, env variable binding', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-yaml-vs-properties' },
+            ],
+          },
+          {
+            id: 'spring-rest',
+            name: 'Building Production-Grade REST APIs',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sb-rest-1', name: 'ResponseEntity — status codes, headers, body control', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-response-entity' },
+              { id: 'sb-rest-2', name: 'Bean Validation — @Valid, @NotNull, @Size, custom constraints', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-bean-validation' },
+              { id: 'sb-rest-3', name: '@ControllerAdvice & @ExceptionHandler — global error handling', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/exception-handling-for-rest-with-spring' },
+              { id: 'sb-rest-4', name: 'Problem Details RFC 7807 — standard error response format', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-problem-json' },
+              { id: 'sb-rest-5', name: 'Content negotiation — JSON, XML, versioning', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-mvc-content-negotiation-json-xml' },
+            ],
+          },
+          {
+            id: 'spring-actuator',
+            name: 'Actuator & Observability',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sb-act-1', name: 'Actuator — /health, /metrics, /info, /env, /loggers', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-actuators' },
+              { id: 'sb-act-2', name: 'Custom health indicators', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-health-indicators' },
+              { id: 'sb-act-3', name: 'Micrometer metrics — counters, timers, Prometheus', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/micrometer' },
+              { id: 'sb-act-4', name: 'Distributed tracing — Micrometer Tracing (Spring Boot 3)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-3-observability' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 11-12 — SPRING DATA ─────────────────────────────────────────────
+      {
+        id: 'java-spring-data',
+        name: 'Week 11-12 — Spring Data JPA & Transactions',
+        description: 'JPA, Hibernate internals, N+1, transactions — where most bugs live',
+        status: 'not-started',
+        notes: '',
+        week: 11,
+        subtopics: [
+          {
+            id: 'spring-jpa',
+            name: 'JPA & Hibernate Internals',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-jpa-1', name: 'Entity relationships — @OneToMany, @ManyToMany, @JoinColumn', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/jpa-one-to-many' },
+              { id: 'sd-jpa-2', name: 'EAGER vs LAZY loading — the N+1 query problem', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/hibernate-lazy-eager-loading' },
+              { id: 'sd-jpa-3', name: 'Entity lifecycle — transient, managed, detached, removed', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/hibernate-entity-lifecycle' },
+              { id: 'sd-jpa-4', name: 'Hibernate 1st & 2nd level cache', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/hibernate-second-level-cache' },
+              { id: 'sd-jpa-5', name: 'Optimistic vs pessimistic locking — @Version, @Lock', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/jpa-optimistic-locking' },
+            ],
+          },
+          {
+            id: 'spring-repository',
+            name: 'Spring Data Repositories & Queries',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-rep-1', name: 'Derived query methods — findByNameAndAge, existsByEmail', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-derived-queries' },
+              { id: 'sd-rep-2', name: '@Query — JPQL vs native SQL, named params', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-jpa-query' },
+              { id: 'sd-rep-3', name: 'DTO projections vs interface projections — performance', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-jpa-projections' },
+              { id: 'sd-rep-4', name: 'Specifications & Criteria API — dynamic queries', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/rest-api-search-language-spring-data-specifications' },
+              { id: 'sd-rep-5', name: 'Pagination & sorting — Pageable, Page, Slice', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-jpa-pagination-sorting' },
+            ],
+          },
+          {
+            id: 'spring-transactions',
+            name: 'Transactions — Where Most Bugs Hide',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-tx-1', name: '@Transactional — propagation, isolation, rollbackFor', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/transaction-configuration-with-jpa-and-spring' },
+              { id: 'sd-tx-2', name: 'Propagation — REQUIRED, REQUIRES_NEW, NESTED explained', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-transactional-propagation-isolation' },
+              { id: 'sd-tx-3', name: 'Isolation levels — READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-transactional-propagation-isolation' },
+              { id: 'sd-tx-4', name: '@Transactional self-invocation trap — why it silently fails', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-transactional-self-invocation' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 12 — SPRING SECURITY ────────────────────────────────────────────
+      {
+        id: 'java-spring-security',
+        name: 'Week 12 — Spring Security, JWT & OAuth2',
+        description: 'Authentication, authorization, JWT, social login',
+        status: 'not-started',
+        notes: '',
+        week: 12,
+        subtopics: [
+          {
+            id: 'spring-security-core',
+            name: 'Spring Security Architecture',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'ss-core-1', name: 'Security filter chain — how every request flows', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-architecture' },
+              { id: 'ss-core-2', name: 'SecurityContext & Authentication object', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-authentication-and-registration' },
+              { id: 'ss-core-3', name: 'UserDetailsService — loading users from DB', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-authentication-with-a-database' },
+              { id: 'ss-core-4', name: '@PreAuthorize, @Secured, method-level security', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-method-security' },
+            ],
+          },
+          {
+            id: 'spring-jwt',
+            name: 'JWT & OAuth2',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'ss-jwt-1', name: 'JWT filter — OncePerRequestFilter, token extraction', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-oauth-jwt' },
+              { id: 'ss-jwt-2', name: 'Access + refresh token rotation pattern', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-oauth2-refresh-token-angular' },
+              { id: 'ss-jwt-3', name: 'OAuth2 resource server — validating JWT from IdP', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-oauth-resource-server' },
+              { id: 'ss-jwt-4', name: 'OAuth2 social login — Google/GitHub with Spring Boot', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-security-5-oauth2-login' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 13 — TESTING ────────────────────────────────────────────────────
+      {
+        id: 'java-testing',
+        name: 'Week 13 — Testing Spring Boot Applications',
+        description: 'Unit, slice, integration tests — fast and reliable',
+        status: 'not-started',
+        notes: '',
+        week: 13,
+        subtopics: [
+          {
+            id: 'spring-unit-tests',
+            name: 'Unit Testing with Mockito',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'tst-ut-1', name: '@Mock, @InjectMocks, @Spy, @Captor', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/mockito-annotations' },
+              { id: 'tst-ut-2', name: 'when().thenReturn(), doThrow(), verify(), ArgumentMatchers', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/mockito-series' },
+              { id: 'tst-ut-3', name: 'Mockito strict stubbing — detecting unnecessary mocks', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/mockito-unnecessary-stubbing-exception' },
+            ],
+          },
+          {
+            id: 'spring-slice-tests',
+            name: 'Spring Slice & Integration Tests',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'tst-sl-1', name: '@WebMvcTest — test controllers without full context', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-testing-slice-test' },
+              { id: 'tst-sl-2', name: '@DataJpaTest — test repos with in-memory H2', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-testing' },
+              { id: 'tst-sl-3', name: 'MockMvc — REST endpoint testing, jsonPath assertions', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/integration-testing-in-spring' },
+              { id: 'tst-sl-4', name: 'Testcontainers — real Postgres/Redis in CI tests', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-testcontainers-integration-test' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 14 — PRODUCTION ─────────────────────────────────────────────────
+      {
+        id: 'java-production',
+        name: 'Week 14 — Production Patterns & Ecosystem',
+        description: 'Async, caching, messaging, Docker, native images',
+        status: 'not-started',
+        notes: '',
+        week: 14,
+        subtopics: [
+          {
+            id: 'spring-async',
+            name: 'Async, Scheduling & Events',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-as-1', name: '@Async — fire-and-forget non-blocking Spring beans', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-async' },
+              { id: 'sp-as-2', name: '@Scheduled — cron, fixedRate, fixedDelay', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-scheduled-tasks' },
+              { id: 'sp-as-3', name: 'Spring Application Events — decoupled communication', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-events' },
+              { id: 'sp-as-4', name: 'Spring + Kafka — KafkaTemplate, @KafkaListener', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-kafka' },
+            ],
+          },
+          {
+            id: 'spring-caching',
+            name: 'Caching with Redis',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-cache-1', name: '@Cacheable, @CacheEvict, @CachePut', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-cache-tutorial' },
+              { id: 'sp-cache-2', name: 'Spring Data Redis — RedisTemplate, hash operations', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-redis-tutorial' },
+              { id: 'sp-cache-3', name: 'Cache-aside vs write-through — when to use which', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-data-redis-tutorial' },
+            ],
+          },
+          {
+            id: 'spring-deploy',
+            name: 'Docker, Native & GraalVM',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sp-dep-1', name: 'Dockerizing Spring Boot — layered JARs for fast rebuilds', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-docker-images' },
+              { id: 'sp-dep-2', name: 'Cloud Native Buildpacks — docker build without Dockerfile', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-docker-images' },
+              { id: 'sp-dep-3', name: 'GraalVM native image — compile to binary, start in <100ms', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-native-intro' },
+              { id: 'sp-dep-4', name: 'Spring Boot 3 AOT processing — how native compilation works', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-3-spring-6-new' },
+            ],
+          },
+        ],
+      },
+    ],
+  }
 ];
