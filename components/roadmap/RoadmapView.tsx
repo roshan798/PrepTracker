@@ -6,7 +6,7 @@ import TopicItem from './TopicItem';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Confetti from '@/components/ui/Confetti';
 import AddTopicModal from '@/components/modals/AddTopicModal';
-import { Plus, Clock, CheckCircle, TrendingUp, BookOpen, Edit3, Check, X } from 'lucide-react';
+import { Plus, Clock, BookOpen, Edit3, Check, X } from 'lucide-react';
 
 interface RoadmapViewProps {
   roadmapId: string;

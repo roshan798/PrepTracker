@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAppState, useAppDispatch } from '@/lib/store';
+import { useAppDispatch, useAppState } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { Plus, Trash2, Home, ChevronRight, Zap } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';

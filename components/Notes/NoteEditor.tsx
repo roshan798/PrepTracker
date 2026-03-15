@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import MarkdownPreview from "./MarkdownPreview";
 import { useMetrics } from "../Metrics/metricsStore";
-import { patchTodayMetric } from '@/lib/store';
+import { patchTodayMetric } from '@/lib/store/metrics';
 interface NoteEditorProps {
     initialValue?: string;
     placeholder?: string;
