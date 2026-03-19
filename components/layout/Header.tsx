@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import Toast from '@/components/ui/Toast';
 import { AppState } from '@/lib/types';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -85,13 +86,25 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
             <Upload size={13} />
             <span className="hidden sm:inline">Import</span>
           </button>
-          <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
-
           <button onClick={() => dispatch({ type: 'SET_THEME', payload: state.theme === 'dark' ? 'light' : 'dark' })}
             className="p-2 rounded-lg border transition-all hover:opacity-80"
             style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}>
             {state.theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
+          <Link
+            href="https://github.com/roshan798/PrepTracker"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-lg border transition-all hover:opacity-80"
+            style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}
+          >
+            <Image src="/icons/Github.svg" alt="GitHub" width={16} height={16}
+              title='View source on GitHub' />
+            {/* <span className="hidden sm:inline"></span> */}
+          </Link>
+          <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={handleImport} />
+
+
         </div>
       </header>
 
