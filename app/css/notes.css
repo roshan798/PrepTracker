@@ -1,6 +1,6 @@
 .notes-root {
     width: 100%;
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Inconsolata', monospace;
     background: var(--bg-tertiary, #1a1a2e);
     border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
     border-radius: 16px;
