@@ -11,12 +11,26 @@ interface NoteCardProps {
 
 export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProps) {
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [collapsed, setCollapsed] = useState(index!==0);
 
     return (
         <div className="note-card" style={{ animationDelay: `${index * 60}ms` }}>
             <div className="note-card-header">
                 <span className="note-card-index">#{index + 1}</span>
                 <div className="note-card-actions">
+                    <button
+                        onClick={() => setCollapsed(p => !p)}
+                        className="note-action-btn note-action-edit"
+                        title={collapsed ? 'Expand' : 'Collapse'}
+                    >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            {collapsed
+                                ? <><polyline points="6 9 12 15 18 9" /></> // chevron down
+                                : <><polyline points="18 15 12 9 6 15" /></> // chevron up
+                            }
+                        </svg>
+                        {collapsed ? 'Expand' : 'Collapse'}
+                    </button>
                     <button
                         onClick={() => onEdit(note.id)}
                         className="note-action-btn note-action-edit"
@@ -53,9 +67,28 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                     )}
                 </div>
             </div>
-            <div className="note-card-body">
+            <div
+                className="note-card-body"
+                style={collapsed ? {
+                    maxHeight: '3em',
+                    overflow: 'hidden',
+                    maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
+                } : undefined}
+            >
                 <MarkdownPreview content={note.content} empty="(empty note)" />
             </div>
+
+            {/* ── Click anywhere on fade to expand ── */}
+            {collapsed && (
+                <button
+                    onClick={() => setCollapsed(false)}
+                    className="note-action-btn"
+                    style={{ width: '100%', textAlign: 'center', marginTop: 4, opacity: 0.5, fontSize: 11 }}
+                >
+                    click to expand
+                </button>
+            )}
         </div>
     );
 }
