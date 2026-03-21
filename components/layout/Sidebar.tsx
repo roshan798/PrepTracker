@@ -88,6 +88,21 @@ export default function Sidebar({ open, onClose, onAddRoadmap }: SidebarProps) {
             <span>📋</span>
             Weekly Report
           </Link>
+          <Link href="/simulation" onClick={onClose}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
+    ${pathname === '/simulation' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/simulation' ? undefined : 'var(--text-secondary)' }}>
+            <span>🎯</span>
+            Simulation
+          </Link>
+
+          <Link href="/about" onClick={onClose}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
+    ${pathname === '/about' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/about' ? undefined : 'var(--text-secondary)' }}>
+            <span>ℹ️</span>
+            About
+          </Link>
 
           <div className="pt-3">
             <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>
