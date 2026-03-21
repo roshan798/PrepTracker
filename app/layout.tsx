@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './css/globals.css';
 import { AppProvider } from '@/lib/store';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'PrepTracker — Job Switch Prep',
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AppProvider>
           {children}
+          <Analytics />
         </AppProvider>
       </body>
     </html>
