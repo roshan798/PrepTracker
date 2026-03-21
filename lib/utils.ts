@@ -104,3 +104,27 @@ export function shuffle<T>(arr: T[]): T[] {
   }
   return a;
 }
+
+export function getWeekDates(weeksAgo: number): string[] {
+    const dates: string[] = [];
+    const now = new Date();
+    // go to most recent Sunday
+    const dayOfWeek = now.getDay();
+    const sunday = new Date(now);
+    sunday.setDate(now.getDate() - dayOfWeek - weeksAgo * 7);
+    for (let i = 0; i < 7; i++) {
+        const d = new Date(sunday);
+        d.setDate(sunday.getDate() + i);
+        dates.push(d.toISOString().split('T')[0]);
+    }
+    return dates;
+}
+
+export function getWeekLabel(weeksAgo: number): string {
+    if (weeksAgo === 0) return 'This Week';
+    if (weeksAgo === 1) return 'Last Week';
+    const dates = getWeekDates(weeksAgo);
+    const start = new Date(dates[0]);
+    const end = new Date(dates[6]);
+    return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+}
