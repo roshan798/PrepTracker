@@ -74,6 +74,13 @@ export default function Sidebar({ open, onClose, onAddRoadmap }: SidebarProps) {
             <Home size={15} />
             Dashboard
           </Link>
+          <Link href="/flashcards" onClick={onClose}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
+    ${pathname === '/flashcards' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/flashcards' ? undefined : 'var(--text-secondary)' }}>
+            <span>🃏</span>
+            Flashcards
+          </Link>
 
           <div className="pt-3">
             <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>
