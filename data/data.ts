@@ -1,5 +1,5 @@
 import { Roadmap } from '../lib/types';
-export const DATA_VERSION = 4;
+export const DATA_VERSION = 5;
 export const PREDEFINED_ROADMAPS: Roadmap[] = [
   {
     id: 'dsa-roadmap',
@@ -2133,6 +2133,600 @@ export const PREDEFINED_ROADMAPS: Roadmap[] = [
               { id: 'sp-dep-2', name: 'Cloud Native Buildpacks — docker build without Dockerfile', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-docker-images' },
               { id: 'sp-dep-3', name: 'GraalVM native image — compile to binary, start in <100ms', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-native-intro' },
               { id: 'sp-dep-4', name: 'Spring Boot 3 AOT processing — how native compilation works', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.baeldung.com/spring-boot-3-spring-6-new' },
+            ],
+          },
+        ],
+      },
+    ],
+  }, {
+    id: 'system-design-masterclass',
+    name: 'System Design Masterclass',
+    description: 'End-to-end system design — from core concepts to designing Instagram, YouTube, WhatsApp, TinyURL, Airbnb, and more at scale.',
+    emoji: '🏗️',
+    type: 'predefined',
+    duration: '12 weeks',
+    color: '#fbbf24',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    topics: [
+
+      // ─── WEEK 1 — FOUNDATIONS ─────────────────────────────────────────────────
+      {
+        id: 'sd-foundations',
+        name: 'Week 1 — Core Concepts & Building Blocks',
+        description: 'The vocabulary and primitives every system design interview assumes you know',
+        status: 'not-started',
+        notes: '',
+        week: 1,
+        subtopics: [
+          {
+            id: 'sd-scalability',
+            name: 'Scalability Fundamentals',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-sc-1', name: 'Vertical vs horizontal scaling — tradeoffs', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-horizontal-and-vertical-scaling/' },
+              { id: 'sd-sc-2', name: 'Latency vs throughput — P50, P95, P99 percentiles', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/cs/latency-vs-throughput' },
+              { id: 'sd-sc-3', name: 'CAP theorem — consistency, availability, partition tolerance', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.ibm.com/topics/cap-theorem' },
+              { id: 'sd-sc-4', name: 'PACELC — extension of CAP with latency tradeoff', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.educative.io/blog/what-is-pacelc-theorem' },
+              { id: 'sd-sc-5', name: 'Back-of-the-envelope estimation — QPS, storage, bandwidth', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/deep-dives/capacity-planning' },
+            ],
+          },
+          {
+            id: 'sd-networking',
+            name: 'Networking & Protocols',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-nw-1', name: 'HTTP/1.1 vs HTTP/2 vs HTTP/3 — when each matters', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/cs/http-versions' },
+              { id: 'sd-nw-2', name: 'REST vs GraphQL vs gRPC — tradeoffs', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.baeldung.com/rest-vs-graphql-vs-grpc' },
+              { id: 'sd-nw-3', name: 'WebSockets vs Long Polling vs SSE — real-time options', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/what-is-web-socket-and-how-it-is-different-from-the-http/' },
+              { id: 'sd-nw-4', name: 'DNS — how domain resolution works', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.cloudflare.com/learning/dns/what-is-dns/' },
+            ],
+          },
+          {
+            id: 'sd-load-balancing',
+            name: 'Load Balancing & Proxies',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-lb-1', name: 'Load balancing algorithms — round robin, least connections, consistent hashing', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/load-balancing-algorithms/' },
+              { id: 'sd-lb-2', name: 'L4 vs L7 load balancing — transport vs application layer', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.nginx.com/resources/glossary/layer-4-load-balancing/' },
+              { id: 'sd-lb-3', name: 'Forward proxy vs reverse proxy vs API gateway', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/' },
+              { id: 'sd-lb-4', name: 'Health checks & circuit breakers', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://martinfowler.com/bliki/CircuitBreaker.html' },
+            ],
+          },
+          {
+            id: 'sd-interview-framework',
+            name: 'Interview Framework',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-if-1', name: 'Step 1: Clarify requirements — functional vs non-functional', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction' },
+              { id: 'sd-if-2', name: 'Step 2: Capacity estimation — scale the system', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/deep-dives/capacity-planning' },
+              { id: 'sd-if-3', name: 'Step 3: High-level design — components & data flow', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction' },
+              { id: 'sd-if-4', name: 'Step 4: Deep dive — bottlenecks, tradeoffs, edge cases', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 2 — DATABASES ───────────────────────────────────────────────────
+      {
+        id: 'sd-databases',
+        name: 'Week 2 — Databases: SQL, NoSQL & Choosing Right',
+        description: 'Which database for which problem — the most critical design decision',
+        status: 'not-started',
+        notes: '',
+        week: 2,
+        subtopics: [
+          {
+            id: 'sd-sql',
+            name: 'Relational Databases',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-sql-1', name: 'ACID properties — atomicity, consistency, isolation, durability', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/acid-properties-in-dbms/' },
+              { id: 'sd-sql-2', name: 'Indexing — B-tree, composite indexes, covering indexes', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/indexing-in-databases/' },
+              { id: 'sd-sql-3', name: 'DB replication — primary-replica, synchronous vs asynchronous', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/data-replication-in-dbms/' },
+              { id: 'sd-sql-4', name: 'DB sharding — horizontal partitioning strategies', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/what-is-sharding/' },
+              { id: 'sd-sql-5', name: 'Read replicas — offloading read traffic', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/read-replica-databases/' },
+            ],
+          },
+          {
+            id: 'sd-nosql',
+            name: 'NoSQL Databases',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ns-1', name: 'Key-value stores — Redis, DynamoDB — use cases', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/key-value-data-model-in-nosql/' },
+              { id: 'sd-ns-2', name: 'Document stores — MongoDB — flexible schemas', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.mongodb.com/nosql-explained/nosql-vs-sql' },
+              { id: 'sd-ns-3', name: 'Wide-column stores — Cassandra, HBase — time-series & writes', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/apache-cassandra-nosql-database/' },
+              { id: 'sd-ns-4', name: 'Graph databases — Neo4j — social graphs, recommendations', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/graph-database/' },
+              { id: 'sd-ns-5', name: 'SQL vs NoSQL — the decision framework', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/difference-between-sql-and-nosql/' },
+            ],
+          },
+          {
+            id: 'sd-caching',
+            name: 'Caching Strategies',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-cache-1', name: 'Cache-aside vs write-through vs write-behind vs read-through', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/cache-aside-pattern/' },
+              { id: 'sd-cache-2', name: 'Cache eviction — LRU, LFU, TTL', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/cache-replacement-algorithms/' },
+              { id: 'sd-cache-3', name: 'Cache invalidation — the hardest problem', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/cache-invalidation/' },
+              { id: 'sd-cache-4', name: 'Redis data structures — strings, hashes, sorted sets, pub/sub', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://redis.io/docs/data-types/' },
+              { id: 'sd-cache-5', name: 'Cache stampede (thundering herd) — prevention strategies', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/thundering-herd-problem/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 3 — DISTRIBUTED SYSTEMS ─────────────────────────────────────────
+      {
+        id: 'sd-distributed',
+        name: 'Week 3 — Distributed Systems Patterns',
+        description: 'Messaging, consistency, coordination, and failure modes',
+        status: 'not-started',
+        notes: '',
+        week: 3,
+        subtopics: [
+          {
+            id: 'sd-messaging',
+            name: 'Message Queues & Event Streaming',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-mq-1', name: 'Message queues — Kafka vs RabbitMQ vs SQS tradeoffs', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/kafka-vs-rabbitmq/' },
+              { id: 'sd-mq-2', name: 'Kafka architecture — topics, partitions, consumer groups', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/apache-kafka-architecture/' },
+              { id: 'sd-mq-3', name: 'At-most-once vs at-least-once vs exactly-once delivery', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/delivery-semantics-in-apache-kafka/' },
+              { id: 'sd-mq-4', name: 'Event sourcing & CQRS pattern', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://martinfowler.com/eaaDev/EventSourcing.html' },
+            ],
+          },
+          {
+            id: 'sd-consistency',
+            name: 'Consistency & Consensus',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-con-1', name: 'Strong vs eventual vs causal consistency', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/eventual-vs-strong-consistency-in-distributed-databases/' },
+              { id: 'sd-con-2', name: 'Vector clocks & conflict resolution', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/vector-clocks-in-distributed-systems/' },
+              { id: 'sd-con-3', name: 'Raft & Paxos — consensus algorithms overview', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/raft-consensus-algorithm/' },
+              { id: 'sd-con-4', name: 'Distributed locks — Redlock, ZooKeeper, optimistic locking', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/distributed-lock/' },
+            ],
+          },
+          {
+            id: 'sd-consistent-hashing',
+            name: 'Consistent Hashing & Partitioning',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ch-1', name: 'Consistent hashing — the ring, virtual nodes', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/consistent-hashing/' },
+              { id: 'sd-ch-2', name: 'Hotspot problem — why naive hashing fails at scale', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/hot-spot-in-consistent-hashing/' },
+              { id: 'sd-ch-3', name: 'Range partitioning vs hash partitioning', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/partitioning-in-distributed-systems/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 4 — STORAGE & CDN ───────────────────────────────────────────────
+      {
+        id: 'sd-storage',
+        name: 'Week 4 — Storage, CDN & Search',
+        description: 'Blob storage, content delivery, search engines',
+        status: 'not-started',
+        notes: '',
+        week: 4,
+        subtopics: [
+          {
+            id: 'sd-blob',
+            name: 'Blob & Object Storage',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-bl-1', name: 'Object storage — S3, GCS — internals and design', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/object-storage/' },
+              { id: 'sd-bl-2', name: 'Chunked uploads — multipart upload for large files', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html' },
+              { id: 'sd-bl-3', name: 'Pre-signed URLs — secure direct browser-to-storage upload', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html' },
+              { id: 'sd-bl-4', name: 'Deduplication — content-addressable storage, checksums', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/what-is-data-deduplication/' },
+            ],
+          },
+          {
+            id: 'sd-cdn',
+            name: 'CDN & Content Delivery',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-cdn-1', name: 'CDN architecture — PoPs, edge nodes, origin pull vs push', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.cloudflare.com/learning/cdn/what-is-a-cdn/' },
+              { id: 'sd-cdn-2', name: 'Cache invalidation at CDN — purge strategies', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/cdn-cache-invalidation/' },
+              { id: 'sd-cdn-3', name: 'Adaptive bitrate streaming — HLS, DASH for video', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/adaptive-bitrate-streaming/' },
+            ],
+          },
+          {
+            id: 'sd-search',
+            name: 'Search Systems',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-sr-1', name: 'Elasticsearch architecture — index, shards, replicas', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/elasticsearch-architecture/' },
+              { id: 'sd-sr-2', name: 'Inverted index — how full-text search works', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/inverted-index/' },
+              { id: 'sd-sr-3', name: 'Typeahead / autocomplete — trie vs search index', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/trie-insert-and-search/' },
+              { id: 'sd-sr-4', name: 'Ranking & relevance scoring — TF-IDF, BM25', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/understanding-tf-idf-term-frequency-inverse-document-frequency/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 5 — DESIGN TINYURL ──────────────────────────────────────────────
+      {
+        id: 'sd-tinyurl',
+        name: 'Week 5 — Design TinyURL (URL Shortener)',
+        description: 'Classic interview problem — hashing, redirects, analytics at scale',
+        status: 'not-started',
+        notes: '',
+        week: 5,
+        subtopics: [
+          {
+            id: 'sd-tinyurl-req',
+            name: 'Requirements & Estimation',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-tu-r1', name: 'Functional requirements — shorten, redirect, custom alias, expiry', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/url-shortener' },
+              { id: 'sd-tu-r2', name: 'Scale estimation — 100M URLs/day, 10:1 read/write ratio', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+            ],
+          },
+          {
+            id: 'sd-tinyurl-core',
+            name: 'Core Design Decisions',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-tu-c1', name: 'ID generation strategies — UUID, hash, base62, Snowflake', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/snowflake-id/' },
+              { id: 'sd-tu-c2', name: 'Collision handling — check-then-insert vs random retry', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+              { id: 'sd-tu-c3', name: '301 vs 302 redirect — caching implications', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/difference-between-301-and-302-redirect/' },
+              { id: 'sd-tu-c4', name: 'Database choice — SQL for consistency vs NoSQL for scale', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/url-shortener' },
+              { id: 'sd-tu-c5', name: 'Caching hot URLs — Redis with LRU eviction', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+            ],
+          },
+          {
+            id: 'sd-tinyurl-scale',
+            name: 'Scaling & Analytics',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-tu-s1', name: 'Analytics pipeline — click tracking without slowing redirects', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+              { id: 'sd-tu-s2', name: 'Rate limiting per user — prevent abuse', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+              { id: 'sd-tu-s3', name: 'URL expiration — TTL in DB vs background cleanup job', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-url-shortening-service/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 5 — RATE LIMITER ────────────────────────────────────────────────
+      {
+        id: 'sd-rate-limiter',
+        name: 'Week 5 — Design Rate Limiter',
+        description: 'Protect your APIs — algorithms, distributed rate limiting',
+        status: 'not-started',
+        notes: '',
+        week: 5,
+        subtopics: [
+          {
+            id: 'sd-rl-algos',
+            name: 'Rate Limiting Algorithms',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-rl-1', name: 'Token bucket — burst allowed, how it works', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/token-bucket-algorithm/' },
+              { id: 'sd-rl-2', name: 'Leaky bucket — smooth output rate', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/leaky-bucket-algorithm/' },
+              { id: 'sd-rl-3', name: 'Fixed window counter — simple but has boundary burst problem', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/fixed-window-rate-limiting/' },
+              { id: 'sd-rl-4', name: 'Sliding window log — accurate but memory heavy', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/sliding-window-rate-limiter/' },
+              { id: 'sd-rl-5', name: 'Sliding window counter — hybrid approach', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/sliding-window-rate-limiter/' },
+            ],
+          },
+          {
+            id: 'sd-rl-distributed',
+            name: 'Distributed Rate Limiting',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-rl-d1', name: 'Local vs distributed rate limiting — sticky sessions approach', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/distributed-rate-limiting/' },
+              { id: 'sd-rl-d2', name: 'Redis-based rate limiter — INCR + EXPIRE, Lua scripts', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://redis.io/docs/manual/patterns/rate-limiting/' },
+              { id: 'sd-rl-d3', name: 'Rate limit by IP vs user vs API key — granularity', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-rate-limiter/' },
+              { id: 'sd-rl-d4', name: 'Response headers — X-RateLimit-Limit, Retry-After', difficulty: 'easy', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-rate-limiter/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 6 — INSTAGRAM NEWSFEED ──────────────────────────────────────────
+      {
+        id: 'sd-instagram',
+        name: 'Week 6 — Design Instagram Newsfeed',
+        description: 'Feed generation, fanout, media upload, social graph at scale',
+        status: 'not-started',
+        notes: '',
+        week: 6,
+        subtopics: [
+          {
+            id: 'sd-ig-media',
+            name: 'Photo Upload Pipeline',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ig-m1', name: 'Upload flow — client → API → S3 → CDN pipeline', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/instagram' },
+              { id: 'sd-ig-m2', name: 'Image processing — async thumbnail generation, format conversion', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-instagram/' },
+              { id: 'sd-ig-m3', name: 'Pre-signed URLs — direct browser-to-S3 upload without API bottleneck', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html' },
+            ],
+          },
+          {
+            id: 'sd-ig-feed',
+            name: 'Feed Generation — The Hard Part',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ig-f1', name: 'Fanout on write — push posts to followers\' feeds immediately', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-instagram/' },
+              { id: 'sd-ig-f2', name: 'Fanout on read — pull posts at read time (pull model)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/instagram' },
+              { id: 'sd-ig-f3', name: 'Hybrid fanout — push for regular users, pull for celebrities', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/instagram' },
+              { id: 'sd-ig-f4', name: 'Feed ranking — chronological vs ML-ranked', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-instagram/' },
+              { id: 'sd-ig-f5', name: 'Storing feed in Redis sorted set — score = timestamp', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-instagram/' },
+            ],
+          },
+          {
+            id: 'sd-ig-social',
+            name: 'Social Graph & Follow System',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ig-s1', name: 'Follow/unfollow — graph storage in DB + cache', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-instagram/' },
+              { id: 'sd-ig-s2', name: 'Celebrity problem — millions of followers, fanout at scale', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/instagram' },
+              { id: 'sd-ig-s3', name: 'Like & comment counters — sharded counters', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-instagram/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 7 — YOUTUBE / NETFLIX ───────────────────────────────────────────
+      {
+        id: 'sd-youtube',
+        name: 'Week 7 — Design YouTube / Netflix',
+        description: 'Video upload, transcoding pipeline, streaming, CDN at petabyte scale',
+        status: 'not-started',
+        notes: '',
+        week: 7,
+        subtopics: [
+          {
+            id: 'sd-yt-upload',
+            name: 'Video Upload & Transcoding Pipeline',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-yt-u1', name: 'Chunked/resumable upload — handling large video files', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/youtube' },
+              { id: 'sd-yt-u2', name: 'Transcoding pipeline — multiple resolutions (360p, 720p, 1080p, 4K)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+              { id: 'sd-yt-u3', name: 'Message queue for async transcoding — Kafka + worker pool', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+              { id: 'sd-yt-u4', name: 'Video encoding formats — H.264, H.265, VP9, AV1 tradeoffs', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/video-encoding-formats/' },
+              { id: 'sd-yt-u5', name: 'DAG task scheduler for transcoding jobs', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/youtube' },
+            ],
+          },
+          {
+            id: 'sd-yt-streaming',
+            name: 'Video Streaming',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-yt-s1', name: 'HLS vs DASH adaptive bitrate streaming', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/adaptive-bitrate-streaming/' },
+              { id: 'sd-yt-s2', name: 'CDN for video delivery — edge caching, geo-routing', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+              { id: 'sd-yt-s3', name: 'Byte-range requests — seeking without full download', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+              { id: 'sd-yt-s4', name: 'Buffering strategy — pre-fetching next segment', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+            ],
+          },
+          {
+            id: 'sd-yt-metadata',
+            name: 'Metadata, Search & Recommendations',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-yt-m1', name: 'Video metadata storage — SQL vs NoSQL choice', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/youtube' },
+              { id: 'sd-yt-m2', name: 'View counter — approximate counting with Redis HyperLogLog', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://redis.io/docs/data-types/probabilistic/hyperloglogs/' },
+              { id: 'sd-yt-m3', name: 'Search — Elasticsearch for full-text video search', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-youtube/' },
+              { id: 'sd-yt-m4', name: 'Recommendations — collaborative filtering basics', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/collaborative-filtering-ml/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 8 — WHATSAPP ────────────────────────────────────────────────────
+      {
+        id: 'sd-whatsapp',
+        name: 'Week 8 — Design WhatsApp',
+        description: 'Real-time messaging, presence, group chats, end-to-end encryption',
+        status: 'not-started',
+        notes: '',
+        week: 8,
+        subtopics: [
+          {
+            id: 'sd-wa-messaging',
+            name: 'Real-Time Messaging Architecture',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-wa-m1', name: 'WebSocket connections — persistent connection per user', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/whatsapp' },
+              { id: 'sd-wa-m2', name: 'Chat service design — message routing between users', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+              { id: 'sd-wa-m3', name: 'Message delivery guarantees — at-least-once + deduplication', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+              { id: 'sd-wa-m4', name: 'Message ordering — sequence numbers, monotonic IDs', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/whatsapp' },
+              { id: 'sd-wa-m5', name: 'Offline message delivery — store-and-forward', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+            ],
+          },
+          {
+            id: 'sd-wa-features',
+            name: 'Group Chats, Presence & Media',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-wa-f1', name: 'Group chat — fan-out to all members, large groups (256+)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+              { id: 'sd-wa-f2', name: 'Read receipts — single tick, double tick, blue tick', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/whatsapp' },
+              { id: 'sd-wa-f3', name: 'Presence system — online/offline/last seen at scale', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+              { id: 'sd-wa-f4', name: 'Media sharing — chunked upload + CDN delivery', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-whatsapp/' },
+              { id: 'sd-wa-f5', name: 'End-to-end encryption — Signal protocol overview', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/end-to-end-encryption-e2ee/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 9 — SEARCH SYSTEMS ──────────────────────────────────────────────
+      {
+        id: 'sd-search-systems',
+        name: 'Week 9 — Design Search Systems',
+        description: 'Web crawling, indexing, ranking, typeahead — how Google-scale search works',
+        status: 'not-started',
+        notes: '',
+        week: 9,
+        subtopics: [
+          {
+            id: 'sd-ss-crawl',
+            name: 'Web Crawler',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ss-c1', name: 'Crawler architecture — seed URLs, BFS, priority queue', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/web-crawler' },
+              { id: 'sd-ss-c2', name: 'Politeness — robots.txt, crawl rate limits, per-domain queues', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-web-crawler/' },
+              { id: 'sd-ss-c3', name: 'URL deduplication — Bloom filter at scale', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/' },
+              { id: 'sd-ss-c4', name: 'Content deduplication — SimHash for near-duplicate detection', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/simhash-and-its-applications/' },
+            ],
+          },
+          {
+            id: 'sd-ss-index',
+            name: 'Search Indexing & Ranking',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ss-i1', name: 'Inverted index construction — tokenization, stemming', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/inverted-index/' },
+              { id: 'sd-ss-i2', name: 'PageRank algorithm — how authority is computed', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/page-rank-algorithm-implementation/' },
+              { id: 'sd-ss-i3', name: 'Query processing — AND, OR, phrase queries on index', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-web-crawler/' },
+              { id: 'sd-ss-i4', name: 'Typeahead search — trie vs Elasticsearch suggest', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/typeahead' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 10 — AIRBNB ─────────────────────────────────────────────────────
+      {
+        id: 'sd-airbnb',
+        name: 'Week 10 — Design Airbnb',
+        description: 'Geo-search, availability calendar, booking transactions, payments',
+        status: 'not-started',
+        notes: '',
+        week: 10,
+        subtopics: [
+          {
+            id: 'sd-ab-search',
+            name: 'Geo Search & Listing Discovery',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ab-s1', name: 'Geospatial indexing — PostGIS, geohash, S2 cells', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/airbnb' },
+              { id: 'sd-ab-s2', name: 'Geohash — encoding lat/lng into string, neighbor cells', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/geohashing-and-its-advantages/' },
+              { id: 'sd-ab-s3', name: 'Search with filters — dates, guests, price, amenities', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-airbnb/' },
+              { id: 'sd-ab-s4', name: 'Caching search results — invalidation on listing update', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/airbnb' },
+            ],
+          },
+          {
+            id: 'sd-ab-booking',
+            name: 'Availability & Booking',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-ab-b1', name: 'Availability calendar — date range storage & queries', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-airbnb/' },
+              { id: 'sd-ab-b2', name: 'Double booking prevention — pessimistic locking vs optimistic', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/airbnb' },
+              { id: 'sd-ab-b3', name: 'Booking state machine — pending, confirmed, cancelled, completed', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-airbnb/' },
+              { id: 'sd-ab-b4', name: 'Payment integration — idempotency keys, two-phase commit', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/system-design-of-airbnb/' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 11 — NOTIFICATION SYSTEM ───────────────────────────────────────
+      {
+        id: 'sd-notifications',
+        name: 'Week 11 — Design Notification System',
+        description: 'Push, email, SMS — reliable at-least-once delivery at scale',
+        status: 'not-started',
+        notes: '',
+        week: 11,
+        subtopics: [
+          {
+            id: 'sd-notif-arch',
+            name: 'Notification Architecture',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-nf-a1', name: 'Notification types — push (APNs, FCM), email (SES), SMS (Twilio)', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/notification-system' },
+              { id: 'sd-nf-a2', name: 'Notification service architecture — decoupled via Kafka', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-notification-system/' },
+              { id: 'sd-nf-a3', name: 'Template service — personalized notification rendering', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-notification-system/' },
+              { id: 'sd-nf-a4', name: 'User preferences — opt-in/out per channel per type', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/notification-system' },
+            ],
+          },
+          {
+            id: 'sd-notif-reliability',
+            name: 'Reliability & Delivery',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-nf-r1', name: 'Retry with exponential backoff — transient failures', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/exponential-backoff/' },
+              { id: 'sd-nf-r2', name: 'Idempotency — deduplication to prevent duplicate notifications', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-notification-system/' },
+              { id: 'sd-nf-r3', name: 'Dead letter queue — handling undeliverable notifications', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/dead-letter-queue/' },
+              { id: 'sd-nf-r4', name: 'Rate limiting outbound — APNs/FCM have send limits', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-a-notification-system/' },
+              { id: 'sd-nf-r5', name: 'Analytics tracking — delivery, open, click rates', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.hellointerview.com/learn/system-design/problem-breakdowns/notification-system' },
+            ],
+          },
+        ],
+      },
+
+      // ─── WEEK 12 — DISTRIBUTED LOGGING ───────────────────────────────────────
+      {
+        id: 'sd-distributed-logging',
+        name: 'Week 12 — Design Distributed Logging & Observability',
+        description: 'Logging, metrics, tracing — the three pillars of observability',
+        status: 'not-started',
+        notes: '',
+        week: 12,
+        subtopics: [
+          {
+            id: 'sd-dl-logging',
+            name: 'Distributed Logging System',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-dl-l1', name: 'Log aggregation architecture — agents → Kafka → storage', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-distributed-logging-system/' },
+              { id: 'sd-dl-l2', name: 'Structured logging — JSON logs, log levels, correlation IDs', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/what-is-structured-logging/' },
+              { id: 'sd-dl-l3', name: 'Log sampling — handle petabytes without indexing everything', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-distributed-logging-system/' },
+              { id: 'sd-dl-l4', name: 'ELK stack — Elasticsearch, Logstash, Kibana', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/elk-stack-introduction/' },
+            ],
+          },
+          {
+            id: 'sd-dl-observability',
+            name: 'Metrics, Tracing & Alerting',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-dl-o1', name: 'Metrics system — Prometheus pull model, time-series storage', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/prometheus-monitoring-system/' },
+              { id: 'sd-dl-o2', name: 'Distributed tracing — trace ID propagation, Jaeger, Zipkin', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/distributed-tracing/' },
+              { id: 'sd-dl-o3', name: 'Three pillars — logs + metrics + traces together', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/three-pillars-of-observability/' },
+              { id: 'sd-dl-o4', name: 'Alerting — threshold vs anomaly detection, on-call', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/design-distributed-logging-system/' },
+              { id: 'sd-dl-o5', name: 'Designing a time-series database (like InfluxDB)', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/time-series-database/' },
+            ],
+          },
+          {
+            id: 'sd-advanced',
+            name: 'Advanced Patterns to Know',
+            status: 'not-started',
+            notes: '',
+            problems: [
+              { id: 'sd-adv-1', name: 'Saga pattern — distributed transactions without 2PC', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/saga-pattern/' },
+              { id: 'sd-adv-2', name: 'Outbox pattern — guaranteed event publishing from DB', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/outbox-pattern/' },
+              { id: 'sd-adv-3', name: 'Bulkhead pattern — isolate failures between services', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/bulkhead-pattern/' },
+              { id: 'sd-adv-4', name: 'Sidecar pattern — service mesh, Envoy, Istio', difficulty: 'hard', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/sidecar-design-pattern/' },
+              { id: 'sd-adv-5', name: 'Blue-green & canary deployments — zero-downtime releases', difficulty: 'medium', status: 'not-started', notes: '', url: 'https://www.geeksforgeeks.org/blue-green-deployment/' },
             ],
           },
         ],
