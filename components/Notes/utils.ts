@@ -1,4 +1,5 @@
 import { NoteItem } from "./types";
+import katex from 'katex';
 
 export function renderMarkdown(raw: string): string {
     if (!raw.trim()) return '';
@@ -15,13 +16,36 @@ export function renderMarkdown(raw: string): string {
         return `%%CODEBLOCK_${codeBlocks.length - 1}%%`;
     });
 
-    // 2. NOW escape the rest
+    // 2. Extract math SECOND — before HTML escaping so $ signs aren't corrupted
+    const mathBlocks: string[] = [];
+
+    // Block math: $$...$$  (must come before inline $...$)
+    // Change placeholder format — no underscore
+html = html.replace(/\$\$([\s\S]+?)\$\$/g, (_m, expr) => {
+    try {
+        mathBlocks.push(katex.renderToString(expr.trim(), { displayMode: true, throwOnError: false }));
+    } catch {
+        mathBlocks.push(`<code class="md-code">${expr}</code>`);
+    }
+    return `%%MATH${mathBlocks.length - 1}%%`;  // ← no underscore
+});
+
+html = html.replace(/\$([^$\n]+?)\$/g, (_m, expr) => {
+    try {
+        mathBlocks.push(katex.renderToString(expr.trim(), { displayMode: false, throwOnError: false }));
+    } catch {
+        mathBlocks.push(`<code class="md-code">${expr}</code>`);
+    }
+    return `%%MATH${mathBlocks.length - 1}%%`;  // ← no underscore
+});
+
+    // 3. NOW escape the rest
     html = html
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
-    // 3. All other rules (placeholders are safe from these)
+    // 4. All other markdown rules (placeholders are safe from these)
     html = html.replace(/^&gt; (.+)$/gm, '<blockquote class="md-blockquote">$1</blockquote>');
     html = html.replace(/^###### (.+)$/gm, '<h6 class="md-h6">$1</h6>');
     html = html.replace(/^##### (.+)$/gm, '<h5 class="md-h5">$1</h5>');
@@ -47,7 +71,7 @@ export function renderMarkdown(raw: string): string {
     html = html.replace(/~~(.+?)~~/g, '<del class="md-del">$1</del>');
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a class="md-link" href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 
-    // 4. Paragraphs — %% lines are treated as block-level so they don't get wrapped
+    // 5. Paragraphs — %% lines (code + math placeholders) are block-level, don't wrap in <p>
     const BLOCK_TAGS = /^(<(h[1-6]|ul|ol|li|pre|blockquote|hr)|%%)/;
     const lines = html.split('\n');
     const result: string[] = [];
@@ -71,8 +95,14 @@ export function renderMarkdown(raw: string): string {
     }
     flushPara();
 
-    // 5. Restore code blocks LAST
-    return result.join('\n').replace(/%%CODEBLOCK_(\d+)%%/g, (_, i) => codeBlocks[+i]);
+    // 6. Restore code blocks
+    let output = result.join('\n').replace(/%%CODEBLOCK_(\d+)%%/g, (_, i) => codeBlocks[+i]);
+
+    // 7. Restore math blocks LAST
+    // output = output.replace(/%%MATHBLOCK_(\d+)%%/g, (_, i) => mathBlocks[+i]);
+    output = output.replace(/%%MATH(\d+)%%/g, (_, i) => mathBlocks[+i]);
+
+    return output;
 }
 
 
