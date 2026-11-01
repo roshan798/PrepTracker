@@ -5,9 +5,10 @@ interface NotesToggleButtonProps {
     showNotes: boolean;
     onToggle: () => void;
     size?: number;
+    label?: string;
 }
 
-export function NotesToggleButton({ value, showNotes, onToggle, size = 14 }: NotesToggleButtonProps) {
+export function NotesToggleButton({ value, showNotes, onToggle, size = 14, label = '' }: NotesToggleButtonProps) {
     const hasNotes = (() => {
         try {
             const parsed = JSON.parse(value);
@@ -19,8 +20,11 @@ export function NotesToggleButton({ value, showNotes, onToggle, size = 14 }: Not
 
     return (
         <button
+            type="button"
             onClick={onToggle}
-            className={`p-2 rounded-lg transition-colors relative ${showNotes
+            aria-label={`${showNotes ? 'Hide' : hasNotes ? 'View' : 'Add'}${label ? ` ${label}` : ''} notes`}
+            aria-expanded={showNotes}
+            className={`min-h-9 min-w-9 p-2 rounded-lg transition-colors relative ${showNotes
                     ? 'text-amber-400'
                     : hasNotes
                         ? 'text-amber-400/60 hover:text-amber-400'

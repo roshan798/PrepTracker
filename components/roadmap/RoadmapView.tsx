@@ -2,11 +2,12 @@
 import { useState, useEffect } from 'react';
 import { useRoadmap, useAppDispatch } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
+import { RoadmapStatusFilter, topicMatchesFilter } from '@/lib/roadmap-filter';
 import TopicItem from './TopicItem';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Confetti from '@/components/ui/Confetti';
 import AddTopicModal from '@/components/modals/AddTopicModal';
-import { Plus, Clock, BookOpen, Edit3, Check, X } from 'lucide-react';
+import { Plus, Clock, BookOpen, Edit3, Check, X, Search } from 'lucide-react';
 
 interface RoadmapViewProps {
   roadmapId: string;
@@ -37,7 +38,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
   const [editingName, setEditingName] = useState(false);
   const [editName, setEditName] = useState('');
   const [editDesc, setEditDesc] = useState('');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'not-started' | 'in-progress' | 'completed'>('all');
+  const [filterStatus, setFilterStatus] = useState<RoadmapStatusFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
 
   const stats = roadmap ? getRoadmapStats(roadmap) : null;
@@ -78,16 +79,12 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
     setEditingName(false);
   };
 
-  const filteredTopics = roadmap.topics.filter(t => {
-    const matchesFilter = filterStatus === 'all' || t.status === filterStatus ||
-      t.subtopics.some(s => s.status === filterStatus);
-    const matchesSearch = !searchTerm || t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.subtopics.some(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    return matchesFilter && matchesSearch;
-  });
+  const filteredTopics = roadmap.topics.filter(topic =>
+    topicMatchesFilter(topic, searchTerm, filterStatus)
+  );
 
   return (
-    <div className="roadmap-page max-w-4xl mx-auto p-5 md:p-8">
+    <div className="roadmap-page mx-auto max-w-5xl p-4 sm:p-5 md:p-8">
       <Confetti active={confetti} />
 
       {/* Header */}
@@ -145,7 +142,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               { label: 'Progress', value: `${stats.percentage}%`, cls: textCls },
               { label: 'Completed', value: stats.completed, cls: 'text-emerald-400' },
               { label: 'In Progress', value: stats.inProgress, cls: 'text-amber-400' },
-              { label: 'Problems', value: stats.problemsTotal > 0 ? `${stats.problemsCompleted}/${stats.problemsTotal}` : '—', cls: 'text-violet-400' },
+              { label: 'Tasks', value: stats.problemsTotal > 0 ? `${stats.problemsCompleted}/${stats.problemsTotal}` : '—', cls: 'text-violet-400' },
             ].map(s => (
               <div key={s.label} className="roadmap-stat surface-card px-4 py-3"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
@@ -163,33 +160,84 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
         {roadmap.duration && (
           <div className="flex items-center gap-1.5 mt-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
             <Clock size={12} />
-            <span>{roadmap.duration} · {roadmap.topics.length} topics</span>
+            <span>{roadmap.duration} · {roadmap.topics.length} modules</span>
           </div>
         )}
       </div>
 
-      {/* Filter & Search */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-5">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          {(['all', 'not-started', 'in-progress', 'completed'] as const).map(s => (
-            <button key={s} onClick={() => setFilterStatus(s)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${filterStatus === s ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30' : 'hover:opacity-80'}`}
-              style={{ borderColor: filterStatus === s ? undefined : 'var(--border)', color: filterStatus === s ? undefined : 'var(--text-secondary)', backgroundColor: filterStatus === s ? undefined : 'var(--bg-tertiary)' }}>
-              {s === 'all' ? 'All' : s === 'not-started' ? 'Not Started' : s === 'in-progress' ? 'In Progress' : 'Completed'}
-            </button>
-          ))}
-        </div>
-        <input
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          placeholder="Search topics..."
-          className="flex-1 min-w-0 px-3 py-1.5 rounded-xl border text-sm max-w-xs"
-          style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none' }}
-        />
-      </div>
+      <section
+        aria-label="Search and filter learning modules"
+        className="surface-card mb-6 space-y-4 rounded-2xl p-4 sm:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter modules by status">
+            {(['all', 'not-started', 'in-progress', 'completed'] as const).map(status => (
+              <button
+                key={status}
+                type="button"
+                onClick={() => setFilterStatus(status)}
+                aria-pressed={filterStatus === status}
+                className={`min-h-10 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${
+                  filterStatus === status ? 'bg-cyan-500/15 text-cyan-400' : 'hover:bg-cyan-500/10'
+                }`}
+                style={{
+                  borderColor: filterStatus === status
+                    ? 'color-mix(in srgb, var(--accent-cyan) 36%, var(--border))'
+                    : 'var(--border)',
+                  color: filterStatus === status ? undefined : 'var(--text-secondary)',
+                  backgroundColor: filterStatus === status ? undefined : 'var(--bg-tertiary)',
+                }}>
+                {status === 'all' ? 'All' : status === 'not-started' ? 'Not Started' : status === 'in-progress' ? 'In Progress' : 'Completed'}
+              </button>
+            ))}
+          </div>
 
-      {/* Topics */}
-      <div className="space-y-1">
+          <div className="relative w-full lg:max-w-sm">
+            <label htmlFor="roadmap-search" className="sr-only">Search modules, lessons, and tasks</label>
+            <Search
+              size={16}
+              aria-hidden="true"
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2"
+              style={{ color: 'var(--text-secondary)' }}
+            />
+            <input
+              id="roadmap-search"
+              type="text"
+              value={searchTerm}
+              onChange={event => setSearchTerm(event.target.value)}
+              placeholder="Search modules, lessons, tasks..."
+              className="w-full rounded-xl border py-2.5 pl-10 pr-10 text-sm"
+              style={{
+                backgroundColor: 'var(--bg-tertiary)',
+                borderColor: 'var(--border)',
+                color: 'var(--text-primary)',
+              }}
+            />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm('')}
+                aria-label="Clear search"
+                className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg hover:bg-cyan-500/10"
+                style={{ color: 'var(--text-secondary)' }}>
+                <X size={15} />
+              </button>
+            )}
+          </div>
+        </div>
+        <p aria-live="polite" className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+          Showing {filteredTopics.length} of {roadmap.topics.length} modules
+          {searchTerm.trim() ? ` matching “${searchTerm.trim()}” across lessons and tasks` : ''}
+        </p>
+      </section>
+
+      <section aria-label="Learning modules">
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+          <h2 className="section-title">Your learning path</h2>
+          <span className="mono text-xs" style={{ color: 'var(--text-secondary)' }}>
+            {filteredTopics.length} {filteredTopics.length === 1 ? 'MODULE' : 'MODULES'}
+          </span>
+        </div>
+        <div className="space-y-2">
         {filteredTopics.length === 0 && (
           <div className="text-center py-12 rounded-2xl border border-dashed"
             style={{ borderColor: 'var(--border)' }}>
@@ -202,10 +250,18 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
 
         {filteredTopics.map(topic => (
           <div key={topic.id} className="fade-in">
-            <TopicItem roadmapId={roadmap.id} topic={topic} roadmapColor={roadmap.color} />
+            <TopicItem
+              roadmapId={roadmap.id}
+              topic={topic}
+              roadmapColor={roadmap.color}
+              topicIndex={roadmap.topics.indexOf(topic)}
+              searchTerm={searchTerm}
+              filterStatus={filterStatus}
+            />
           </div>
         ))}
       </div>
+      </section>
 
       <button onClick={() => setShowAddTopic(true)}
         className="mt-5 w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl border-2 border-dashed text-sm font-medium transition-all hover:opacity-80"

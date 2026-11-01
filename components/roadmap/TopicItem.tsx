@@ -3,9 +3,16 @@ import { useState, useCallback } from 'react';
 import { useAppDispatch } from '@/lib/store';
 import { Topic, Subtopic } from '@/lib/types';
 import { generateId } from '@/lib/utils';
+import {
+  RoadmapStatusFilter,
+  problemMatchesFilter,
+  subtopicMatchesFilter,
+  subtopicMatchesSelf,
+  topicMatchesSelf,
+} from '@/lib/roadmap-filter';
 import StatusSelect from '@/components/ui/StatusSelect';
 import SubtopicItem from './SubtopicItem';
-import { ChevronDown, ChevronRight, Plus, Trash2, StickyNote } from 'lucide-react';
+import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Notes from '../Notes/Notes';
 import { NotesToggleButton } from '../ui/NotesToggleButton';
@@ -14,14 +21,41 @@ interface TopicItemProps {
   roadmapId: string;
   topic: Topic;
   roadmapColor: string;
+  topicIndex: number;
+  searchTerm: string;
+  filterStatus: RoadmapStatusFilter;
 }
 
-export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemProps) {
+export default function TopicItem({
+  roadmapId,
+  topic,
+  roadmapColor,
+  topicIndex,
+  searchTerm,
+  filterStatus,
+}: TopicItemProps) {
   const dispatch = useAppDispatch();
-  const [expanded, setExpanded] = useState(false);
+  const [expansionOverride, setExpansionOverride] = useState<{ key: string; expanded: boolean } | null>(null);
   const [showNotes, setShowNotes] = useState(false);
   const [addingSubtopic, setAddingSubtopic] = useState(false);
   const [subtopicName, setSubtopicName] = useState('');
+  const panelId = `topic-content-${topic.id}`;
+  const expansionKey = `${searchTerm.trim().toLocaleLowerCase()}::${filterStatus}`;
+  const hasActiveFilter = Boolean(searchTerm.trim()) || filterStatus !== 'all';
+  const topicMatches = topicMatchesSelf(topic, searchTerm, filterStatus);
+  const matchingSubtopics = topic.subtopics.filter(subtopic =>
+    subtopicMatchesFilter(subtopic, searchTerm, filterStatus)
+  );
+  const visibleSubtopics = !hasActiveFilter || topicMatches
+    ? topic.subtopics
+    : matchingSubtopics;
+  const autoExpand = matchingSubtopics.some(subtopic =>
+    !subtopicMatchesSelf(subtopic, searchTerm, filterStatus) &&
+    subtopic.problems.some(problem => problemMatchesFilter(problem, searchTerm, filterStatus))
+  ) || (matchingSubtopics.length > 0 && !topicMatches);
+  const expanded = expansionOverride?.key === expansionKey
+    ? expansionOverride.expanded
+    : autoExpand;
 
   const updateTopic = useCallback((updates: Partial<Topic>) => {
     dispatch({ type: 'UPDATE_TOPIC', payload: { roadmapId, topicId: topic.id, updates } });
@@ -56,55 +90,99 @@ export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemP
   };
 
   return (
-    <div className="rounded-2xl border mb-3 overflow-hidden transition-all"
-      style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-secondary)' }}>
+    <article
+      className="roadmap-topic-card mb-3 overflow-hidden rounded-2xl border transition-all"
+      style={{
+        borderColor: expanded
+          ? 'color-mix(in srgb, var(--accent-cyan) 32%, var(--border))'
+          : 'var(--border)',
+        backgroundColor: 'var(--glass-surface)',
+        boxShadow: expanded ? 'var(--surface-shadow), var(--glass-highlight)' : undefined,
+      }}>
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-3 p-4 sm:p-5">
+        <button
+          type="button"
+          onClick={() => setExpansionOverride({ key: expansionKey, expanded: !expanded })}
+          aria-expanded={expanded}
+          aria-controls={expanded ? panelId : undefined}
+          aria-label={`${expanded ? 'Collapse' : 'Expand'} ${topic.name}`}
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors hover:bg-cyan-500/10"
+          style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
+          <ChevronDown
+            size={17}
+            className="transition-transform duration-200"
+            style={{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}
+          />
+        </button>
 
-      <div className="flex items-center gap-3 px-5 py-4">
-        <button onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 flex-1 min-w-0 text-left hover:opacity-80 transition-opacity">
-          <span className="transition-transform duration-200" style={{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
-            <ChevronDown size={16} style={{ color: 'var(--text-secondary)' }} />
-          </span>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              {topic.week && (
-                <span className="text-xs px-2 py-0.5 rounded-full border mono shrink-0"
-                  style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-tertiary)', color: 'var(--text-secondary)' }}>
-                  W{topic.week}
-                </span>
-              )}
-              <h3 className={`font-bold text-sm ${statusColors[topic.status] || ''}`}
-                style={{ fontFamily: 'Syne, sans-serif', color: topic.status !== 'not-started' ? undefined : 'var(--text-primary)' }}>
+        <div className="min-w-0 flex-1 basis-[calc(100%-3rem)] sm:basis-0">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span
+              className="mono inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-lg border px-1.5 text-[11px] font-semibold"
+              style={{
+                color: 'var(--accent-cyan)',
+                borderColor: 'color-mix(in srgb, var(--accent-cyan) 24%, var(--border))',
+                backgroundColor: 'color-mix(in srgb, var(--accent-cyan) 9%, transparent)',
+              }}>
+              {topic.week ? `W${topic.week}` : String(topicIndex + 1).padStart(2, '0')}
+            </span>
+            <div className="min-w-0">
+              <h3
+                className={`text-sm font-bold leading-snug sm:text-base ${statusColors[topic.status] || ''}`}
+                style={{
+                  fontFamily: 'Syne, sans-serif',
+                  color: topic.status !== 'not-started' ? undefined : 'var(--text-primary)',
+                }}>
                 {topic.name}
               </h3>
+              {topic.description && (
+                <p className="mt-1 line-clamp-2 text-xs leading-relaxed sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  {topic.description}
+                </p>
+              )}
             </div>
-            {topic.description && (
-              <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--text-secondary)' }}>{topic.description}</p>
-            )}
           </div>
-        </button>
+        </div>
 
-        {total > 0 && (
-          <div className="hidden sm:block w-24">
-            <ProgressBar percentage={pct} color={roadmapColor} height="h-1.5" />
-            <div className="text-xs mono mt-0.5 text-right" style={{ color: 'var(--text-secondary)' }}>{completed}/{total}</div>
+        <div className="flex w-full flex-wrap items-center justify-between gap-2 pl-12 sm:w-auto sm:justify-end sm:pl-0">
+          {total > 0 && (
+            <div className="flex min-w-20 items-center gap-2 sm:block sm:w-24">
+              <div className="flex-1 sm:flex-none">
+                <ProgressBar percentage={pct} color={roadmapColor} height="h-1.5" />
+              </div>
+              <div
+                className="mono text-[11px] sm:mt-1 sm:text-right sm:text-xs"
+                aria-label={`${completed} of ${total} lessons completed`}
+                style={{ color: 'var(--text-secondary)' }}>
+                {completed}/{total}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center gap-1">
+            <NotesToggleButton
+              value={topic.notes}
+              showNotes={showNotes}
+              onToggle={() => setShowNotes(!showNotes)}
+              label={topic.name}
+            />
+            <StatusSelect
+              status={topic.status}
+              onChange={status => updateTopic({ status })}
+              ariaLabel={`Status for ${topic.name}`}
+            />
+            <button
+              type="button"
+              onClick={deleteTopic}
+              aria-label={`Delete ${topic.name}`}
+              title="Delete module"
+              className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-rose-500/10 hover:text-rose-400"
+              style={{ color: 'var(--text-secondary)' }}>
+              <Trash2 size={14} />
+            </button>
           </div>
-        )}
-
-        <NotesToggleButton
-          value={topic.notes}
-          showNotes={showNotes}
-          onToggle={() => setShowNotes(!showNotes)}
-        />
-
-        <StatusSelect status={topic.status} onChange={(s) => updateTopic({ status: s })} />
-
-        <button onClick={deleteTopic}
-          className="p-2 rounded-lg hover:text-rose-400 transition-colors"
-          style={{ color: 'var(--text-secondary)' }}>
-          <Trash2 size={14} />
-        </button>
-      </div>
+        </div>
+      </header>
 
       {showNotes && (
         <div className="px-5 pb-4 border-t" style={{ borderColor: 'var(--border)' }}>
@@ -121,10 +199,22 @@ export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemP
       )}
 
       {expanded && (
-        <div className="px-5 pb-4 border-t" style={{ borderColor: 'var(--border)' }}>
-          <div className="pt-3 space-y-1">
-            {topic.subtopics.map(sub => (
-              <SubtopicItem key={sub.id} roadmapId={roadmapId} topicId={topic.id} subtopic={sub} />
+        <section
+          id={panelId}
+          aria-label={`${topic.name} lessons`}
+          className="border-t px-4 pb-4 sm:px-5"
+          style={{ borderColor: 'var(--border)' }}>
+          <div className="ml-1 mt-4 space-y-2 border-l pl-3 sm:ml-2 sm:pl-4" style={{ borderColor: 'var(--border)' }}>
+            {visibleSubtopics.map(subtopic => (
+              <SubtopicItem
+                key={subtopic.id}
+                roadmapId={roadmapId}
+                topicId={topic.id}
+                subtopic={subtopic}
+                searchTerm={searchTerm}
+                filterStatus={filterStatus}
+                revealAllProblems={topicMatches}
+              />
             ))}
           </div>
 
@@ -150,8 +240,8 @@ export default function TopicItem({ roadmapId, topic, roadmapColor }: TopicItemP
               <Plus size={12} /> Add Subtopic
             </button>
           )}
-        </div>
+        </section>
       )}
-    </div>
+    </article>
   );
 }
