@@ -118,7 +118,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!hydrated) return;
     document.documentElement.classList.toggle('dark', state.theme === 'dark');
-  }, [state.theme, hydrated]);
+    document.documentElement.dataset.palette = state.accentPalette ?? 'electric';
+  }, [state.theme, state.accentPalette, hydrated]);
 
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 }

@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppState } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
-import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import { useState } from 'react';
 import { Roadmap } from '@/lib/types';
@@ -164,6 +164,15 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             style={{ color: pathname === '/simulation' ? undefined : 'var(--text-secondary)' }}>
             <span aria-hidden="true">🎯</span>
             <span className={collapsed ? 'lg:hidden' : ''}>Simulation</span>
+          </Link>
+
+          <Link href="/appearance" onClick={onClose}
+            title={collapsed ? 'Appearance' : undefined}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
+    ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/appearance' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/appearance' ? undefined : 'var(--text-secondary)' }}>
+            <Palette size={15} />
+            <span className={collapsed ? 'lg:hidden' : ''}>Appearance</span>
           </Link>
 
           <Link href="/about" onClick={onClose}

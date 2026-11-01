@@ -6,6 +6,7 @@ function getInitialState(): AppState {
   return {
     roadmaps: PREDEFINED_ROADMAPS,
     theme: 'dark',
+    accentPalette: 'electric',
     lastUpdated: new Date().toISOString(),
   };
 }
@@ -15,10 +16,13 @@ function reducer(state: AppState, action: Action): AppState {
 
   switch (action.type) {
     case 'LOAD_STATE':
-      return action.payload;
+      return { ...action.payload, accentPalette: action.payload.accentPalette ?? 'electric' };
 
     case 'SET_THEME':
       return { ...state, theme: action.payload, lastUpdated: now };
+
+    case 'SET_ACCENT_PALETTE':
+      return { ...state, accentPalette: action.payload, lastUpdated: now };
 
     case 'ADD_ROADMAP':
       return {

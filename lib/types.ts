@@ -1,6 +1,17 @@
 export type Status = 'not-started' | 'in-progress' | 'completed';
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type Theme = 'dark' | 'light';
+export type AccentPalette =
+  | 'electric'
+  | 'sunrise'
+  | 'aurora'
+  | 'ocean'
+  | 'citrus'
+  | 'berry'
+  | 'forest'
+  | 'ember'
+  | 'midnight'
+  | 'blossom';
 
 export interface Problem {
   id: string;
@@ -48,11 +59,13 @@ export interface Roadmap {
 export interface AppState {
   roadmaps: Roadmap[];
   theme: Theme;
+  accentPalette: AccentPalette;
   lastUpdated: string;
 }
 
 export type Action =
   | { type: 'SET_THEME'; payload: Theme }
+  | { type: 'SET_ACCENT_PALETTE'; payload: AccentPalette }
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'ADD_ROADMAP'; payload: Roadmap }
   | { type: 'DELETE_ROADMAP'; payload: string }
