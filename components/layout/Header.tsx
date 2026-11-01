@@ -50,20 +50,22 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 flex items-center gap-3 px-4 py-3 border-b"
-        style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)', backdropFilter: 'blur(12px)' }}>
+      <header className="app-header sticky top-0 z-40 flex items-center gap-3 px-4 md:px-7 py-3.5 border-b"
+        style={{ backgroundColor: 'color-mix(in srgb, var(--bg-primary) 88%, transparent)', borderColor: 'var(--border)', backdropFilter: 'blur(16px)' }}>
         <button onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
           className="lg:hidden p-2 rounded-lg transition-colors hover:opacity-70"
           style={{ color: 'var(--text-secondary)' }}>
           {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <div className="flex items-center gap-2 mr-auto">
-          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-cyan-500/20 border border-cyan-500/30">
-            <Zap size={14} className="text-cyan-400" />
+        <div className="flex items-center gap-2.5 mr-auto">
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/30">
+            <Zap size={15} className="text-cyan-400" />
           </div>
           <span className="font-bold text-sm hidden sm:block" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
-            PrepTracker
+            Prep<span style={{ color: 'var(--accent-cyan)' }}>Tracker</span>
           </span>
         </div>
 
@@ -71,7 +73,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
           title='Metrics page'
           href="/metrics"
           style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all hover:opacity-80"
+          className="app-header-action flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border transition-all hover:opacity-80"
         >
           <BarChart2 size={16} />
           <span className="hidden sm:inline">Metrics</span>
@@ -79,7 +81,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
         <div className="flex items-center gap-2">
           <button onClick={handleExport}
             title='Export data to JSON'
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all hover:opacity-80"
+            className="app-header-action flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border transition-all hover:opacity-80"
             style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}>
             <Download size={13} />
             <span className="hidden sm:inline">Export</span>
@@ -88,7 +90,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
           <button
             title='Import data from JSON'
             onClick={() => fileRef.current?.click()}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all hover:opacity-80"
+            className="app-header-action flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border transition-all hover:opacity-80"
             style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}>
             <Upload size={13} />
             <span className="hidden sm:inline">Import</span>
@@ -130,7 +132,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
 
       {importConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
-          <div className="rounded-2xl border p-6 max-w-sm w-full fade-in"
+          <div className="glass-dialog rounded-2xl border p-6 max-w-sm w-full fade-in"
             style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
             <h3 className="font-bold text-lg mb-2" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
               Import Data

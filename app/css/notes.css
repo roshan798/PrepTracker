@@ -1,10 +1,11 @@
 .notes-root {
     width: 100%;
-    font-family: 'Inconsolata', monospace;
-    background: var(--bg-tertiary, #1a1a2e);
-    border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
-    border-radius: 16px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 18px;
     overflow: hidden;
+    box-shadow: var(--surface-shadow);
 }
 
 /* ── Header ── */
@@ -25,7 +26,7 @@
 }
 
 .notes-header-title {
-    font-family: 'Georgia', serif;
+    font-family: 'Syne', sans-serif;
     font-size: 15px;
     font-weight: 700;
     color: var(--text-primary, #f1f5f9);
@@ -82,7 +83,7 @@
 }
 
 .note-card:hover {
-    background: rgba(99, 102, 241, 0.04);
+    background: color-mix(in srgb, var(--accent-violet) 5%, transparent);
 }
 
 @keyframes noteSlideIn {
@@ -117,7 +118,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.15s;
 }
 
@@ -205,7 +206,7 @@
     font-family: ui-monospace, 'Cascadia Code', monospace;
     font-size: 12px;
     font-weight: 600;
-    color: rgba(99, 102, 241, 0.7);
+    color: var(--accent-violet);
     background: none;
     border: none;
     border-top: 1px solid var(--border, rgba(255, 255, 255, 0.06));
@@ -217,7 +218,7 @@
 
 .notes-add-btn:hover {
     color: #818cf8;
-    background: rgba(99, 102, 241, 0.06);
+    background: color-mix(in srgb, var(--accent-violet) 8%, transparent);
 }
 
 .notes-add-btn-icon {

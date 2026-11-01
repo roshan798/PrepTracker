@@ -10,7 +10,7 @@ export const VERSION_KEY = 'prepTrackerDataVersion';
 // Keeps user progress (status, notes) while picking up new/removed items from data.ts
 
 export function mergePredefinedWithSaved(saved: Roadmap[]): Roadmap[] {
-  return PREDEFINED_ROADMAPS.map(fresh => {
+  const predefined = PREDEFINED_ROADMAPS.map(fresh => {
     const savedRoadmap = saved.find(r => r.id === fresh.id);
     if (!savedRoadmap) return fresh; // brand new roadmap
 
@@ -61,7 +61,12 @@ export function mergePredefinedWithSaved(saved: Roadmap[]): Roadmap[] {
 
     return {
       ...fresh,
+      isPinned: savedRoadmap.isPinned ?? false,
+      sortOrder: savedRoadmap.sortOrder,
       topics: [...mergedTopics, ...customTopics],
     };
   });
+
+  const customRoadmaps = saved.filter(roadmap => roadmap.type === 'custom');
+  return [...predefined, ...customRoadmaps];
 }

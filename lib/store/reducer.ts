@@ -1,5 +1,6 @@
 import { AppState, Action, Status } from '../types';
 import { PREDEFINED_ROADMAPS } from '@/data/data';
+import { sortRoadmaps } from '../roadmap-utils';
 
 function getInitialState(): AppState {
   return {
@@ -20,10 +21,58 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, theme: action.payload, lastUpdated: now };
 
     case 'ADD_ROADMAP':
-      return { ...state, roadmaps: [...state.roadmaps, action.payload], lastUpdated: now };
+      return {
+        ...state,
+        roadmaps: [
+          ...state.roadmaps,
+          {
+            ...action.payload,
+            isPinned: false,
+            sortOrder: state.roadmaps.reduce(
+              (max, roadmap, index) => Math.max(max, roadmap.sortOrder ?? index),
+              -1
+            ) + 1,
+          },
+        ],
+        lastUpdated: now,
+      };
 
     case 'DELETE_ROADMAP':
       return { ...state, roadmaps: state.roadmaps.filter(r => r.id !== action.payload), lastUpdated: now };
+
+    case 'TOGGLE_ROADMAP_PIN':
+      return {
+        ...state,
+        roadmaps: state.roadmaps.map(roadmap =>
+          roadmap.id === action.payload
+            ? { ...roadmap, isPinned: !roadmap.isPinned }
+            : roadmap
+        ),
+        lastUpdated: now,
+      };
+
+    case 'MOVE_ROADMAP': {
+      const ordered = sortRoadmaps(state.roadmaps);
+      const currentIndex = ordered.findIndex(roadmap => roadmap.id === action.payload.id);
+      const targetIndex = currentIndex + (action.payload.direction === 'up' ? -1 : 1);
+      const currentIsPinned = ordered[currentIndex]?.isPinned === true;
+      const targetIsPinned = ordered[targetIndex]?.isPinned === true;
+      if (
+        currentIndex < 0 ||
+        targetIndex < 0 ||
+        targetIndex >= ordered.length ||
+        currentIsPinned !== targetIsPinned
+      ) {
+        return state;
+      }
+
+      [ordered[currentIndex], ordered[targetIndex]] = [ordered[targetIndex], ordered[currentIndex]];
+      return {
+        ...state,
+        roadmaps: ordered.map((roadmap, sortOrder) => ({ ...roadmap, sortOrder })),
+        lastUpdated: now,
+      };
+    }
 
     case 'UPDATE_ROADMAP_META':
       return {

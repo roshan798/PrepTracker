@@ -169,10 +169,11 @@ export default function MetricsDashboard() {
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>
-              📊 Prep Metrics
+            <div className="page-kicker mb-2">Your habits, measured</div>
+            <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+              Prep Metrics<span className="text-cyan-400">.</span>
             </h1>
-            <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace', marginTop: 4 }}>
+            <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
               {logs.length} session{logs.length !== 1 ? 's' : ''} logged · {summary.streak} day streak 🔥
             </p>
           </div>
@@ -246,7 +247,7 @@ export default function MetricsDashboard() {
                       <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                   <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                   <Tooltip content={<ChartTooltip unit=" min" />} />
@@ -261,7 +262,7 @@ export default function MetricsDashboard() {
                 <div className="metrics-card-title">⭐ Confidence Trend</div>
                 <ResponsiveContainer width="100%" height={150}>
                   <LineChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                     <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip unit="%" />} />
@@ -274,7 +275,7 @@ export default function MetricsDashboard() {
                 <div className="metrics-card-title">🎯 Goals Completion %</div>
                 <ResponsiveContainer width="100%" height={150}>
                   <BarChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                     <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip unit="%" />} />

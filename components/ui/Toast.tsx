@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CheckCircle, XCircle, Info, X } from 'lucide-react';
 
 interface ToastProps {
@@ -24,8 +24,8 @@ export default function Toast({ message, type = 'success', onClose, duration = 3
   const Icon = icons[type];
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border toast-slide ${colors[type]}`}
-      style={{ minWidth: 280, backdropFilter: 'blur(10px)' }}>
+    <div className={`glass-toast fixed bottom-6 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-xl border toast-slide ${colors[type]}`}
+      style={{ minWidth: 280 }}>
       <Icon size={16} />
       <span className="text-sm font-medium flex-1">{message}</span>
       <button onClick={onClose} className="opacity-60 hover:opacity-100 transition-opacity"><X size={14} /></button>

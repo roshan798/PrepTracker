@@ -70,8 +70,9 @@ function formatTime(seconds: number) {
 const cardStyle = {
   background: 'var(--bg-secondary)',
   border: '1px solid var(--border)',
-  borderRadius: 16,
-  padding: 20,
+  borderRadius: 20,
+  padding: 22,
+  boxShadow: 'var(--surface-shadow)',
 };
 
 const monoSm = { fontFamily: 'JetBrains Mono, monospace', fontSize: 11 };
@@ -109,8 +110,8 @@ function SetupScreen({ roadmaps, onStart }: {
     <div style={{ maxWidth: 520, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <div style={{ fontSize: 48, marginBottom: 8 }}>🎯</div>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
-          Interview Simulation
+        <h2 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', marginBottom: 10 }}>
+          Interview Simulation<span className="text-cyan-400">.</span>
         </h2>
         <p style={{ ...monoSm, color: 'var(--text-secondary)' }}>
           Real interview pressure. No notes. No hints. Just you and the problems.
@@ -532,13 +533,14 @@ export default function InterviewSim() {
   };
 
   return (
-    <div className="metrics-root p-5 md:p-8 max-w-4xl mx-auto">
+    <div className="interview-page metrics-root p-5 md:p-8 max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-primary)' }}>
-          🎯 Interview Simulation
+        <div className="page-kicker mb-2">Practice under pressure</div>
+        <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+          Interview Simulation<span className="text-cyan-400">.</span>
         </h1>
-        <p style={{ ...monoSm, color: 'var(--text-secondary)', marginTop: 4 }}>
+        <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
           {history.length} simulation{history.length !== 1 ? 's' : ''} completed
         </p>
       </div>

@@ -122,10 +122,11 @@ export default function WeeklyReport() {
             {/* ── Header ── */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-primary)' }}>
-                        📋 Weekly Report
+                    <div className="page-kicker mb-2">Your week in review</div>
+                    <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+                        Weekly Report<span className="text-cyan-400">.</span>
                     </h1>
-                    <p style={{ fontSize: 12, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', marginTop: 4 }}>
+                    <p className="mt-2 text-sm mono" style={{ color: 'var(--text-secondary)' }}>
                         {current.dates[0]} → {current.dates[6]}
                     </p>
                 </div>
@@ -146,7 +147,7 @@ export default function WeeklyReport() {
 
                     {/* ── Grade Card ── */}
                     <div style={{
-                        background: 'linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.06))',
+                        background: 'linear-gradient(135deg, color-mix(in srgb, var(--accent-cyan) 9%, transparent), color-mix(in srgb, var(--accent-violet) 7%, transparent))',
                         border: '1px solid var(--border)', borderRadius: 20, padding: 28,
                         display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'center',
                     }}>
@@ -217,7 +218,7 @@ export default function WeeklyReport() {
                         <div className="metrics-card-title">⏱ Daily Study Time</div>
                         <ResponsiveContainer width="100%" height={180}>
                             <BarChart data={current.dailyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                                 <XAxis dataKey="day" tick={{ fontSize: 11, fill: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={false} />
                                 <YAxis tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={false} />
                                 <Tooltip content={<ChartTooltip unit=" min" />} />
@@ -239,7 +240,7 @@ export default function WeeklyReport() {
                             <div className="metrics-card-title">⭐ Daily Confidence</div>
                             <ResponsiveContainer width="100%" height={150}>
                                 <LineChart data={current.dailyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                                     <XAxis dataKey="day" tick={{ fontSize: 11, fill: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={false} />
                                     <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace' }} tickLine={false} axisLine={false} />
                                     <Tooltip content={<ChartTooltip unit="%" />} />

@@ -87,11 +87,12 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-5 md:p-8">
+    <div className="roadmap-page max-w-4xl mx-auto p-5 md:p-8">
       <Confetti active={confetti} />
 
       {/* Header */}
-      <div className="fade-in mb-6">
+      <div className="roadmap-hero fade-in mb-6">
+        <div className="page-kicker mb-3">{roadmap.type === 'predefined' ? 'Curated learning path' : 'Your custom learning path'}</div>
         <div className="flex items-start gap-4 mb-4">
           <div className={`flex items-center justify-center w-14 h-14 rounded-2xl border text-3xl ${bgCls}`}>
             {roadmap.emoji}
@@ -119,7 +120,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
             ) : (
               <>
                 <div className="flex items-center gap-2">
-                  <h1 className={`text-2xl md:text-3xl font-bold ${roadmap.type === 'custom' ? 'cursor-pointer hover:opacity-80' : ''}`}
+                  <h1 className={`page-title ${roadmap.type === 'custom' ? 'cursor-pointer hover:opacity-80' : ''}`}
                     style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
                     onClick={roadmap.type === 'custom' ? startEditing : undefined}>
                     {roadmap.name}
@@ -146,7 +147,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               { label: 'In Progress', value: stats.inProgress, cls: 'text-amber-400' },
               { label: 'Problems', value: stats.problemsTotal > 0 ? `${stats.problemsCompleted}/${stats.problemsTotal}` : '—', cls: 'text-violet-400' },
             ].map(s => (
-              <div key={s.label} className="rounded-xl border px-4 py-3"
+              <div key={s.label} className="roadmap-stat surface-card px-4 py-3"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
                 <div className={`text-xl font-bold mono ${s.cls}`}>{s.value}</div>
                 <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{s.label}</div>

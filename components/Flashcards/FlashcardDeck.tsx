@@ -107,10 +107,11 @@ export default function FlashcardDeck() {
         return (
             <div className="p-6 max-w-3xl mx-auto">
                 <div className="mb-8">
-                    <h1 style={{ fontFamily: 'Syne, sans-serif', fontSize: 28, fontWeight: 800, color: 'var(--text-primary)' }}>
-                        🃏 Flashcards
+                    <div className="page-kicker mb-2">Remember what matters</div>
+                    <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+                        Flashcards<span className="text-cyan-400">.</span>
                     </h1>
-                    <p style={{ color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', fontSize: 12, marginTop: 4 }}>
+                    <p className="mt-2 text-sm mono" style={{ color: 'var(--text-secondary)' }}>
                         {allCards.length} cards available from your notes
                     </p>
                 </div>
@@ -140,9 +141,9 @@ export default function FlashcardDeck() {
                             onChange={handleFilterChange}
                         />
 
-                        <div style={{
+                        <div className="flashcards-start-card" style={{
                             background: 'var(--bg-secondary)', border: '1px solid var(--border)',
-                            borderRadius: 16, padding: 24, marginBottom: 24,
+                            borderRadius: 20, padding: 24, marginBottom: 24,
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         }}>
                             <div>

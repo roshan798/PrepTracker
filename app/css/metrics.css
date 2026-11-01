@@ -22,15 +22,18 @@
     padding: 20px 16px;
     border-radius: 16px;
     text-align: center;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    transition: transform 0.15s, box-shadow 0.15s;
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    transition: transform 0.2s, box-shadow 0.2s;
     animation: metricsIn 0.4s ease both;
+    box-shadow: var(--surface-shadow), var(--glass-highlight);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
 }
 
 .metrics-stat-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    box-shadow: var(--surface-shadow-hover);
 }
 
 .metrics-stat-icon {
@@ -48,7 +51,8 @@
 .metrics-stat-value {
     font-size: 22px;
     font-weight: 800;
-    font-family: 'Georgia', serif;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.05em;
     line-height: 1.1;
     margin-bottom: 4px;
 }
@@ -70,11 +74,14 @@
 }
 
 .metrics-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
+    background: var(--glass-surface);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: clamp(16px, 2vw, 24px);
     animation: metricsIn 0.4s ease both;
+    box-shadow: var(--surface-shadow), var(--glass-highlight);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.12);
 }
 
 .metrics-card-title {
@@ -106,13 +113,13 @@
 }
 
 .period-btn.active {
-    background: rgba(6, 182, 212, 0.15);
-    border-color: rgba(6, 182, 212, 0.4);
-    color: #06b6d4;
+    background: color-mix(in srgb, var(--accent-cyan) 15%, transparent);
+    border-color: color-mix(in srgb, var(--accent-cyan) 45%, var(--border));
+    color: var(--accent-cyan);
 }
 
 .period-btn:not(.active):hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-tertiary);
 }
 
 .empty-state {
@@ -131,7 +138,7 @@
 }
 
 .empty-state-title {
-    font-family: 'Georgia', serif;
+    font-family: 'Syne', sans-serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--text-primary);
@@ -140,6 +147,16 @@
 .empty-state-sub {
     font-size: 13px;
     color: var(--text-secondary);
-    font-family: ui-monospace, monospace;
+    font-family: 'DM Sans', sans-serif;
     max-width: 300px;
+}
+
+@media (max-width: 640px) {
+    .metrics-card {
+        border-radius: 16px;
+    }
+
+    .empty-state {
+        padding: 44px 18px;
+    }
 }

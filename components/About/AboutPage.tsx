@@ -37,25 +37,22 @@ const JOURNEY = [
 
 export default function AboutPage() {
   return (
-    <div style={{ maxWidth: 860, margin: '0 auto', padding: '32px 24px' }}>
+    <div className="about-page" style={{ maxWidth: 960, margin: '0 auto', padding: '40px 24px' }}>
 
       {/* Hero */}
-      <div style={{ textAlign: 'center', marginBottom: 56 }}>
-        <div style={{ fontSize: 56, marginBottom: 12 }}>⚡</div>
-        <h1 style={{
-          fontFamily: 'Syne, sans-serif', fontSize: 36, fontWeight: 900,
-          color: 'var(--text-primary)', marginBottom: 12, letterSpacing: '-0.02em',
-        }}>
-          PrepTracker
+      <div className="about-hero" style={{ textAlign: 'left', marginBottom: 64 }}>
+        <div className="page-kicker mb-4">A calmer way to prepare</div>
+        <h1 className="page-title" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)', marginBottom: 18 }}>
+          PrepTracker<span className="text-cyan-400">.</span>
         </h1>
         <p style={{
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 13,
-          color: 'var(--text-secondary)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7,
+          fontFamily: 'DM Sans, sans-serif', fontSize: 16,
+          color: 'var(--text-secondary)', maxWidth: 560, lineHeight: 1.7,
         }}>
           A job-switch prep tracker built entirely offline. No database. No backend. No accounts.
           Everything lives in your browser.
         </p>
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 20, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-start', marginTop: 24, flexWrap: 'wrap' }}>
           {['100% Offline', 'No Backend', 'Open Source', 'PWA'].map(tag => (
             <span key={tag} style={{
               fontFamily: 'JetBrains Mono, monospace', fontSize: 10, fontWeight: 700,
@@ -69,12 +66,12 @@ export default function AboutPage() {
 
       {/* Features */}
       <section style={{ marginBottom: 56 }}>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
+        <h2 className="section-title" style={{ marginBottom: 20 }}>
           What's Inside
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
           {FEATURES.map(f => (
-            <div key={f.title} style={{
+            <div key={f.title} className="about-feature-card" style={{
               background: 'var(--bg-secondary)', border: '1px solid var(--border)',
               borderRadius: 14, padding: '16px 18px',
               transition: 'transform 0.15s, box-shadow 0.15s',
@@ -93,12 +90,12 @@ export default function AboutPage() {
 
       {/* Tech Stack */}
       <section style={{ marginBottom: 56 }}>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
+        <h2 className="section-title" style={{ marginBottom: 20 }}>
           Tech Stack
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 10 }}>
           {STACK.map(s => (
-            <div key={s.name} style={{
+            <div key={s.name} className="about-stack-card" style={{
               display: 'flex', alignItems: 'flex-start', gap: 12,
               background: 'var(--bg-secondary)', border: '1px solid var(--border)',
               borderRadius: 12, padding: '12px 14px',
@@ -119,7 +116,7 @@ export default function AboutPage() {
 
       {/* Build Journey */}
       <section style={{ marginBottom: 56 }}>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
+        <h2 className="section-title" style={{ marginBottom: 20 }}>
           How It Was Built
         </h2>
         <div style={{ position: 'relative' }}>

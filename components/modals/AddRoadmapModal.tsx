@@ -41,7 +41,7 @@ export default function AddRoadmapModal({ onClose }: AddRoadmapModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
-      <div className="rounded-2xl border w-full max-w-md fade-in"
+      <div className="glass-dialog rounded-2xl border w-full max-w-md fade-in"
         style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
         <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border)' }}>
           <h2 className="font-bold text-lg" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>

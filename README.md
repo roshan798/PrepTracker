@@ -6,6 +6,7 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Predefined Roadmaps: DSA, LeetCode Patterns, System Design, GenAI + Agentic AI
 - ✅ 22-module GenAI curriculum with 197 trackable learning tasks and project milestones
 - ✅ Custom roadmap creation
+- ✅ Pin roadmaps and manually reorder them from the dashboard; order is saved locally
 - ✅ Per-topic & per-subtopic status tracking
 - ✅ Notes editor per topic/subtopic
 - ✅ Problem checklist with difficulty badges

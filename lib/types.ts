@@ -38,6 +38,8 @@ export interface Roadmap {
   type: 'predefined' | 'custom';
   duration?: string;
   color: string;
+  isPinned?: boolean;
+  sortOrder?: number;
   topics: Topic[];
   createdAt: string;
   updatedAt: string;
@@ -54,6 +56,8 @@ export type Action =
   | { type: 'LOAD_STATE'; payload: AppState }
   | { type: 'ADD_ROADMAP'; payload: Roadmap }
   | { type: 'DELETE_ROADMAP'; payload: string }
+  | { type: 'TOGGLE_ROADMAP_PIN'; payload: string }
+  | { type: 'MOVE_ROADMAP'; payload: { id: string; direction: 'up' | 'down' } }
   | { type: 'UPDATE_ROADMAP_META'; payload: { id: string; name: string; description: string } }
   | { type: 'ADD_TOPIC'; payload: { roadmapId: string; topic: Topic } }
   | { type: 'UPDATE_TOPIC'; payload: { roadmapId: string; topicId: string; updates: Partial<Topic> } }

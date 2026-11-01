@@ -9,6 +9,10 @@ export default function Card({ card, flipped, onFlip }: { card: Flashcard; flipp
     return (
         <div
             onClick={onFlip}
+            role="button"
+            tabIndex={0}
+            aria-pressed={flipped}
+            aria-label={`${flipped ? 'Show question' : 'Show answer'} for ${card.problemName}`}
             style={{
                 perspective: 1200,
                 cursor: 'pointer',
@@ -30,11 +34,11 @@ export default function Card({ card, flipped, onFlip }: { card: Flashcard; flipp
                     position: 'absolute', inset: 0, backfaceVisibility: 'hidden',
                     background: 'var(--bg-secondary)',
                     border: '1px solid var(--border)',
-                    borderRadius: 20,
+                    borderRadius: 24,
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center',
                     padding: 40, textAlign: 'center',
-                    boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+                    boxShadow: 'var(--surface-shadow-hover)',
                 }}>
                     <div style={{
                         fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em',
@@ -68,10 +72,10 @@ export default function Card({ card, flipped, onFlip }: { card: Flashcard; flipp
                     transform: 'rotateY(180deg)',
                     background: 'var(--bg-secondary)',
                     border: '1px solid var(--border)',
-                    borderRadius: 20,
+                    borderRadius: 24,
                     display: 'flex', flexDirection: 'column',
                     padding: 32, overflowY: 'auto',
-                    boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+                    boxShadow: 'var(--surface-shadow-hover)',
                 }}>
                     <div style={{
                         fontSize: 10, fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.1em',

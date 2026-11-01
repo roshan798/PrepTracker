@@ -70,7 +70,7 @@ export default function DailyLogModal({
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className="w-full max-w-lg rounded-2xl overflow-hidden"
+        className="glass-dialog w-full max-w-lg rounded-2xl overflow-hidden"
         style={{
           background: 'var(--bg-secondary)',
           border: '1px solid var(--border)',
