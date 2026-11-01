@@ -1,9 +1,10 @@
 # PrepTracker 🚀
 
-A beautiful, production-ready personal preparation tracker for job switch prep — covering DSA, LeetCode patterns, and System Design.
+A beautiful, production-ready personal preparation tracker for job switch prep — covering DSA, LeetCode patterns, System Design, and Generative AI.
 
 ## Features
-- ✅ 3 Predefined Roadmaps: DSA, LeetCode Patterns, System Design
+- ✅ Predefined Roadmaps: DSA, LeetCode Patterns, System Design, GenAI + Agentic AI
+- ✅ 22-module GenAI curriculum with 197 trackable learning tasks and project milestones
 - ✅ Custom roadmap creation
 - ✅ Per-topic & per-subtopic status tracking
 - ✅ Notes editor per topic/subtopic

@@ -1,5 +1,6 @@
 import { Roadmap } from '../lib/types';
-export const DATA_VERSION = 5;
+import { GENAI_ROADMAP } from './genai';
+export const DATA_VERSION = 6;
 export const PREDEFINED_ROADMAPS: Roadmap[] = [
   {
     id: 'dsa-roadmap',
@@ -2732,5 +2733,6 @@ export const PREDEFINED_ROADMAPS: Roadmap[] = [
         ],
       },
     ],
-  }
+  },
+  GENAI_ROADMAP
 ];
