@@ -2,13 +2,15 @@ import AppShell from '@/components/AppShell';
 import RoadmapView from '@/components/roadmap/RoadmapView';
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function RoadmapPage({ params }: PageProps) {
+export default async function RoadmapPage({ params }: PageProps) {
+  const { id } = await params;
+
   return (
     <AppShell>
-      <RoadmapView roadmapId={params.id} />
+      <RoadmapView roadmapId={id} />
     </AppShell>
   );
 }

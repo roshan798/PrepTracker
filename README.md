@@ -129,7 +129,7 @@ Your roadmap will appear in the sidebar automatically.
 > **Tip:** After customizing, use the **Export** button to back up your progress as JSON — it captures your statuses, notes, and problem completions.
 
 ## Tech Stack
-- **Next.js 14** (App Router)
+- **Next.js 16** (App Router)
 - **TypeScript** (strict)
 - **Tailwind CSS**
 - **React Context + useReducer** (state)

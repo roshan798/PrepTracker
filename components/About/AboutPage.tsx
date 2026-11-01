@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 const STACK = [
-  { name: 'Next.js 14', desc: 'App Router, server components, file-based routing', color: '#06b6d4' },
+  { name: 'Next.js 16', desc: 'App Router, server components, file-based routing', color: '#06b6d4' },
   { name: 'TypeScript', desc: 'End-to-end type safety across all components', color: '#8b5cf6' },
   { name: 'Tailwind CSS', desc: 'Utility-first styling with CSS variables for theming', color: '#10b981' },
   { name: 'React Context + useReducer', desc: 'Global state without any external library', color: '#f59e0b' },
@@ -30,7 +30,7 @@ const JOURNEY = [
   { phase: 'Notes System', desc: 'Multi-note per problem with NoteItem[] JSON storage. Custom Markdown renderer with code block extraction to prevent p-tag-inside-code bugs. highlight.js integration.' },
   { phase: 'Status Cascade', desc: 'Auto-derive subtopic status from problems, topic status from subtopics. Completing all problems completes the parent automatically.' },
   { phase: 'Metrics', desc: 'DailyMetric logged automatically — problems completed patch goalsCompleted, session start time tracked on every state change. Recharts dashboard.' },
-  { phase: 'PWA', desc: 'next-pwa integration (migrated from v5 to @ducanh2912/next-pwa for Next.js 14 compatibility). Service worker caches all static assets.' },
+  { phase: 'PWA', desc: 'next-pwa integration (migrated from v5 to @ducanh2912/next-pwa for current Next.js compatibility). Service worker caches all static assets.' },
   { phase: 'Flashcards', desc: 'Notes → flashcards. Each NoteItem rendered separately to avoid markdown cross-contamination. 3D flip animation, keyboard navigation.' },
   { phase: 'Weekly Report & Sim', desc: 'Weekly report with grade, delta badges, and day-by-day breakdown. Interview simulation with countdown timer, problem navigation, and scoring.' },
 ];
