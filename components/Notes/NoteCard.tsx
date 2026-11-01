@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MarkdownPreview from "./MarkdownPreview";
 import { NoteItem } from "./types";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 
 interface NoteCardProps {
     note: NoteItem;
@@ -43,28 +44,20 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                         </svg>
                         Edit
                     </button>
-                    {confirmDelete ? (
-                        <div className="note-confirm-delete">
-                            <span>Delete?</span>
-                            <button onClick={() => onDelete(note.id)} className="note-action-btn note-action-confirm">Yes</button>
-                            <button onClick={() => setConfirmDelete(false)} className="note-action-btn note-action-cancel">No</button>
-                        </div>
-                    ) : (
-                        <button
-                            onClick={() => setConfirmDelete(true)}
-                            className="note-action-btn note-action-delete"
-                            title="Delete note"
-                            aria-label="Delete note"
-                        >
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <polyline points="3 6 5 6 21 6" />
-                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                                <path d="M10 11v6M14 11v6" />
-                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                            </svg>
-                            Delete
-                        </button>
-                    )}
+                    <button
+                        onClick={() => setConfirmDelete(true)}
+                        className="note-action-btn note-action-delete"
+                        title="Delete note"
+                        aria-label="Delete note"
+                    >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                        Delete
+                    </button>
                 </div>
             </div>
             <div
@@ -79,7 +72,6 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                 <MarkdownPreview content={note.content} empty="(empty note)" />
             </div>
 
-            {/* ── Click anywhere on fade to expand ── */}
             {collapsed && (
                 <button
                     onClick={() => setCollapsed(false)}
@@ -88,6 +80,14 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                 >
                     click to expand
                 </button>
+            )}
+            {confirmDelete && (
+                <ConfirmDialog
+                    title="Delete this note?"
+                    description="This note will be permanently removed."
+                    onCancel={() => setConfirmDelete(false)}
+                    onConfirm={() => onDelete(note.id)}
+                />
             )}
         </div>
     );

@@ -16,6 +16,7 @@ import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Notes from '../Notes/Notes';
 import { NotesToggleButton } from '../ui/NotesToggleButton';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 
 interface TopicItemProps {
   roadmapId: string;
@@ -37,6 +38,7 @@ export default function TopicItem({
   const dispatch = useAppDispatch();
   const [expansionOverride, setExpansionOverride] = useState<{ key: string; expanded: boolean } | null>(null);
   const [showNotes, setShowNotes] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [addingSubtopic, setAddingSubtopic] = useState(false);
   const [subtopicName, setSubtopicName] = useState('');
   const panelId = `topic-content-${topic.id}`;
@@ -63,6 +65,7 @@ export default function TopicItem({
 
   const deleteTopic = () => {
     dispatch({ type: 'DELETE_TOPIC', payload: { roadmapId, topicId: topic.id } });
+    setConfirmDelete(false);
   };
 
   const addSubtopic = () => {
@@ -173,7 +176,7 @@ export default function TopicItem({
             />
             <button
               type="button"
-              onClick={deleteTopic}
+              onClick={() => setConfirmDelete(true)}
               aria-label={`Delete ${topic.name}`}
               title="Delete module"
               className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-rose-500/10 hover:text-rose-400"
@@ -196,6 +199,14 @@ export default function TopicItem({
             />
           </div>
         </div>
+      )}
+      {confirmDelete && (
+        <ConfirmDialog
+          title={`Delete ${topic.name}?`}
+          description="This module and all of its subtopics, tasks, notes, and progress will be permanently removed."
+          onCancel={() => setConfirmDelete(false)}
+          onConfirm={deleteTopic}
+        />
       )}
 
       {expanded && (

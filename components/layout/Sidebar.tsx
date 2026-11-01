@@ -6,6 +6,7 @@ import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
 import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import { useState } from 'react';
 import { Roadmap } from '@/lib/types';
 
@@ -29,18 +30,12 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
   const state = useAppState();
   const dispatch = useAppDispatch();
   const pathname = usePathname();
-  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [roadmapToDelete, setRoadmapToDelete] = useState<Roadmap | null>(null);
 
-  const handleDelete = (id: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (deleteConfirm === id) {
-      dispatch({ type: 'DELETE_ROADMAP', payload: id });
-      setDeleteConfirm(null);
-    } else {
-      setDeleteConfirm(id);
-      setTimeout(() => setDeleteConfirm(null), 2500);
-    }
+  const confirmDeleteRoadmap = () => {
+    if (!roadmapToDelete) return;
+    dispatch({ type: 'DELETE_ROADMAP', payload: roadmapToDelete.id });
+    setRoadmapToDelete(null);
   };
 
   const sortedRoadmaps = sortRoadmaps(state.roadmaps);
@@ -83,11 +78,13 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
           {roadmap.isPinned ? <Pin size={13} /> : <PinOff size={13} />}
         </button>
         {canDelete && (
-          <button onClick={event => handleDelete(roadmap.id, event)}
-            aria-label={deleteConfirm === roadmap.id ? `Confirm delete ${roadmap.name}` : `Delete ${roadmap.name}`}
-            className={`shrink-0 p-1 rounded transition-colors mt-0.5 ${deleteConfirm === roadmap.id ? 'text-rose-400' : 'opacity-0 group-hover:opacity-60 focus:opacity-100'}`}
-            style={{ color: deleteConfirm === roadmap.id ? undefined : 'var(--text-secondary)' }}
-            title={deleteConfirm === roadmap.id ? 'Click again to confirm' : 'Delete'}>
+          <button
+            type="button"
+            onClick={() => setRoadmapToDelete(roadmap)}
+            aria-label={`Delete ${roadmap.name}`}
+            className="mt-0.5 shrink-0 rounded p-1 opacity-0 transition-colors group-hover:opacity-60 hover:text-rose-400 focus:opacity-100"
+            style={{ color: 'var(--text-secondary)' }}
+            title="Delete roadmap">
             <Trash2 size={12} />
           </button>
         )}
@@ -230,6 +227,14 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
           </button>
         </div>
       </aside>
+      {roadmapToDelete && (
+        <ConfirmDialog
+          title={`Delete ${roadmapToDelete.name}?`}
+          description="This roadmap and all of its topics, tasks, notes, and progress will be permanently removed."
+          onCancel={() => setRoadmapToDelete(null)}
+          onConfirm={confirmDeleteRoadmap}
+        />
+      )}
     </>
   );
 }

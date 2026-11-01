@@ -7,6 +7,7 @@ import { ExternalLink, Trash2 } from 'lucide-react';
 
 import Notes from '../Notes/Notes';
 import { NotesToggleButton } from '../ui/NotesToggleButton';
+import ConfirmDialog from '@/components/ui/ConfirmDialog';
 
 interface ProblemItemProps {
     roadmapId: string;
@@ -18,6 +19,7 @@ interface ProblemItemProps {
 export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }: ProblemItemProps) {
     const dispatch = useAppDispatch();
     const [showNotes, setShowNotes] = useState(false);
+    const [confirmDelete, setConfirmDelete] = useState(false);
 
     const updateProblem = (updates: Partial<Problem>) => {
         dispatch({ type: 'UPDATE_PROBLEM', payload: { roadmapId, topicId, subtopicId, problemId: problem.id, updates } });
@@ -25,6 +27,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }:
 
     const deleteProblem = () => {
         dispatch({ type: 'DELETE_PROBLEM', payload: { roadmapId, topicId, subtopicId, problemId: problem.id } });
+        setConfirmDelete(false);
     };
 
     return (
@@ -79,7 +82,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }:
                     </a>
                 )}
 
-                <button onClick={deleteProblem}
+                <button onClick={() => setConfirmDelete(true)}
                     type="button"
                     aria-label={`Delete ${problem.name}`}
                     title="Delete task"
@@ -100,6 +103,14 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }:
                 </div>
             )}
             </div>
+            {confirmDelete && (
+                <ConfirmDialog
+                    title={`Delete ${problem.name}?`}
+                    description="This task, its notes, and its progress will be permanently removed."
+                    onCancel={() => setConfirmDelete(false)}
+                    onConfirm={deleteProblem}
+                />
+            )}
         </li>
     );
 }
