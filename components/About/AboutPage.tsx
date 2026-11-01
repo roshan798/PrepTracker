@@ -67,7 +67,7 @@ export default function AboutPage() {
       {/* Features */}
       <section style={{ marginBottom: 56 }}>
         <h2 className="section-title" style={{ marginBottom: 20 }}>
-          What's Inside
+          What&apos;s Inside
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
           {FEATURES.map(f => (
