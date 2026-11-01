@@ -107,9 +107,9 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
         data-collapsed={collapsed}
         style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
 
-        <div className={`flex items-center gap-2.5 px-5 py-5 border-b ${collapsed ? 'lg:justify-center lg:px-3' : ''}`} style={{ borderColor: 'var(--border)' }}>
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <div className="flex items-center justify-center w-9 h-9 shrink-0 rounded-xl bg-cyan-500/15 border border-cyan-500/30">
+        <div className={`sidebar-brand-row flex items-center gap-2.5 px-5 py-5 border-b ${collapsed ? 'lg:justify-center lg:px-3' : ''}`} style={{ borderColor: 'var(--border)' }}>
+          <div className="sidebar-brand flex items-center gap-2.5 min-w-0 flex-1">
+            <div className="sidebar-brand-mark flex items-center justify-center w-9 h-9 shrink-0 rounded-xl bg-cyan-500/15 border border-cyan-500/30">
               <Zap size={16} className="text-cyan-400" />
             </div>
             <div className={collapsed ? 'lg:hidden' : ''}>
@@ -126,7 +126,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             onClick={onToggleSidebar}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="hidden lg:flex items-center justify-center w-8 h-8 shrink-0 rounded-lg border transition-colors hover:bg-cyan-500/10"
+            className="sidebar-collapse-toggle hidden lg:flex items-center justify-center w-8 h-8 shrink-0 rounded-lg border transition-colors hover:bg-cyan-500/10"
             style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
             {collapsed ? <PanelLeftOpen size={16} /> : <PanelLeftClose size={16} />}
           </button>
