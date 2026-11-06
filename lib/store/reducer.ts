@@ -2,6 +2,34 @@ import { AppState, Action, Status } from '../types';
 import { PREDEFINED_ROADMAPS } from '@/data/data';
 import { sortRoadmaps } from '../roadmap-utils';
 
+function aggregateStatus(children: readonly { status: Status }[], emptyStatus: Status = 'not-started'): Status {
+  if (children.length === 0) return emptyStatus;
+  const completed = children.filter(child => child.status === 'completed').length;
+  const inProgress = children.filter(child => child.status === 'in-progress').length;
+  return completed === children.length
+    ? 'completed'
+    : completed > 0 || inProgress > 0
+      ? 'in-progress'
+      : 'not-started';
+}
+
+function normalizeProgress(roadmaps: AppState['roadmaps']): AppState['roadmaps'] {
+  return roadmaps.map(roadmap => ({
+    ...roadmap,
+    topics: roadmap.topics.map(topic => {
+      const subtopics = topic.subtopics.map(subtopic => ({
+        ...subtopic,
+        status: aggregateStatus(subtopic.problems, subtopic.status),
+      }));
+      return {
+        ...topic,
+        subtopics,
+        status: aggregateStatus(subtopics, topic.status),
+      };
+    }),
+  }));
+}
+
 function getInitialState(): AppState {
   return {
     roadmaps: PREDEFINED_ROADMAPS,
@@ -16,7 +44,11 @@ function reducer(state: AppState, action: Action): AppState {
 
   switch (action.type) {
     case 'LOAD_STATE':
-      return { ...action.payload, accentPalette: action.payload.accentPalette ?? 'electric' };
+      return {
+        ...action.payload,
+        roadmaps: normalizeProgress(action.payload.roadmaps),
+        accentPalette: action.payload.accentPalette ?? 'electric',
+      };
 
     case 'SET_THEME':
       return { ...state, theme: action.payload, lastUpdated: now };
@@ -108,7 +140,16 @@ function reducer(state: AppState, action: Action): AppState {
             ? {
               ...r,
               topics: r.topics.map(t =>
-                t.id === action.payload.topicId ? { ...t, ...action.payload.updates } : t
+                t.id === action.payload.topicId
+                  ? {
+                    ...t,
+                    ...action.payload.updates,
+                    status: aggregateStatus(
+                      t.subtopics,
+                      action.payload.updates.status ?? t.status
+                    ),
+                  }
+                  : t
               ),
               updatedAt: now,
             }
@@ -137,7 +178,11 @@ function reducer(state: AppState, action: Action): AppState {
               ...r,
               topics: r.topics.map(t =>
                 t.id === action.payload.topicId
-                  ? { ...t, subtopics: [...t.subtopics, action.payload.subtopic] }
+                  ? {
+                    ...t,
+                    subtopics: [...t.subtopics, action.payload.subtopic],
+                    status: aggregateStatus([...t.subtopics, action.payload.subtopic]),
+                  }
                   : t
               ),
               updatedAt: now,
@@ -157,15 +202,18 @@ function reducer(state: AppState, action: Action): AppState {
               topics: r.topics.map(t => {
                 if (t.id !== action.payload.topicId) return t;
                 const updatedSubtopics = t.subtopics.map(s =>
-                  s.id === action.payload.subtopicId ? { ...s, ...action.payload.updates } : s
+                  s.id === action.payload.subtopicId
+                    ? {
+                      ...s,
+                      ...action.payload.updates,
+                      status: aggregateStatus(
+                        s.problems,
+                        action.payload.updates.status ?? s.status
+                      ),
+                    }
+                    : s
                 );
-                const totalS = updatedSubtopics.length;
-                const completedS = updatedSubtopics.filter(s => s.status === 'completed').length;
-                const inProgressS = updatedSubtopics.filter(s => s.status === 'in-progress').length;
-                const topicStatus: Status =
-                  totalS > 0 && completedS === totalS ? 'completed'
-                    : completedS > 0 || inProgressS > 0 ? 'in-progress'
-                      : 'not-started';
+                const topicStatus = aggregateStatus(updatedSubtopics, t.status);
                 return { ...t, subtopics: updatedSubtopics, status: topicStatus };
               }),
               updatedAt: now,
@@ -182,11 +230,15 @@ function reducer(state: AppState, action: Action): AppState {
           r.id === action.payload.roadmapId
             ? {
               ...r,
-              topics: r.topics.map(t =>
-                t.id === action.payload.topicId
-                  ? { ...t, subtopics: t.subtopics.filter(s => s.id !== action.payload.subtopicId) }
-                  : t
-              ),
+              topics: r.topics.map(t => {
+                if (t.id !== action.payload.topicId) return t;
+                const subtopics = t.subtopics.filter(s => s.id !== action.payload.subtopicId);
+                return {
+                  ...t,
+                  subtopics,
+                  status: aggregateStatus(subtopics, t.status),
+                };
+              }),
               updatedAt: now,
             }
             : r
@@ -208,22 +260,10 @@ function reducer(state: AppState, action: Action): AppState {
                   const updatedProblems = s.problems.map(p =>
                     p.id === action.payload.problemId ? { ...p, ...action.payload.updates } : p
                   );
-                  const total = updatedProblems.length;
-                  const completed = updatedProblems.filter(p => p.status === 'completed').length;
-                  const inProgress = updatedProblems.filter(p => p.status === 'in-progress').length;
-                  const subtopicStatus: Status =
-                    total > 0 && completed === total ? 'completed'
-                      : completed > 0 || inProgress > 0 ? 'in-progress'
-                        : 'not-started';
+                  const subtopicStatus = aggregateStatus(updatedProblems, s.status);
                   return { ...s, problems: updatedProblems, status: subtopicStatus };
                 });
-                const totalS = updatedSubtopics.length;
-                const completedS = updatedSubtopics.filter(s => s.status === 'completed').length;
-                const inProgressS = updatedSubtopics.filter(s => s.status === 'in-progress').length;
-                const topicStatus: Status =
-                  totalS > 0 && completedS === totalS ? 'completed'
-                    : completedS > 0 || inProgressS > 0 ? 'in-progress'
-                      : 'not-started';
+                const topicStatus = aggregateStatus(updatedSubtopics, t.status);
                 return { ...t, subtopics: updatedSubtopics, status: topicStatus };
               }),
               updatedAt: now,
@@ -240,18 +280,15 @@ function reducer(state: AppState, action: Action): AppState {
           r.id === action.payload.roadmapId
             ? {
               ...r,
-              topics: r.topics.map(t =>
-                t.id === action.payload.topicId
-                  ? {
-                    ...t,
-                    subtopics: t.subtopics.map(s =>
-                      s.id === action.payload.subtopicId
-                        ? { ...s, problems: [...s.problems, action.payload.problem] }
-                        : s
-                    ),
-                  }
-                  : t
-              ),
+              topics: r.topics.map(t => {
+                if (t.id !== action.payload.topicId) return t;
+                const subtopics = t.subtopics.map(s => {
+                  if (s.id !== action.payload.subtopicId) return s;
+                  const problems = [...s.problems, action.payload.problem];
+                  return { ...s, problems, status: aggregateStatus(problems) };
+                });
+                return { ...t, subtopics, status: aggregateStatus(subtopics, t.status) };
+              }),
               updatedAt: now,
             }
             : r
@@ -266,18 +303,15 @@ function reducer(state: AppState, action: Action): AppState {
           r.id === action.payload.roadmapId
             ? {
               ...r,
-              topics: r.topics.map(t =>
-                t.id === action.payload.topicId
-                  ? {
-                    ...t,
-                    subtopics: t.subtopics.map(s =>
-                      s.id === action.payload.subtopicId
-                        ? { ...s, problems: s.problems.filter(p => p.id !== action.payload.problemId) }
-                        : s
-                    ),
-                  }
-                  : t
-              ),
+              topics: r.topics.map(t => {
+                if (t.id !== action.payload.topicId) return t;
+                const subtopics = t.subtopics.map(s => {
+                  if (s.id !== action.payload.subtopicId) return s;
+                  const problems = s.problems.filter(p => p.id !== action.payload.problemId);
+                  return { ...s, problems, status: aggregateStatus(problems, s.status) };
+                });
+                return { ...t, subtopics, status: aggregateStatus(subtopics, t.status) };
+              }),
               updatedAt: now,
             }
             : r

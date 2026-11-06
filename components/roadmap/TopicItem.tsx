@@ -169,11 +169,13 @@ export default function TopicItem({
               onToggle={() => setShowNotes(!showNotes)}
               label={topic.name}
             />
-            <StatusSelect
-              status={topic.status}
-              onChange={status => updateTopic({ status })}
-              ariaLabel={`Status for ${topic.name}`}
-            />
+            {topic.subtopics.length === 0 && (
+              <StatusSelect
+                status={topic.status}
+                onChange={status => updateTopic({ status })}
+                ariaLabel={`Status for ${topic.name}`}
+              />
+            )}
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}

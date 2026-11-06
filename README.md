@@ -7,12 +7,13 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ 22-module GenAI curriculum with 197 trackable learning tasks and project milestones
 - ✅ Custom roadmap creation
 - ✅ Pin roadmaps and manually reorder them from the dashboard; order is saved locally
-- ✅ Per-topic & per-subtopic status tracking
+- ✅ Leaf-level status tracking with automatic topic and subtopic progress
+- ✅ Resume the last page and scroll position when reopening from the dashboard; explicit links are honored
 - ✅ Notes editor per topic/subtopic
 - ✅ Problem checklist with difficulty badges
 - ✅ Progress bars everywhere
 - ✅ Dark/Light mode toggle
-- ✅ localStorage persistence (auto-save, debounced)
+- ✅ localStorage persistence for roadmap data and last location
 - ✅ Import/Export JSON backup
 - ✅ Filter by status + search
 - ✅ Confetti on 100% completion 🎉

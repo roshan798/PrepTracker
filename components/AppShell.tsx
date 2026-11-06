@@ -29,7 +29,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Header sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto" data-location-scroll-container>
           {children}
         </main>
       </div>

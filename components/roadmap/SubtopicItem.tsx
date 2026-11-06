@@ -122,12 +122,14 @@ export default function SubtopicItem({
               onToggle={() => setShowNotes(!showNotes)}
               label={subtopic.name}
             />
-            <StatusSelect
-              status={subtopic.status}
-              onChange={status => updateSubtopic({ status })}
-              compact
-              ariaLabel={`Status for ${subtopic.name}`}
-            />
+            {subtopic.problems.length === 0 && (
+              <StatusSelect
+                status={subtopic.status}
+                onChange={status => updateSubtopic({ status })}
+                compact
+                ariaLabel={`Status for ${subtopic.name}`}
+              />
+            )}
           </div>
         </div>
       </header>
