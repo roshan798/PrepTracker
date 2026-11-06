@@ -110,7 +110,7 @@ function SetupScreen({ roadmaps, onStart }: {
     <div style={{ maxWidth: 520, margin: '0 auto' }}>
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <div style={{ fontSize: 48, marginBottom: 8 }}>🎯</div>
-        <h2 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)', marginBottom: 10 }}>
+        <h2 className="page-title" style={{ marginBottom: 10 }}>
           Interview Simulation<span className="text-cyan-400">.</span>
         </h2>
         <p style={{ ...monoSm, color: 'var(--text-secondary)' }}>
@@ -537,7 +537,7 @@ export default function InterviewSim() {
       {/* Header */}
       <div className="mb-8">
         <div className="page-kicker mb-2">Practice under pressure</div>
-        <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+        <h1 className="page-title">
           Interview Simulation<span className="text-cyan-400">.</span>
         </h1>
         <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>

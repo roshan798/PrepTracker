@@ -108,7 +108,7 @@ export default function FlashcardDeck() {
             <div className="p-6 max-w-3xl mx-auto">
                 <div className="mb-8">
                     <div className="page-kicker mb-2">Remember what matters</div>
-                    <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+                    <h1 className="page-title">
                         Flashcards<span className="text-cyan-400">.</span>
                     </h1>
                     <p className="mt-2 text-sm mono" style={{ color: 'var(--text-secondary)' }}>

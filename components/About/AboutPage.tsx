@@ -42,7 +42,7 @@ export default function AboutPage() {
       {/* Hero */}
       <div className="about-hero" style={{ textAlign: 'left', marginBottom: 64 }}>
         <div className="page-kicker mb-4">A calmer way to prepare</div>
-        <h1 className="page-title" style={{ fontSize: 'clamp(3rem, 8vw, 6rem)', marginBottom: 18 }}>
+        <h1 className="page-title" style={{ marginBottom: 18 }}>
           PrepTracker<span className="text-cyan-400">.</span>
         </h1>
         <p style={{

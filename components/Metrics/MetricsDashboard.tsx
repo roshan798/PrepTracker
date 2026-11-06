@@ -170,7 +170,7 @@ export default function MetricsDashboard() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <div className="page-kicker mb-2">Your habits, measured</div>
-            <h1 className="page-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            <h1 className="page-title">
               Prep Metrics<span className="text-cyan-400">.</span>
             </h1>
             <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
