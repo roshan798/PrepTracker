@@ -167,9 +167,9 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
 
       <section
         aria-label="Search and filter learning modules"
-        className="surface-card mb-6 space-y-4 rounded-2xl p-4 sm:p-5">
+        className="roadmap-filters surface-card mb-6 space-y-4 rounded-2xl p-4 sm:p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter modules by status">
+          <div className="roadmap-filter-buttons flex flex-wrap items-center gap-2" role="group" aria-label="Filter modules by status">
             {(['all', 'not-started', 'in-progress', 'completed'] as const).map(status => (
               <button
                 key={status}

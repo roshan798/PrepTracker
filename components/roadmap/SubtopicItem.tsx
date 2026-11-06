@@ -82,7 +82,7 @@ export default function SubtopicItem({
     <article
       className="overflow-hidden rounded-xl border transition-colors"
       style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-tertiary)' }}>
-      <header className="flex flex-wrap items-center gap-x-2.5 gap-y-2.5 p-3 sm:px-4">
+      <header className="roadmap-subtopic-header flex flex-wrap items-center gap-x-2.5 gap-y-2.5 p-3 sm:px-4">
         <span
           className="h-2.5 w-2.5 shrink-0 rounded-full"
           aria-hidden="true"
@@ -107,7 +107,7 @@ export default function SubtopicItem({
           {subtopic.name}
         </h4>
 
-        <div className="flex w-full flex-wrap items-center justify-between gap-2 pl-11 sm:w-auto sm:justify-end sm:pl-0">
+        <div className="roadmap-subtopic-controls flex w-full flex-wrap items-center justify-between gap-2 pl-11 sm:w-auto sm:justify-end sm:pl-0">
           {subtopic.problems.length > 0 && (
             <span
               className="mono rounded-full border px-2 py-1 text-[11px]"

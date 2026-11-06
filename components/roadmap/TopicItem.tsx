@@ -102,7 +102,7 @@ export default function TopicItem({
         backgroundColor: 'var(--glass-surface)',
         boxShadow: expanded ? 'var(--surface-shadow), var(--glass-highlight)' : undefined,
       }}>
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-3 p-4 sm:p-5">
+      <header className="roadmap-topic-header flex flex-wrap items-center gap-x-3 gap-y-3 p-4 sm:p-5">
         <button
           type="button"
           onClick={() => setExpansionOverride({ key: expansionKey, expanded: !expanded })}
@@ -147,9 +147,9 @@ export default function TopicItem({
           </div>
         </div>
 
-        <div className="flex w-full flex-wrap items-center justify-between gap-2 pl-12 sm:w-auto sm:justify-end sm:pl-0">
+        <div className="roadmap-topic-controls flex w-full flex-wrap items-center justify-between gap-2 pl-12 sm:w-auto sm:justify-end sm:pl-0">
           {total > 0 && (
-            <div className="flex min-w-20 items-center gap-2 sm:block sm:w-24">
+            <div className="roadmap-topic-progress flex min-w-20 items-center gap-2 sm:block sm:w-24">
               <div className="flex-1 sm:flex-none">
                 <ProgressBar percentage={pct} color={roadmapColor} height="h-1.5" />
               </div>
@@ -174,6 +174,7 @@ export default function TopicItem({
                 status={topic.status}
                 onChange={status => updateTopic({ status })}
                 ariaLabel={`Status for ${topic.name}`}
+                compact
               />
             )}
             <button

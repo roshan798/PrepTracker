@@ -3,6 +3,7 @@ import './css/globals.css';
 import { AppProvider } from '@/lib/store';
 import { Analytics } from '@vercel/analytics/next';
 import LocationPersistence from '@/components/LocationPersistence';
+import RouteProgressBar from '@/components/RouteProgressBar';
 
 export const metadata: Metadata = {
   title: 'PrepTracker — Job Switch Prep',
@@ -21,9 +22,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" data-scroll-behavior="smooth">
       <body>
         <AppProvider>
+          <RouteProgressBar />
           <LocationPersistence />
           {children}
           <Analytics />

@@ -16,6 +16,8 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ localStorage persistence for roadmap data and last location
 - ✅ Import/Export JSON backup
 - ✅ Filter by status + search
+- ✅ Theme-aware gradient route loading indicator
+- ✅ Compact, mobile-optimized roadmap layouts
 - ✅ Confetti on 100% completion 🎉
 - ✅ PWA-ready (installable on mobile)
 - ✅ Mobile responsive

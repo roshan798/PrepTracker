@@ -371,7 +371,7 @@ function ActiveSession({ problems, timeLimit, onFinish }: {
           background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)',
           color: '#f87171', fontFamily: 'JetBrains Mono, monospace', fontSize: 14, fontWeight: 700,
         }}>
-          ✗ Couldn't Solve
+          ✗ Couldn&apos;t Solve
         </button>
         <button onClick={() => markAndNext(true)} style={{
           padding: '16px', borderRadius: 12, cursor: 'pointer',

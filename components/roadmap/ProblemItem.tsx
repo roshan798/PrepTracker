@@ -34,7 +34,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }:
         <li className="list-none">
             <div className="rounded-xl border transition-colors"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 px-2.5 py-2">
+            <div className="roadmap-problem-row flex flex-wrap items-center gap-x-2.5 gap-y-1.5 px-2.5 py-2">
                 <button
                     type="button"
                     role="checkbox"
