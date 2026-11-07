@@ -167,13 +167,13 @@ function SetupScreen({ roadmaps, onStart }: {
       <div style={{ ...cardStyle, marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <div style={{ ...monoXs, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Available problems</div>
-          <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 28, fontWeight: 800, color: 'var(--accent-cyan)' }}>
+          <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 28, fontWeight: 800, color: 'var(--accent-cyan)' }}>
             {availableProblems.length}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
           <div style={{ ...monoXs, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Time per problem</div>
-          <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>
+          <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>
             ~{Math.round(timeLimit / count)}min
           </div>
         </div>
@@ -331,7 +331,7 @@ function ActiveSession({ problems, timeLimit, onFinish }: {
             </a>
           )}
         </div>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.3, marginBottom: 8 }}>
+        <h2 style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.3, marginBottom: 8 }}>
           {problem.name}
         </h2>
         <div style={{ ...monoXs, color: 'rgba(239,68,68,0.7)', marginTop: 12, padding: '8px 12px', borderRadius: 8, background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.15)' }}>
@@ -410,11 +410,11 @@ function ResultsScreen({ result, history, onRetry, onExit }: {
         background: `linear-gradient(135deg, ${grade.color}10, ${grade.color}06)`,
         borderColor: `${grade.color}30`,
       }}>
-        <div style={{ fontSize: 64, fontWeight: 900, fontFamily: 'Syne, sans-serif', color: grade.color, lineHeight: 1 }}>
+        <div style={{ fontSize: 64, fontWeight: 900, fontFamily: 'var(--font-syne), sans-serif', color: grade.color, lineHeight: 1 }}>
           {grade.letter}
         </div>
         <div style={{ ...monoSm, color: grade.color, fontWeight: 700, marginTop: 4 }}>{grade.label}</div>
-        <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', marginTop: 12 }}>
+        <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', marginTop: 12 }}>
           {result.solved}/{result.totalProblems} solved · {score}%
         </div>
         <div style={{ ...monoXs, color: 'var(--text-secondary)', marginTop: 6 }}>
@@ -564,7 +564,7 @@ export default function InterviewSim() {
                       ...cardStyle, padding: '12px 16px',
                       display: 'flex', alignItems: 'center', gap: 12,
                     }}>
-                      <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 22, fontWeight: 900, color, minWidth: 28 }}>
+                      <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 22, fontWeight: 900, color, minWidth: 28 }}>
                         {score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : 'D'}
                       </div>
                       <div className="flex-1 min-w-0">

@@ -133,7 +133,7 @@ export default function TopicItem({
               <h3
                 className={`text-sm font-bold leading-snug sm:text-base ${statusColors[topic.status] || ''}`}
                 style={{
-                  fontFamily: 'Syne, sans-serif',
+                  fontFamily: 'var(--font-syne), sans-serif',
                   color: topic.status !== 'not-started' ? undefined : 'var(--text-primary)',
                 }}>
                 {topic.name}

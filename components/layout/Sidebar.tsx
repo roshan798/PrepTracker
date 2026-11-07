@@ -110,7 +110,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
               <Zap size={16} className="text-cyan-400" />
             </div>
             <div className={collapsed ? 'lg:hidden' : ''}>
-              <div className="font-bold text-sm leading-none" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+              <div className="font-bold text-sm leading-none" style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
                 Prep<span style={{ color: 'var(--accent-cyan)' }}>Tracker</span>
               </div>
               <div className="text-xs mt-0.5 mono" style={{ color: 'var(--text-secondary)' }}>
@@ -183,7 +183,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
 
           {pinned.length > 0 && (
             <div className="pt-3">
-              <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>
+              <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)' }}>
                 Pinned
               </p>
               {pinned.map(roadmap => renderRoadmap(roadmap, roadmap.type === 'custom'))}
@@ -191,7 +191,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
           )}
 
           <div className="pt-3">
-            <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>
+            <p className="px-3 pb-1.5 text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)' }}>
               Predefined
             </p>
             {predefined.map(roadmap => renderRoadmap(roadmap, false))}
@@ -199,17 +199,18 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
 
           <div className="pt-3">
             <div className="flex items-center justify-between px-3 pb-1.5">
-              <p className="text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)', opacity: 0.6 }}>
+              <p className="text-xs font-semibold uppercase tracking-wider mono" style={{ color: 'var(--text-secondary)' }}>
                 Custom
               </p>
               <button onClick={onAddRoadmap}
+                aria-label="Add custom roadmap"
                 className="p-1 rounded-md transition-colors hover:opacity-70"
                 style={{ color: 'var(--text-secondary)' }}>
-                <Plus size={13} />
+                <Plus size={13} aria-hidden="true" />
               </button>
             </div>
             {customCount === 0 && (
-              <p className="px-3 py-2 text-xs italic" style={{ color: 'var(--text-secondary)', opacity: 0.5 }}>
+              <p className="px-3 py-2 text-xs italic" style={{ color: 'var(--text-secondary)' }}>
                 No custom roadmaps yet
               </p>
             )}

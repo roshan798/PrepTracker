@@ -40,7 +40,7 @@ export default function AddTopicModal({ roadmapId, onClose }: AddTopicModalProps
       <div className="rounded-2xl border w-full max-w-sm fade-in"
         style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
         <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border)' }}>
-          <h2 className="font-bold text-lg" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+          <h2 className="font-bold text-lg" style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
             Add Topic
           </h2>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:opacity-70" style={{ color: 'var(--text-secondary)' }}>

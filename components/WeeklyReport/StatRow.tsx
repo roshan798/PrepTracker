@@ -15,7 +15,7 @@ export default function StatRow({ icon, label, value, accent, prev }: {
             }}>{icon}</div>
             <div className="flex-1">
                 <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
-                <div style={{ fontSize: 18, fontWeight: 800, fontFamily: 'Syne, sans-serif', color: accent, lineHeight: 1.2 }}>{value}</div>
+                <div style={{ fontSize: 18, fontWeight: 800, fontFamily: 'var(--font-syne), sans-serif', color: accent, lineHeight: 1.2 }}>{value}</div>
             </div>
         </div>
     );

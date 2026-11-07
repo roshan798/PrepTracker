@@ -154,7 +154,7 @@ export default function WeeklyReport() {
                         {/* Grade */}
                         <div style={{ textAlign: 'center', minWidth: 80 }}>
                             <div style={{
-                                fontSize: 56, fontWeight: 900, fontFamily: 'Syne, sans-serif', lineHeight: 1,
+                                fontSize: 56, fontWeight: 900, fontFamily: 'var(--font-syne), sans-serif', lineHeight: 1,
                                 color: current.goalsRate >= 80 ? '#10b981' : current.goalsRate >= 50 ? '#f59e0b' : '#ef4444',
                             }}>
                                 {current.goalsRate >= 80 ? 'A' : current.goalsRate >= 60 ? 'B' : current.goalsRate >= 40 ? 'C' : 'D'}
@@ -165,7 +165,7 @@ export default function WeeklyReport() {
                         </div>
 
                         <div style={{ flex: 1, minWidth: 200 }}>
-                            <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)', marginBottom: 6 }}>
+                            <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)', marginBottom: 6 }}>
                                 {current.activeDays}/7 active days
                                 {current.dominantMood && <span style={{ marginLeft: 8 }}>{MOOD_EMOJI[current.dominantMood]}</span>}
                             </div>

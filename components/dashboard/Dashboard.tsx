@@ -34,7 +34,7 @@ export default function Dashboard() {
 
   return (
     <div className="page-container p-5 md:p-8 max-w-7xl mx-auto">
-      <div className="dashboard-hero mb-7 fade-in">
+      <div className="dashboard-hero mb-7">
         <div className="dashboard-intro">
           <div className="page-kicker mb-4">Your preparation, in focus</div>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
@@ -87,9 +87,8 @@ export default function Dashboard() {
       </div>
 
       <div className="dashboard-stats grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10">
-        {statCards.map(({ label, value, icon: Icon, color, bg }, i) => (
-          <div key={label} className="dashboard-stat surface-card fade-in p-4 md:p-5"
-            style={{ animationDelay: `${i * 0.07}s` }}>
+        {statCards.map(({ label, value, icon: Icon, color, bg }) => (
+          <div key={label} className="dashboard-stat surface-card p-4 md:p-5">
             <div className="flex items-center justify-between mb-5">
               <span className="page-kicker">{label}</span>
               <span className={`inline-flex p-2 rounded-xl border ${bg}`}>
@@ -114,11 +113,11 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {roadmaps.map((roadmap, i) => {
+        {roadmaps.map(roadmap => {
           const group = roadmap.isPinned ? pinnedRoadmaps : unpinnedRoadmaps;
           const groupIndex = group.findIndex(item => item.id === roadmap.id);
           return (
-          <div key={roadmap.id} className="fade-in" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={roadmap.id}>
             <RoadmapCard
               roadmap={roadmap}
               canMoveUp={groupIndex > 0}

@@ -41,7 +41,7 @@ export default function ConfirmDialog({
           <h2
             id="confirm-dialog-title"
             className="text-lg font-bold"
-            style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+            style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
             {title}
           </h2>
           <p id="confirm-dialog-description" className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>

@@ -77,7 +77,7 @@ export default function AboutPage() {
               transition: 'transform 0.15s, box-shadow 0.15s',
             }}>
               <div style={{ fontSize: 22, marginBottom: 8 }}>{f.icon}</div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
+              <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
                 {f.title}
               </div>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -147,7 +147,7 @@ export default function AboutPage() {
                     border: '1px solid rgba(0,229,255,0.2)', borderRadius: 4,
                     padding: '2px 8px', textTransform: 'uppercase', letterSpacing: '0.06em',
                   }}>Phase {i + 1}</span>
-                  <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>
+                  <span style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>
                     {j.phase}
                   </span>
                 </div>
@@ -162,7 +162,7 @@ export default function AboutPage() {
 
       {/* Design Philosophy */}
       <section style={{ marginBottom: 56 }}>
-        <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
+        <h2 style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 20 }}>
           Design Philosophy
         </h2>
         <div style={{ display: 'grid', gap: 12 }}>
@@ -179,7 +179,7 @@ export default function AboutPage() {
             }}>
               <span style={{ fontSize: 24, flexShrink: 0 }}>{p.icon}</span>
               <div>
-                <div style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>{p.title}</div>
+                <div style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>{p.title}</div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--text-secondary)', lineHeight: 1.6 }}>{p.desc}</div>
               </div>
             </div>

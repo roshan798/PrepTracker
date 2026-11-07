@@ -56,7 +56,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
       <div className="flex items-center justify-center h-full p-8">
         <div className="text-center fade-in">
           <div className="text-5xl mb-4">🔍</div>
-          <h2 className="font-bold text-xl mb-2" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+          <h2 className="font-bold text-xl mb-2" style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
             Roadmap not found
           </h2>
           <p style={{ color: 'var(--text-secondary)' }}>This roadmap may have been deleted.</p>
@@ -99,7 +99,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               <div className="space-y-2">
                 <input value={editName} onChange={e => setEditName(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl border text-lg font-bold"
-                  style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none', fontFamily: 'Syne, sans-serif' }} />
+                  style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none', fontFamily: 'var(--font-syne), sans-serif' }} />
                 <textarea value={editDesc} onChange={e => setEditDesc(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl border text-sm resize-none"
                   rows={2}
@@ -118,7 +118,7 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               <>
                 <div className="flex items-center gap-2">
                   <h1 className={`page-title ${roadmap.type === 'custom' ? 'cursor-pointer hover:opacity-80' : ''}`}
-                    style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
+                    style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}
                     onClick={roadmap.type === 'custom' ? startEditing : undefined}>
                     {roadmap.name}
                   </h1>

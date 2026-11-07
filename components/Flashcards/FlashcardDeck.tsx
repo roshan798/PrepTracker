@@ -147,7 +147,7 @@ export default function FlashcardDeck() {
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         }}>
                             <div>
-                                <div style={{ fontSize: 32, fontWeight: 800, fontFamily: 'Syne, sans-serif', color: 'var(--accent-cyan)' }}>
+                                <div style={{ fontSize: 32, fontWeight: 800, fontFamily: 'var(--font-syne), sans-serif', color: 'var(--accent-cyan)' }}>
                                     {filteredCards.length}
                                 </div>
                                 <div style={{ fontSize: 11, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -193,7 +193,7 @@ export default function FlashcardDeck() {
                 {/* Past sessions */}
                 {results.length > 0 && (
                     <div>
-                        <h3 style={{ fontFamily: 'Syne, sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
+                        <h3 style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
                             Past Sessions
                         </h3>
                         <div className="space-y-2">

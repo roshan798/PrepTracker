@@ -64,7 +64,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
           <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/30">
             <Zap size={15} className="text-cyan-400" />
           </div>
-          <span className="font-bold text-sm hidden sm:block" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+          <span className="font-bold text-sm hidden sm:block" style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
             Prep<span style={{ color: 'var(--accent-cyan)' }}>Tracker</span>
           </span>
         </div>
@@ -99,6 +99,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
             href="https://github.com/roshan798/PrepTracker"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="View PrepTracker on GitHub"
             className="p-2 rounded-lg border transition-all hover:opacity-80 flex items-center justify-center"
             style={{
               borderColor: 'var(--border)',
@@ -108,7 +109,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
             title="View source on GitHub"
           >
             <svg
-              role="img"
+              aria-hidden="true"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
               className="w-4 h-4 flex-shrink-0"
@@ -134,7 +135,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}>
           <div className="glass-dialog rounded-2xl border p-6 max-w-sm w-full fade-in"
             style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
-            <h3 className="font-bold text-lg mb-2" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
+            <h3 className="font-bold text-lg mb-2" style={{ fontFamily: 'var(--font-syne), sans-serif', color: 'var(--text-primary)' }}>
               Import Data
             </h3>
             <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>

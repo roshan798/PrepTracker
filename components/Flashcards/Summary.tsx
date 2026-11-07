@@ -14,7 +14,7 @@ export default function Summary({ known, review, total, duration, onRestart, onE
             <div style={{ fontSize: 48, marginBottom: 12 }}>
                 {pct >= 80 ? '🎉' : pct >= 50 ? '💪' : '📚'}
             </div>
-            <h2 style={{ fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>
+            <h2 style={{ fontFamily: 'var(--font-syne), sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8 }}>
                 Session Complete!
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', fontSize: 12, marginBottom: 32 }}>
@@ -31,7 +31,7 @@ export default function Summary({ known, review, total, duration, onRestart, onE
                         flex: 1, padding: '16px 8px', borderRadius: 12,
                         background: 'var(--bg-tertiary)', border: '1px solid var(--border)',
                     }}>
-                        <div style={{ fontSize: 28, fontWeight: 800, fontFamily: 'Syne, sans-serif', color: s.color }}>{s.value}</div>
+                        <div style={{ fontSize: 28, fontWeight: 800, fontFamily: 'var(--font-syne), sans-serif', color: s.color }}>{s.value}</div>
                         <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'JetBrains Mono, monospace', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</div>
                     </div>
                 ))}

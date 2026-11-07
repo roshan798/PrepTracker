@@ -51,7 +51,7 @@
 .metrics-stat-value {
     font-size: 22px;
     font-weight: 800;
-    font-family: 'Syne', sans-serif;
+    font-family: var(--font-syne), sans-serif;
     letter-spacing: -0.05em;
     line-height: 1.1;
     margin-bottom: 4px;
@@ -138,7 +138,7 @@
 }
 
 .empty-state-title {
-    font-family: 'Syne', sans-serif;
+    font-family: var(--font-syne), sans-serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--text-primary);
@@ -147,7 +147,7 @@
 .empty-state-sub {
     font-size: 13px;
     color: var(--text-secondary);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-dm-sans), sans-serif;
     max-width: 300px;
 }
 

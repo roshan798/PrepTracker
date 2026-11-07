@@ -47,7 +47,7 @@ export default function Card({ card, flipped, onFlip }: { card: Flashcard; flipp
                         {card.roadmapName} · {card.topicName}
                     </div>
                     <div style={{
-                        fontSize: 24, fontWeight: 800, fontFamily: 'Syne, sans-serif',
+                        fontSize: 24, fontWeight: 800, fontFamily: 'var(--font-syne), sans-serif',
                         color: 'var(--text-primary)', lineHeight: 1.3, marginBottom: 20,
                     }}>
                         {card.problemName}
