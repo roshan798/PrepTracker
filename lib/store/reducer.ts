@@ -33,6 +33,7 @@ function normalizeProgress(roadmaps: AppState['roadmaps']): AppState['roadmaps']
 function getInitialState(): AppState {
   return {
     roadmaps: PREDEFINED_ROADMAPS,
+    quickNotes: [],
     theme: 'dark',
     accentPalette: 'electric',
     lastUpdated: new Date().toISOString(),
@@ -47,7 +48,25 @@ function reducer(state: AppState, action: Action): AppState {
       return {
         ...action.payload,
         roadmaps: normalizeProgress(action.payload.roadmaps),
+        quickNotes: action.payload.quickNotes ?? [],
         accentPalette: action.payload.accentPalette ?? 'electric',
+      };
+
+    case 'ADD_QUICK_NOTE':
+      return { ...state, quickNotes: [action.payload, ...state.quickNotes], lastUpdated: now };
+
+    case 'UPDATE_QUICK_NOTE':
+      return {
+        ...state,
+        quickNotes: state.quickNotes.map(note => note.id === action.payload.id ? action.payload : note),
+        lastUpdated: now,
+      };
+
+    case 'DELETE_QUICK_NOTE':
+      return {
+        ...state,
+        quickNotes: state.quickNotes.filter(note => note.id !== action.payload),
+        lastUpdated: now,
       };
 
     case 'SET_THEME':

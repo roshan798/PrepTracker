@@ -65,7 +65,7 @@ export default function LocationPersistence() {
         return;
       }
 
-      if (savedLocation?.pathname === pathname) {
+      if (savedLocation?.pathname === pathname && !window.location.hash) {
         pendingRestoreRef.current = savedLocation;
       }
     }

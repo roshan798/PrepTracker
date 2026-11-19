@@ -1,16 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import MarkdownPreview from "./MarkdownPreview";
-import { useMetrics } from "../Metrics/metricsStore";
 import { patchTodayMetric } from '@/lib/store/metrics';
+
+const toolbarButtons = [
+    { label: 'B', title: 'Bold (Ctrl+B)', before: '**', after: '**', placeholder: 'bold text' },
+    { label: 'I', title: 'Italic (Ctrl+I)', before: '*', after: '*', placeholder: 'italic text' },
+    { label: 'S', title: 'Strikethrough (Ctrl+U)', before: '~~', after: '~~', placeholder: 'strikethrough' },
+    { label: 'H1', title: 'Heading 1 (Ctrl+Shift+H)', before: '# ', after: '', placeholder: 'Heading' },
+    { label: 'H2', title: 'Heading 2', before: '## ', after: '', placeholder: 'Heading' },
+    { label: '`', title: 'Inline code (Ctrl+`)', before: '`', after: '`', placeholder: 'code' },
+    { label: '```', title: 'Code block (Ctrl+Shift+C)', before: '```\n', after: '\n```', placeholder: 'code here' },
+    { label: '>', title: 'Blockquote (Ctrl+Shift+B)', before: '> ', after: '', placeholder: 'quote' },
+    { label: '—', title: 'Horizontal rule', before: '\n---\n', after: '' },
+    { label: '•', title: 'Bullet list', before: '- ', after: '', placeholder: 'list item' },
+    { label: '1.', title: 'Numbered list', before: '1. ', after: '', placeholder: 'list item' },
+    { label: '🔗', title: 'Link (Ctrl+K)', before: '[', after: '](url)', placeholder: 'link text' },
+];
+
 interface NoteEditorProps {
     initialValue?: string;
     placeholder?: string;
     onSave: (content: string) => void;
     onCancel: () => void;
+    onDraftChange?: (content: string) => void;
     isEdit?: boolean;
 }
 
-export default function NoteEditor({ initialValue = '', placeholder, onSave, onCancel, isEdit }: NoteEditorProps) {
+export default function NoteEditor({ initialValue = '', placeholder, onSave, onCancel, onDraftChange, isEdit }: NoteEditorProps) {
     const [text, setText] = useState(initialValue);
     const [tab, setTab] = useState<'write' | 'preview'>('write');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,27 +60,13 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
         const selected = text.slice(start, end) || placeholder;
         const newText = text.slice(0, start) + before + selected + after + text.slice(end);
         setText(newText);
+        onDraftChange?.(newText);
         setTimeout(() => {
             const cursor = start + before.length + selected.length;
             el.setSelectionRange(cursor, cursor);
             el.focus();
         }, 0);
     };
-
-    const toolbarButtons = [
-        { label: 'B', title: 'Bold (Ctrl+B)', action: () => insertSyntax('**', '**', 'bold text') },
-        { label: 'I', title: 'Italic (Ctrl+I)', action: () => insertSyntax('*', '*', 'italic text') },
-        { label: 'S', title: 'Strikethrough (Ctrl+U)', action: () => insertSyntax('~~', '~~', 'strikethrough') },
-        { label: 'H1', title: 'Heading 1 (Ctrl+Shift+H)', action: () => insertSyntax('# ', '', 'Heading') },
-        { label: 'H2', title: 'Heading 2', action: () => insertSyntax('## ', '', 'Heading') },
-        { label: '`', title: 'Inline code (Ctrl+`)', action: () => insertSyntax('`', '`', 'code') },
-        { label: '```', title: 'Code block (Ctrl+Shift+C)', action: () => insertSyntax('```\n', '\n```', 'code here') },
-        { label: '>', title: 'Blockquote (Ctrl+Shift+B)', action: () => insertSyntax('> ', '', 'quote') },
-        { label: '—', title: 'Horizontal rule', action: () => insertSyntax('\n---\n', '') },
-        { label: '•', title: 'Bullet list', action: () => insertSyntax('- ', '', 'list item') },
-        { label: '1.', title: 'Numbered list', action: () => insertSyntax('1. ', '', 'list item') },
-        { label: '🔗', title: 'Link (Ctrl+K)', action: () => insertSyntax('[', '](url)', 'link text') },
-    ];
 
     return (
         <div className="note-editor">
@@ -73,7 +75,7 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
                 {toolbarButtons.map((btn) => (
                     <div key={btn.label} className="note-toolbar-wrap">
                         <button
-                            onClick={btn.action}
+                            onClick={() => insertSyntax(btn.before, btn.after, btn.placeholder)}
                             className="note-toolbar-btn"
                             type="button"
                         >
@@ -100,7 +102,10 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
                 <textarea
                     ref={textareaRef}
                     value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    onChange={(e) => {
+                        setText(e.target.value);
+                        onDraftChange?.(e.target.value);
+                    }}
                     placeholder={placeholder ?? '# Your note\n\nSupports **Markdown** — headings, lists, `code`, and more…'}
                     className="note-editor-textarea"
                     rows={8}

@@ -43,6 +43,12 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
   const [filterStatus, setFilterStatus] = useState<RoadmapStatusFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [resumeLocation, setResumeLocation] = useState<ActiveProblemLocation | null>(null);
+  const [hashLocation, setHashLocation] = useState<{
+    anchor: string;
+    topicId: string;
+    subtopicId?: string;
+    problemId?: string;
+  } | null>(null);
 
   const stats = roadmap ? getRoadmapStats(roadmap) : null;
 
@@ -67,6 +73,64 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
     });
     return () => cancelAnimationFrame(frame);
   }, [roadmap, roadmapId]);
+
+  useEffect(() => {
+    if (!roadmap) return;
+
+    const updateHashLocation = () => {
+      const rawAnchor = window.location.hash.slice(1);
+      if (!rawAnchor) {
+        setHashLocation(null);
+        return;
+      }
+
+      let anchor = rawAnchor;
+      try {
+        anchor = decodeURIComponent(rawAnchor);
+      } catch {
+        setHashLocation(null);
+        return;
+      }
+
+      const topic = roadmap.topics.find(item =>
+        anchor === `topic-content-${item.id}` ||
+        item.subtopics.some(subtopic =>
+          anchor === `subtopic-content-${subtopic.id}` ||
+          subtopic.problems.some(problem => anchor === `problem-${problem.id}`)
+        )
+      );
+      if (!topic) {
+        setHashLocation(null);
+        return;
+      }
+
+      const subtopic = topic.subtopics.find(item =>
+        anchor === `subtopic-content-${item.id}` ||
+        item.problems.some(problem => anchor === `problem-${problem.id}`)
+      );
+      const problem = subtopic?.problems.find(item => anchor === `problem-${item.id}`);
+      setHashLocation({
+        anchor,
+        topicId: topic.id,
+        subtopicId: subtopic?.id,
+        problemId: problem?.id,
+      });
+    };
+
+    updateHashLocation();
+    window.addEventListener('hashchange', updateHashLocation);
+    return () => window.removeEventListener('hashchange', updateHashLocation);
+  }, [roadmap]);
+
+  useEffect(() => {
+    if (!hashLocation) return;
+    const frame = requestAnimationFrame(() => {
+      const target = document.getElementById(hashLocation.anchor);
+      if (!target) return;
+      target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hashLocation]);
 
   useEffect(() => {
     if (stats && stats.percentage === 100 && prevPct < 100) {
@@ -282,15 +346,22 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               topicIndex={roadmap.topics.indexOf(topic)}
               searchTerm={searchTerm}
               filterStatus={filterStatus}
-              resumeTopic={resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id}
+              resumeTopic={
+                (resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id) ||
+                hashLocation?.topicId === topic.id
+              }
               resumeSubtopicId={
-                resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
-                  ? resumeLocation.subtopicId
+                hashLocation?.topicId === topic.id
+                  ? hashLocation.subtopicId
+                  : resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
+                    ? resumeLocation.subtopicId
                   : undefined
               }
               resumeProblemId={
-                resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
-                  ? resumeLocation.problemId
+                hashLocation?.topicId === topic.id
+                  ? hashLocation.problemId
+                  : resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
+                    ? resumeLocation.problemId
                   : undefined
               }
             />

@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppState } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
-import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette } from 'lucide-react';
+import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette, FileText } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import { useState } from 'react';
@@ -145,6 +145,14 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             style={{ color: pathname === '/flashcards' ? undefined : 'var(--text-secondary)' }}>
             <span aria-hidden="true">🃏</span>
             <span className={collapsed ? 'lg:hidden' : ''}>Flashcards</span>
+          </Link>
+          <Link href="/notes" onClick={onClose}
+            title={collapsed ? 'Quick Notes' : undefined}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+              ${pathname === '/notes' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/notes' ? undefined : 'var(--text-secondary)' }}>
+            <FileText size={15} />
+            <span className={collapsed ? 'lg:hidden' : ''}>Quick Notes</span>
           </Link>
           <Link href="/weekly-report" onClick={onClose}
             title={collapsed ? 'Weekly Report' : undefined}

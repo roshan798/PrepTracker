@@ -43,6 +43,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
     return (
         <li
             ref={problemRef}
+            id={`problem-${problem.id}`}
             className="list-none"
             data-resume-problem={problem.id}
             data-roadmap-id={roadmapId}

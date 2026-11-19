@@ -56,8 +56,26 @@ export interface Roadmap {
   updatedAt: string;
 }
 
+export interface StudyReference {
+  roadmapId: string;
+  topicId?: string;
+  subtopicId?: string;
+  problemId?: string;
+}
+
+export interface QuickNote {
+  id: string;
+  title: string;
+  content: string;
+  tags: string[];
+  reference?: StudyReference;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AppState {
   roadmaps: Roadmap[];
+  quickNotes: QuickNote[];
   theme: Theme;
   accentPalette: AccentPalette;
   lastUpdated: string;
@@ -67,6 +85,9 @@ export type Action =
   | { type: 'SET_THEME'; payload: Theme }
   | { type: 'SET_ACCENT_PALETTE'; payload: AccentPalette }
   | { type: 'LOAD_STATE'; payload: AppState }
+  | { type: 'ADD_QUICK_NOTE'; payload: QuickNote }
+  | { type: 'UPDATE_QUICK_NOTE'; payload: QuickNote }
+  | { type: 'DELETE_QUICK_NOTE'; payload: string }
   | { type: 'ADD_ROADMAP'; payload: Roadmap }
   | { type: 'DELETE_ROADMAP'; payload: string }
   | { type: 'TOGGLE_ROADMAP_PIN'; payload: string }

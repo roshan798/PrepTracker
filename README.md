@@ -10,6 +10,8 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Leaf-level status tracking with automatic topic and subtopic progress
 - ✅ Resume the last page and scroll position when reopening from the dashboard; explicit links are honored
 - ✅ Notes editor per topic/subtopic
+- ✅ Quick notes with a floating Markdown capture editor, tags, and roadmap links
+- ✅ Searchable Notes page with tag and study-item filters
 - ✅ Problem checklist with difficulty badges
 - ✅ Progress bars everywhere
 - ✅ Dark/Light mode toggle
