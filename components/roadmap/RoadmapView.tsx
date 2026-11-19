@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRoadmap, useAppDispatch } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { RoadmapStatusFilter, topicMatchesFilter } from '@/lib/roadmap-filter';
+import { readSavedLocation } from '@/lib/location-persistence';
+import type { ActiveProblemLocation } from '@/lib/location-persistence';
 import TopicItem from './TopicItem';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Confetti from '@/components/ui/Confetti';
@@ -40,8 +42,31 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
   const [editDesc, setEditDesc] = useState('');
   const [filterStatus, setFilterStatus] = useState<RoadmapStatusFilter>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [resumeLocation, setResumeLocation] = useState<ActiveProblemLocation | null>(null);
 
   const stats = roadmap ? getRoadmapStats(roadmap) : null;
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      let restoredLocation: ActiveProblemLocation | null = null;
+      if (roadmap) {
+        const savedLocation = readSavedLocation();
+        const activeProblem = savedLocation?.activeProblem;
+        if (
+          savedLocation?.pathname === `/roadmaps/${roadmapId}` &&
+          activeProblem?.roadmapId === roadmapId
+        ) {
+          const topic = roadmap.topics.find(item => item.id === activeProblem.topicId);
+          const subtopic = topic?.subtopics.find(item => item.id === activeProblem.subtopicId);
+          if (subtopic?.problems.some(item => item.id === activeProblem.problemId)) {
+            restoredLocation = activeProblem;
+          }
+        }
+      }
+      setResumeLocation(restoredLocation);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [roadmap, roadmapId]);
 
   useEffect(() => {
     if (stats && stats.percentage === 100 && prevPct < 100) {
@@ -257,6 +282,17 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
               topicIndex={roadmap.topics.indexOf(topic)}
               searchTerm={searchTerm}
               filterStatus={filterStatus}
+              resumeTopic={resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id}
+              resumeSubtopicId={
+                resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
+                  ? resumeLocation.subtopicId
+                  : undefined
+              }
+              resumeProblemId={
+                resumeLocation?.roadmapId === roadmap.id && resumeLocation.topicId === topic.id
+                  ? resumeLocation.problemId
+                  : undefined
+              }
             />
           </div>
         ))}

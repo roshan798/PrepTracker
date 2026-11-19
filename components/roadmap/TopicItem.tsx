@@ -25,6 +25,9 @@ interface TopicItemProps {
   topicIndex: number;
   searchTerm: string;
   filterStatus: RoadmapStatusFilter;
+  resumeTopic: boolean;
+  resumeSubtopicId?: string;
+  resumeProblemId?: string;
 }
 
 export default function TopicItem({
@@ -34,6 +37,9 @@ export default function TopicItem({
   topicIndex,
   searchTerm,
   filterStatus,
+  resumeTopic,
+  resumeSubtopicId,
+  resumeProblemId,
 }: TopicItemProps) {
   const dispatch = useAppDispatch();
   const [expansionOverride, setExpansionOverride] = useState<{ key: string; expanded: boolean } | null>(null);
@@ -57,7 +63,7 @@ export default function TopicItem({
   ) || (matchingSubtopics.length > 0 && !topicMatches);
   const expanded = expansionOverride?.key === expansionKey
     ? expansionOverride.expanded
-    : autoExpand;
+    : resumeTopic || autoExpand;
 
   const updateTopic = useCallback((updates: Partial<Topic>) => {
     dispatch({ type: 'UPDATE_TOPIC', payload: { roadmapId, topicId: topic.id, updates } });
@@ -228,6 +234,8 @@ export default function TopicItem({
                 searchTerm={searchTerm}
                 filterStatus={filterStatus}
                 revealAllProblems={topicMatches}
+                resumeExpanded={subtopic.id === resumeSubtopicId}
+                resumeProblemId={subtopic.id === resumeSubtopicId ? resumeProblemId : undefined}
               />
             ))}
           </div>

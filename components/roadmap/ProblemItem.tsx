@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/lib/store';
 import { Problem } from '@/lib/types';
 import { getDifficultyColor } from '@/lib/utils';
@@ -14,12 +14,22 @@ interface ProblemItemProps {
     topicId: string;
     subtopicId: string;
     problem: Problem;
+    resume: boolean;
 }
 
-export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }: ProblemItemProps) {
+export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, resume }: ProblemItemProps) {
     const dispatch = useAppDispatch();
+    const problemRef = useRef<HTMLLIElement>(null);
     const [showNotes, setShowNotes] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
+
+    useEffect(() => {
+        if (!resume) return;
+        const frame = requestAnimationFrame(() => {
+            problemRef.current?.scrollIntoView({ block: 'center', behavior: 'auto' });
+        });
+        return () => cancelAnimationFrame(frame);
+    }, [resume]);
 
     const updateProblem = (updates: Partial<Problem>) => {
         dispatch({ type: 'UPDATE_PROBLEM', payload: { roadmapId, topicId, subtopicId, problemId: problem.id, updates } });
@@ -31,7 +41,13 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem }:
     };
 
     return (
-        <li className="list-none">
+        <li
+            ref={problemRef}
+            className="list-none"
+            data-resume-problem={problem.id}
+            data-roadmap-id={roadmapId}
+            data-topic-id={topicId}
+            data-subtopic-id={subtopicId}>
             <div className="rounded-xl border transition-colors"
                 style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border)' }}>
             <div className="roadmap-problem-row flex flex-wrap items-center gap-x-2.5 gap-y-1.5 px-2.5 py-2">

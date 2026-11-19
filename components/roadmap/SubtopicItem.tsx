@@ -23,6 +23,8 @@ interface SubtopicItemProps {
   searchTerm: string;
   filterStatus: RoadmapStatusFilter;
   revealAllProblems: boolean;
+  resumeExpanded: boolean;
+  resumeProblemId?: string;
 }
 
 export default function SubtopicItem({
@@ -32,6 +34,8 @@ export default function SubtopicItem({
   searchTerm,
   filterStatus,
   revealAllProblems,
+  resumeExpanded,
+  resumeProblemId,
 }: SubtopicItemProps) {
   const dispatch = useAppDispatch();
   const [expansionOverride, setExpansionOverride] = useState<{ key: string; expanded: boolean } | null>(null);
@@ -52,7 +56,7 @@ export default function SubtopicItem({
   const autoExpand = hasActiveFilter && !revealAll && matchingProblems.length > 0;
   const expanded = expansionOverride?.key === expansionKey
     ? expansionOverride.expanded
-    : autoExpand;
+    : resumeExpanded || autoExpand;
 
   const updateSubtopic = useCallback((updates: Partial<Subtopic>) => {
     dispatch({ type: 'UPDATE_SUBTOPIC', payload: { roadmapId, topicId, subtopicId: subtopic.id, updates } });
@@ -159,6 +163,7 @@ export default function SubtopicItem({
                 topicId={topicId}
                 subtopicId={subtopic.id}
                 problem={problem}
+                resume={problem.id === resumeProblemId}
               />
             ))}
           </ul>

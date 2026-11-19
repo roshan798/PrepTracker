@@ -2,43 +2,15 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
-
-const STORAGE_KEY = 'prepTrackerLastLocation';
-
-interface SavedLocation {
-  pathname: string;
-  scrollTop: number;
-}
+import {
+  getVisibleProblemLocation,
+  readSavedLocation,
+  saveLocation,
+} from '@/lib/location-persistence';
+import type { SavedLocation } from '@/lib/location-persistence';
 
 function getScrollContainer() {
   return document.querySelector<HTMLElement>('[data-location-scroll-container]');
-}
-
-function readSavedLocation(): SavedLocation | null {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (!stored) return null;
-
-    const parsed: unknown = JSON.parse(stored);
-    if (
-      typeof parsed !== 'object' ||
-      parsed === null ||
-      !('pathname' in parsed) ||
-      typeof parsed.pathname !== 'string' ||
-      !parsed.pathname.startsWith('/') ||
-      parsed.pathname.startsWith('//') ||
-      !('scrollTop' in parsed) ||
-      typeof parsed.scrollTop !== 'number' ||
-      !Number.isFinite(parsed.scrollTop)
-    ) {
-      throw new Error('Saved location has an invalid format');
-    }
-
-    return { pathname: parsed.pathname, scrollTop: parsed.scrollTop };
-  } catch (error) {
-    console.error('Failed to read saved location:', error);
-    return null;
-  }
 }
 
 export default function LocationPersistence() {
@@ -57,11 +29,11 @@ export default function LocationPersistence() {
         pathname: pathnameRef.current,
         scrollTop: getScrollContainer()?.scrollTop ?? window.scrollY,
       };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(location));
-      } catch (error) {
-        console.error('Failed to save location:', error);
+      const container = getScrollContainer();
+      if (container && pathnameRef.current.startsWith('/roadmaps/')) {
+        location.activeProblem = getVisibleProblemLocation(container);
       }
+      saveLocation(location);
     };
 
     const handleScroll = () => {
@@ -104,7 +76,11 @@ export default function LocationPersistence() {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const container = getScrollContainer();
-            if (container) container.scrollTop = pendingRestore.scrollTop;
+            if (container) {
+              container.scrollTop = pathname.startsWith('/roadmaps/')
+                ? 0
+                : pendingRestore.scrollTop;
+            }
             pendingRestoreRef.current = null;
           });
         });
@@ -112,17 +88,17 @@ export default function LocationPersistence() {
       return;
     }
 
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({
-          pathname,
-          scrollTop: getScrollContainer()?.scrollTop ?? window.scrollY,
-        })
-      );
-    } catch (error) {
-      console.error('Failed to save location:', error);
+    const container = getScrollContainer();
+    const location: SavedLocation = {
+      pathname,
+      scrollTop: pathname.startsWith('/roadmaps/')
+        ? 0
+        : container?.scrollTop ?? window.scrollY,
+    };
+    if (container && pathname.startsWith('/roadmaps/')) {
+      location.activeProblem = getVisibleProblemLocation(container);
     }
+    saveLocation(location);
   }, [pathname, router]);
 
   return null;
