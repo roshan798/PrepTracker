@@ -4,11 +4,12 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppState } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
-import { Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette, FileText } from 'lucide-react';
+import { CalendarClock, Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette, FileText } from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import { useState } from 'react';
 import { Roadmap } from '@/lib/types';
+import { getDueReviews } from '@/lib/spaced-repetition';
 
 interface SidebarProps {
   open: boolean;
@@ -39,6 +40,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
   };
 
   const sortedRoadmaps = sortRoadmaps(state.roadmaps);
+  const dueReviewCount = getDueReviews(sortedRoadmaps).length;
   const pinned = sortedRoadmaps.filter(roadmap => roadmap.isPinned === true);
   const predefined = sortedRoadmaps.filter(roadmap => roadmap.type === 'predefined' && !roadmap.isPinned);
   const custom = sortedRoadmaps.filter(roadmap => roadmap.type === 'custom' && !roadmap.isPinned);
@@ -145,6 +147,20 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             style={{ color: pathname === '/flashcards' ? undefined : 'var(--text-secondary)' }}>
             <span aria-hidden="true">🃏</span>
             <span className={collapsed ? 'lg:hidden' : ''}>Flashcards</span>
+          </Link>
+          <Link href="/review" onClick={onClose}
+            title={collapsed ? 'Review Queue' : undefined}
+            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+              ${pathname === '/review' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
+            style={{ color: pathname === '/review' ? undefined : 'var(--text-secondary)' }}>
+            <CalendarClock size={15} />
+            <span className={collapsed ? 'lg:hidden' : ''}>Review Queue</span>
+            {dueReviewCount > 0 && (
+              <span className="ml-auto rounded-full px-1.5 py-0.5 text-[10px] font-bold"
+                style={{ backgroundColor: 'color-mix(in srgb, var(--accent-cyan) 14%, transparent)', color: 'var(--accent-cyan)' }}>
+                {dueReviewCount}
+              </span>
+            )}
           </Link>
           <Link href="/notes" onClick={onClose}
             title={collapsed ? 'Quick Notes' : undefined}

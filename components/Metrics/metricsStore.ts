@@ -89,6 +89,53 @@ export function useMetrics() {
     saveLog(updated);
   }, [getTodayLog, saveLog]);
 
+  const recordStudySession = useCallback((durationMinutes: number, startTime: string, topic: string) => {
+    if (!Number.isInteger(durationMinutes) || durationMinutes <= 0) {
+      throw new RangeError('Study session duration must be a positive whole number of minutes.');
+    }
+
+    let latestState: MetricsState;
+    try {
+      const raw = localStorage.getItem(METRICS_KEY);
+      latestState = raw ? JSON.parse(raw) as MetricsState : state;
+    } catch (error) {
+      throw new Error('Unable to read study metrics before recording the focus session.', { cause: error });
+    }
+    if (!Array.isArray(latestState.dailyLogs)) {
+      throw new Error('Study metrics are in an invalid format; the focus session was not recorded.');
+    }
+
+    const today = todayStr();
+    const existing = latestState.dailyLogs.find(log => log.date === today);
+    const todayLog = existing ?? emptyMetric(today);
+    const endedAt = new Date().toISOString();
+    const session: StudySession = {
+      id: genId(),
+      startTime,
+      endTime: endedAt,
+      durationMinutes,
+      topic,
+    };
+    const updated: DailyMetric = {
+      ...todayLog,
+      totalStudyTime: todayLog.totalStudyTime + durationMinutes,
+      sessions: [...(todayLog.sessions ?? []), session],
+    };
+    const next: MetricsState = {
+      ...latestState,
+      dailyLogs: existing
+        ? latestState.dailyLogs.map(log => log.id === existing.id ? updated : log)
+        : [...latestState.dailyLogs, updated],
+    };
+
+    try {
+      localStorage.setItem(METRICS_KEY, JSON.stringify(next));
+    } catch (error) {
+      throw new Error('Unable to save the completed focus session to study metrics.', { cause: error });
+    }
+    setState(next);
+  }, [state]);
+
   // ── Export ────────────────────────────────────────────────────────────────
   const exportCSV = useCallback(() => {
     const headers = ['date', 'studyMinutes', 'notes', 'confidence', 'mood', 'goalsCompleted', 'goalsTotal'];
@@ -111,6 +158,7 @@ export function useMetrics() {
     startSession,
     stopSession,
     recordNoteCreated,
+    recordStudySession,
     exportCSV,
   };
 }

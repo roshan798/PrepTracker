@@ -30,6 +30,14 @@ export function mergePredefinedWithSaved(saved: Roadmap[]): Roadmap[] {
             ...freshProb,           // fresh metadata (name, url, difficulty)
             status: savedProb.status,
             notes: savedProb.notes,
+            reviewDueAt: savedProb.reviewDueAt,
+            reviewIntervalDays: savedProb.reviewIntervalDays,
+            reviewCount: savedProb.reviewCount,
+            lastReviewedAt: savedProb.lastReviewedAt,
+            solutionCode: savedProb.solutionCode,
+            solutionLanguage: savedProb.solutionLanguage,
+            timeComplexity: savedProb.timeComplexity,
+            spaceComplexity: savedProb.spaceComplexity,
           };
         });
 

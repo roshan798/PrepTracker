@@ -5,6 +5,7 @@ import { AppProvider } from '@/lib/store';
 import { Analytics } from '@vercel/analytics/next';
 import LocationPersistence from '@/components/LocationPersistence';
 import RouteProgressBar from '@/components/RouteProgressBar';
+import PomodoroTimer from '@/components/ui/PomodoroTimer';
 import { DM_Sans, JetBrains_Mono, Syne } from 'next/font/google';
 
 const dmSans = DM_Sans({
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RouteProgressBar />
           <LocationPersistence />
           {children}
+          <PomodoroTimer />
           <Analytics />
         </AppProvider>
       </body>

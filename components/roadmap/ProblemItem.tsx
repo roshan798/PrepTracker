@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@/lib/store';
 import { Problem } from '@/lib/types';
 import { getDifficultyColor } from '@/lib/utils';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import { CalendarClock, CalendarPlus, Code2, ExternalLink, Trash2 } from 'lucide-react';
+import { dateKey, getInitialReviewSchedule } from '@/lib/spaced-repetition';
 
 import Notes from '../Notes/Notes';
 import { NotesToggleButton } from '../ui/NotesToggleButton';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import ProblemWorkspace from './ProblemWorkspace';
 
 interface ProblemItemProps {
     roadmapId: string;
@@ -21,6 +23,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
     const dispatch = useAppDispatch();
     const problemRef = useRef<HTMLLIElement>(null);
     const [showNotes, setShowNotes] = useState(false);
+    const [showWorkspace, setShowWorkspace] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     useEffect(() => {
@@ -40,6 +43,17 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
         setConfirmDelete(false);
     };
 
+    const markComplete = () => {
+        if (problem.status === 'completed') {
+            updateProblem({ status: 'not-started' });
+            return;
+        }
+        updateProblem({
+            status: 'completed',
+            ...(problem.reviewDueAt ? {} : getInitialReviewSchedule()),
+        });
+    };
+
     return (
         <li
             ref={problemRef}
@@ -57,7 +71,7 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
                     role="checkbox"
                     aria-checked={problem.status === 'completed'}
                     aria-label={`Mark ${problem.name} ${problem.status === 'completed' ? 'incomplete' : 'complete'}`}
-                    onClick={() => updateProblem({ status: problem.status === 'completed' ? 'not-started' : 'completed' })}
+                    onClick={markComplete}
                     className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition-all
                 ${problem.status === 'completed' ? 'bg-emerald-500 border-emerald-500' : 'border-slate-500 hover:border-emerald-500'}`}>
                     {problem.status === 'completed' && (
@@ -76,6 +90,19 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
                 </span>
 
                 <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-1 pl-7 sm:w-auto sm:pl-0">
+                {problem.status === 'completed' && problem.reviewDueAt ? (
+                    <span className={`review-schedule-badge ${problem.reviewDueAt <= dateKey() ? 'due' : ''}`}
+                        title={`Next review: ${problem.reviewDueAt}`}>
+                        <CalendarClock size={12} />
+                        {problem.reviewDueAt <= dateKey() ? 'Review due' : `Review ${problem.reviewDueAt}`}
+                    </span>
+                ) : problem.status === 'completed' ? (
+                    <button type="button" onClick={() => updateProblem(getInitialReviewSchedule())}
+                        className="review-schedule-action" aria-label={`Add ${problem.name} to review schedule`}>
+                        <CalendarPlus size={13} />
+                        Review in 3 days
+                    </button>
+                ) : null}
                 <span
                     aria-label={`${problem.difficulty} difficulty`}
                     className={`text-[11px] px-2 py-1 rounded-lg border mono shrink-0 ${getDifficultyColor(problem.difficulty)}`}
@@ -85,10 +112,29 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
 
                 <NotesToggleButton
                     value={problem.notes}
-                    showNotes={showNotes}
-                    onToggle={() => setShowNotes(!showNotes)}
+                    showNotes={showNotes || showWorkspace}
+                    onToggle={() => {
+                        if (showWorkspace) {
+                            setShowWorkspace(false);
+                            setShowNotes(true);
+                        } else {
+                            setShowNotes(value => !value);
+                        }
+                    }}
                     label={problem.name}
                 />
+
+                <button type="button" onClick={() => {
+                    setShowWorkspace(value => !value);
+                    setShowNotes(false);
+                }}
+                    aria-label={`${showWorkspace ? 'Close' : 'Open'} code workspace for ${problem.name}`}
+                    aria-expanded={showWorkspace}
+                    title={showWorkspace ? 'Close code workspace' : 'Open code workspace'}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg border transition-colors ${showWorkspace ? 'border-violet-500/40 bg-violet-500/10 text-violet-400' : 'border-transparent hover:bg-violet-500/10'}`}
+                    style={{ color: showWorkspace ? undefined : 'var(--text-secondary)' }}>
+                    <Code2 size={14} />
+                </button>
 
                 {problem.url && (
                     <a href={problem.url} target="_blank" rel="noopener noreferrer"
@@ -109,7 +155,12 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
                 </button>
                 </div>
             </div>
-            {showNotes && (
+            {showWorkspace && (
+                <div className="px-3 pb-3">
+                    <ProblemWorkspace problem={problem} onChange={updateProblem} />
+                </div>
+            )}
+            {showNotes && !showWorkspace && (
                 <div className="px-3 pb-2">
                     <Notes
                         value={problem.notes}

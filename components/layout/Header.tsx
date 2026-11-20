@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import Toast from '@/components/ui/Toast';
 import { AppState } from '@/lib/types';
 import Link from 'next/link';
+import GamificationStatus from '@/components/ui/GamificationStatus';
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -69,6 +70,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
           </span>
         </div>
 
+        <GamificationStatus compact />
         <Link
           title='Metrics page'
           href="/metrics"

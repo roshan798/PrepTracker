@@ -6,6 +6,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import Header from '@/components/layout/Header';
 import AddRoadmapModal from '@/components/modals/AddRoadmapModal';
 import QuickNoteEditor from '@/components/QuickNotes/QuickNoteEditor';
+import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { useAppDispatch } from '@/lib/store';
 import { StudyReference } from '@/lib/types';
 
@@ -41,16 +42,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         <Header sidebarOpen={sidebarOpen} onToggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-y-auto" data-location-scroll-container>
+        <main className="app-main-mobile flex-1 overflow-y-auto" data-location-scroll-container>
           {children}
         </main>
       </div>
 
+      <MobileBottomNav onAddRoadmap={() => setShowAddRoadmap(true)} />
       {showAddRoadmap && <AddRoadmapModal onClose={() => setShowAddRoadmap(false)} />}
       <button
         type="button"
         onClick={() => setShowQuickNote(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-cyan-500 px-5 font-semibold text-gray-950 shadow-xl shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:bottom-7 sm:right-7"
+        className="quick-note-fab fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-cyan-500 px-5 font-semibold text-gray-950 shadow-xl shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:bottom-7 sm:right-7"
         aria-label="Create a quick note">
         <PenLine size={18} />
         <span className="text-sm">Quick note</span>

@@ -4,12 +4,15 @@ import { useAppDispatch, useAppState } from '@/lib/store';
 import RoadmapCard from './RoadmapCard';
 import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
-import { ArrowRight, Target, TrendingUp, Award, Flame } from 'lucide-react';
+import { ArrowRight, CalendarClock, Target, TrendingUp, Award, Flame } from 'lucide-react';
+import GamificationStatus from '@/components/ui/GamificationStatus';
+import { getDueReviews } from '@/lib/spaced-repetition';
 
 export default function Dashboard() {
   const state = useAppState();
   const dispatch = useAppDispatch();
   const roadmaps = sortRoadmaps(state.roadmaps);
+  const dueReviewCount = getDueReviews(roadmaps).length;
   const pinnedRoadmaps = roadmaps.filter(roadmap => roadmap.isPinned === true);
   const unpinnedRoadmaps = roadmaps.filter(roadmap => roadmap.isPinned !== true);
   const allStats = roadmaps.map(r => ({ roadmap: r, stats: getRoadmapStats(r) }));
@@ -85,6 +88,19 @@ export default function Dashboard() {
           )}
         </section>
       </div>
+
+      <GamificationStatus />
+
+      {dueReviewCount > 0 && (
+        <section className="dashboard-review-callout" aria-label="Problems due for review">
+          <div className="dashboard-review-icon"><CalendarClock size={18} /></div>
+          <div className="min-w-0 flex-1">
+            <h2>{dueReviewCount} problem{dueReviewCount === 1 ? '' : 's'} due for review</h2>
+            <p>Revisit them now to keep your recall sharp.</p>
+          </div>
+          <Link href="/review" className="dashboard-review-link">Review now <ArrowRight size={14} /></Link>
+        </section>
+      )}
 
       <div className="dashboard-stats grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-10">
         {statCards.map(({ label, value, icon: Icon, color, bg }) => (

@@ -1,5 +1,6 @@
 export type Status = 'not-started' | 'in-progress' | 'completed';
 export type Difficulty = 'easy' | 'medium' | 'hard';
+export type ProblemCodeLanguage = 'plaintext' | 'javascript' | 'python' | 'java' | 'cpp';
 export type Theme = 'dark' | 'light';
 export type AccentPalette =
   | 'electric'
@@ -21,6 +22,14 @@ export interface Problem {
   notes: string;
   url?: string;
   leetcodeNumber?: number;
+  reviewDueAt?: string;
+  reviewIntervalDays?: number;
+  reviewCount?: number;
+  lastReviewedAt?: string;
+  solutionCode?: string;
+  solutionLanguage?: ProblemCodeLanguage;
+  timeComplexity?: string;
+  spaceComplexity?: string;
 }
 
 export interface Subtopic {

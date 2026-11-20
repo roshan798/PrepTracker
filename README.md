@@ -10,6 +10,9 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Leaf-level status tracking with automatic topic and subtopic progress
 - ✅ Resume the last page and scroll position when reopening from the dashboard; explicit links are honored
 - ✅ Notes editor per topic/subtopic
+- ✅ Split problem workspace with syntax-highlighted solutions, notes, and complexity selectors
+- ✅ Spaced-repetition queue for completed problems with recall-based review intervals
+- ✅ Pomodoro focus timer that logs completed 25-minute sessions to Metrics
 - ✅ Quick notes with a floating Markdown capture editor, tags, and roadmap links
 - ✅ Searchable Notes page with tag and study-item filters
 - ✅ Problem checklist with difficulty badges
@@ -20,6 +23,8 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Filter by status + search
 - ✅ Theme-aware gradient route loading indicator
 - ✅ Compact, mobile-optimized roadmap layouts
+- ✅ Thumb-friendly mobile bottom navigation with quick access to roadmaps
+- ✅ Study streaks and XP leveling (10 XP per completed problem, 25 per topic, and 1 per 10 study minutes)
 - ✅ Confetti on 100% completion 🎉
 - ✅ PWA-ready (installable on mobile)
 - ✅ Mobile responsive

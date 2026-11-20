@@ -1,6 +1,7 @@
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 import { DailyMetric, Mood, PeriodSummary } from "./types";
+import type { Roadmap } from "@/lib/types";
 
 export function todayStr(): string {
     return new Date().toISOString().split('T')[0];
@@ -45,6 +46,48 @@ export function emptyMetric(date: string): DailyMetric {
     };
 }
 
+export function getStudyStreak(logs: DailyMetric[]): number {
+    const studyDates = new Set(logs.filter(log => log.totalStudyTime > 0).map(log => log.date));
+    const cursor = new Date(`${todayStr()}T00:00:00.000Z`);
+
+    if (!studyDates.has(cursor.toISOString().slice(0, 10))) {
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+    }
+
+    let streak = 0;
+    while (studyDates.has(cursor.toISOString().slice(0, 10))) {
+        streak++;
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+    }
+    return streak;
+}
+
+export function getGamificationStats(roadmaps: Roadmap[], logs: DailyMetric[]) {
+    let completedTopics = 0;
+    let completedProblems = 0;
+    for (const roadmap of roadmaps) {
+        for (const topic of roadmap.topics) {
+            if (topic.status === 'completed') completedTopics++;
+            for (const subtopic of topic.subtopics) {
+                completedProblems += subtopic.problems.filter(problem => problem.status === 'completed').length;
+            }
+        }
+    }
+
+    const studyMinutes = logs.reduce((total, log) => total + Math.max(log.totalStudyTime, 0), 0);
+    const totalXp = completedProblems * 10 + completedTopics * 25 + Math.floor(studyMinutes / 10);
+    const level = Math.floor(totalXp / 100) + 1;
+    const levelProgress = totalXp % 100;
+
+    return {
+        level,
+        levelProgress,
+        totalXp,
+        xpToNextLevel: 100 - levelProgress,
+        streak: getStudyStreak(logs),
+    };
+}
+
 // ─── Compute period summary ────────────────────────────────────────────────────
 
 export function computeSummary(logs: DailyMetric[], dates: string[]): PeriodSummary {
@@ -71,18 +114,7 @@ export function computeSummary(logs: DailyMetric[], dates: string[]): PeriodSumm
     const moodDistribution: Record<Mood, number> = { great: 0, good: 0, okay: 0, tired: 0, stressed: 0 };
     relevant.forEach(l => { moodDistribution[l.mood]++; });
 
-    // streak — consecutive days with study time > 0
-    const sortedAll = [...logs].sort((a, b) => b.date.localeCompare(a.date));
-    let streak = 0;
-    const today = todayStr();
-    for (let i = 0; i < sortedAll.length; i++) {
-        const expected = new Date();
-        expected.setDate(expected.getDate() - i);
-        const exp = expected.toISOString().split('T')[0];
-        const log = sortedAll.find(l => l.date === exp);
-        if (log && log.totalStudyTime > 0) streak++;
-        else if (exp !== today) break;
-    }
+    const streak = getStudyStreak(logs);
 
     return { totalStudyMinutes, notesCreated, avgConfidence, goalsCompletionRate, topTopics, moodDistribution, streak };
 }

@@ -71,7 +71,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    if (action.type === 'UPDATE_PROBLEM' && action.payload.updates.status !== 'completed') {
+    if (action.type === 'UPDATE_PROBLEM'
+      && action.payload.updates.status !== undefined
+      && action.payload.updates.status !== 'completed') {
       const roadmap = state.roadmaps.find(r => r.id === action.payload.roadmapId);
       const prev = roadmap?.topics
         .find(t => t.id === action.payload.topicId)?.subtopics
@@ -94,7 +96,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     patchTodayMetric(log => {
       if (!log.sessionStart) return { ...log, sessionStart: new Date().toISOString() };
       const mins = Math.round((Date.now() - new Date(log.sessionStart).getTime()) / 60000);
-      return { ...log, totalStudyTime: mins };
+      return { ...log, totalStudyTime: Math.max(log.totalStudyTime, mins) };
     });
   }, [state.lastUpdated, hydrated]);
 
