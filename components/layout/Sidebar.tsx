@@ -4,7 +4,11 @@ import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppState } from '@/lib/store';
 import { getRoadmapStats } from '@/lib/utils';
 import { sortRoadmaps } from '@/lib/roadmap-utils';
-import { CalendarClock, Plus, Trash2, Home, ChevronRight, Pin, PinOff, Zap, PanelLeftClose, PanelLeftOpen, Palette, FileText } from 'lucide-react';
+import {
+  CalendarClock, Plus, Trash2, Home, ChevronRight, ChevronDown, Pin, PinOff, Zap,
+  PanelLeftClose, PanelLeftOpen, Palette, FileText, BookOpen, BarChart3, Target,
+  Info, Ellipsis,
+} from 'lucide-react';
 import ProgressBar from '@/components/ui/ProgressBar';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
 import { useState } from 'react';
@@ -32,6 +36,8 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const [roadmapToDelete, setRoadmapToDelete] = useState<Roadmap | null>(null);
+  const [moreActionsOpen, setMoreActionsOpen] = useState(false);
+  const extraActionActive = ['/flashcards', '/weekly-report', '/simulation', '/about'].includes(pathname);
 
   const confirmDeleteRoadmap = () => {
     if (!roadmapToDelete) return;
@@ -52,7 +58,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
     return (
       <div key={roadmap.id} className={`group flex items-start gap-1 px-2 py-2 rounded-xl mb-0.5
         ${active ? 'bg-cyan-500/10 border border-cyan-500/20' : 'hover:opacity-80'}`}>
-        <Link href={`/roadmaps/${roadmap.id}`} onClick={onClose}
+        <Link href={`/roadmaps/${roadmap.id}`} prefetch={false} onClick={onClose}
           className="flex-1 min-w-0 flex items-start gap-2.5 px-1">
           <span className="text-base mt-0.5 shrink-0">{roadmap.emoji}</span>
           <div className="flex-1 min-w-0">
@@ -132,7 +138,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
         </div>
 
         <nav className={`flex-1 p-3 space-y-1 ${collapsed ? 'lg:px-2' : ''}`}>
-          <Link href="/" onClick={onClose}
+          <Link href="/" prefetch={false} onClick={onClose}
             title={collapsed ? 'Dashboard' : undefined}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${collapsed ? 'lg:justify-center lg:px-0' : ''}
               ${pathname === '/' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
@@ -140,15 +146,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             <Home size={15} />
             <span className={collapsed ? 'lg:hidden' : ''}>Dashboard</span>
           </Link>
-          <Link href="/flashcards" onClick={onClose}
-            title={collapsed ? 'Flashcards' : undefined}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
-    ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/flashcards' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
-            style={{ color: pathname === '/flashcards' ? undefined : 'var(--text-secondary)' }}>
-            <span aria-hidden="true">🃏</span>
-            <span className={collapsed ? 'lg:hidden' : ''}>Flashcards</span>
-          </Link>
-          <Link href="/review" onClick={onClose}
+          <Link href="/review" prefetch={false} onClick={onClose}
             title={collapsed ? 'Review Queue' : undefined}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${collapsed ? 'lg:justify-center lg:px-0' : ''}
               ${pathname === '/review' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
@@ -162,7 +160,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
               </span>
             )}
           </Link>
-          <Link href="/notes" onClick={onClose}
+          <Link href="/notes" prefetch={false} onClick={onClose}
             title={collapsed ? 'Quick Notes' : undefined}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${collapsed ? 'lg:justify-center lg:px-0' : ''}
               ${pathname === '/notes' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
@@ -170,24 +168,7 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             <FileText size={15} />
             <span className={collapsed ? 'lg:hidden' : ''}>Quick Notes</span>
           </Link>
-          <Link href="/weekly-report" onClick={onClose}
-            title={collapsed ? 'Weekly Report' : undefined}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
-    ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/weekly-report' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
-            style={{ color: pathname === '/weekly-report' ? undefined : 'var(--text-secondary)' }}>
-            <span aria-hidden="true">📋</span>
-            <span className={collapsed ? 'lg:hidden' : ''}>Weekly Report</span>
-          </Link>
-          <Link href="/simulation" onClick={onClose}
-            title={collapsed ? 'Simulation' : undefined}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
-    ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/simulation' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
-            style={{ color: pathname === '/simulation' ? undefined : 'var(--text-secondary)' }}>
-            <span aria-hidden="true">🎯</span>
-            <span className={collapsed ? 'lg:hidden' : ''}>Simulation</span>
-          </Link>
-
-          <Link href="/appearance" onClick={onClose}
+          <Link href="/appearance" prefetch={false} onClick={onClose}
             title={collapsed ? 'Appearance' : undefined}
             className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
     ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/appearance' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
@@ -196,14 +177,45 @@ export default function Sidebar({ open, collapsed, onToggleSidebar, onClose, onA
             <span className={collapsed ? 'lg:hidden' : ''}>Appearance</span>
           </Link>
 
-          <Link href="/about" onClick={onClose}
-            title={collapsed ? 'About' : undefined}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all
-    ${collapsed ? 'lg:justify-center lg:px-0' : ''} ${pathname === '/about' ? 'bg-cyan-500/15 text-cyan-400' : 'hover:opacity-80'}`}
-            style={{ color: pathname === '/about' ? undefined : 'var(--text-secondary)' }}>
-            <span aria-hidden="true">ℹ️</span>
-            <span className={collapsed ? 'lg:hidden' : ''}>About</span>
-          </Link>
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => setMoreActionsOpen(open => !open)}
+              aria-expanded={moreActionsOpen}
+              aria-controls="sidebar-extra-actions"
+              title={collapsed ? 'More tools' : undefined}
+              className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition-all hover:opacity-80
+                ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+                ${extraActionActive ? 'bg-cyan-500/10' : ''}`}
+              style={{ color: extraActionActive ? 'var(--accent-cyan)' : 'var(--text-secondary)' }}>
+              <Ellipsis size={16} />
+              <span className={collapsed ? 'lg:hidden' : ''}>More tools</span>
+              <ChevronDown size={14} className={`ml-auto transition-transform ${collapsed ? 'lg:hidden' : ''} ${moreActionsOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {moreActionsOpen && (
+              <div id="sidebar-extra-actions" className="mt-1 space-y-1 border-l pl-2" style={{ borderColor: 'var(--border)' }}>
+                {[
+                  { href: '/flashcards', label: 'Flashcards', Icon: BookOpen },
+                  { href: '/weekly-report', label: 'Weekly Report', Icon: BarChart3 },
+                  { href: '/simulation', label: 'Simulation', Icon: Target },
+                  { href: '/about', label: 'About', Icon: Info },
+                ].map(({ href, label, Icon }) => {
+                  const active = pathname === href;
+                  return (
+                    <Link key={href} href={href} prefetch={false} onClick={onClose}
+                      title={collapsed ? label : undefined}
+                      className={`flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition-all
+                        ${collapsed ? 'lg:justify-center lg:px-0' : ''}
+                        ${active ? 'bg-cyan-500/15' : 'hover:opacity-80'}`}
+                      style={{ color: active ? 'var(--accent-cyan)' : 'var(--text-secondary)' }}>
+                      <Icon size={15} />
+                      <span className={collapsed ? 'lg:hidden' : ''}>{label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
           {pinned.length > 0 && (
             <div className="pt-3">

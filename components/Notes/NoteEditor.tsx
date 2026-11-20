@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import MarkdownPreview from "./MarkdownPreview";
+import dynamic from 'next/dynamic';
 import { patchTodayMetric } from '@/lib/store/metrics';
+
+const MarkdownPreview = dynamic(() => import('./MarkdownPreview'), {
+    loading: () => <div className="notes-preview-empty">Loading preview…</div>,
+});
 
 const toolbarButtons = [
     { label: 'B', title: 'Bold (Ctrl+B)', before: '**', after: '**', placeholder: 'bold text' },

@@ -37,7 +37,7 @@ export default function RoadmapCard({ roadmap, canMoveUp, canMoveDown, onToggleP
   return (
     <article className={`roadmap-card-shell group rounded-2xl border card-hover ${isComplete ? 'is-complete' : ''}`}
       style={{ backgroundColor: 'var(--bg-secondary)' }}>
-      <Link href={`/roadmaps/${roadmap.id}`} className="roadmap-card-link block p-5 md:p-6">
+      <Link href={`/roadmaps/${roadmap.id}`} prefetch={false} className="roadmap-card-link block p-5 md:p-6">
         <div className="flex items-start justify-between gap-4 mb-5">
           <div className="flex items-center gap-3 min-w-0">
             <span className="roadmap-card-emoji" aria-hidden="true">{roadmap.emoji}</span>

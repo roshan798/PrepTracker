@@ -207,7 +207,7 @@ export default function PomodoroTimer() {
           {notice && <p className={`pomodoro-notice ${pendingLog ? 'error' : ''}`} role={pendingLog ? 'alert' : 'status'}>{notice}</p>}
         </section>
       )}
-      <button type="button" className="pomodoro-launcher" onClick={() => setOpen(value => !value)}
+      <button type="button" className={`pomodoro-launcher ${timer.running ? 'is-running' : ''}`} onClick={() => setOpen(value => !value)}
         aria-expanded={open} aria-label={`Pomodoro timer${timer.running ? `, ${formatTime(timer.remainingSeconds)} remaining` : ''}`}
         title="Pomodoro focus timer">
         <Timer size={18} />

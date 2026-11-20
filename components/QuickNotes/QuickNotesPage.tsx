@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { BookOpen, CalendarDays, FileText, Pencil, Search, Tag, Trash2 } from 'lucide-react';
 import { useAppDispatch, useAppState } from '@/lib/store';
 import { QuickNote, StudyReference } from '@/lib/types';
 import MarkdownPreview from '@/components/Notes/MarkdownPreview';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
-import QuickNoteEditor from './QuickNoteEditor';
+
+const QuickNoteEditor = dynamic(() => import('./QuickNoteEditor'));
 
 function referenceKey(reference?: StudyReference): string {
   if (!reference) return '';

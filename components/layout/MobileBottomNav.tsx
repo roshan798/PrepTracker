@@ -13,13 +13,13 @@ interface MobileBottomNavProps {
 
 const primaryLinks = [
   { href: '/', label: 'Home', Icon: Home },
-  { href: '/flashcards', label: 'Cards', Icon: BookOpen },
+  { href: '/review', label: 'Review', Icon: CalendarClock },
   { href: '/notes', label: 'Notes', Icon: FileText },
   { href: '/metrics', label: 'Metrics', Icon: BarChart3 },
 ];
 
 const secondaryLinks = [
-  { href: '/review', label: 'Review Queue', Icon: CalendarClock },
+  { href: '/flashcards', label: 'Flashcards', Icon: BookOpen },
   { href: '/simulation', label: 'Simulation', Icon: Target },
   { href: '/weekly-report', label: 'Weekly Report', Icon: BarChart3 },
   { href: '/appearance', label: 'Appearance', Icon: Palette },
@@ -58,7 +58,7 @@ export default function MobileBottomNav({ onAddRoadmap }: MobileBottomNavProps) 
             </button>
           </div>
           {secondaryLinks.map(({ href, label, Icon }) => (
-            <Link key={href} href={href} onClick={closeMore}
+            <Link key={href} href={href} prefetch={false} onClick={closeMore}
               className={`mobile-more-link ${pathname === href ? 'active' : ''}`}>
               <Icon size={17} />
               <span>{label}</span>
@@ -68,7 +68,7 @@ export default function MobileBottomNav({ onAddRoadmap }: MobileBottomNavProps) 
           <div className="px-2 pb-1 page-kicker">Roadmaps</div>
           <div className="mobile-more-roadmaps">
             {sortedRoadmaps.map(roadmap => (
-              <Link key={roadmap.id} href={`/roadmaps/${roadmap.id}`}
+              <Link key={roadmap.id} href={`/roadmaps/${roadmap.id}`} prefetch={false}
                 onClick={closeMore}
                 className={`mobile-more-link ${pathname === `/roadmaps/${roadmap.id}` ? 'active' : ''}`}>
                 <span aria-hidden="true">{roadmap.emoji}</span>
@@ -97,7 +97,7 @@ export default function MobileBottomNav({ onAddRoadmap }: MobileBottomNavProps) 
             ? pathname === '/'
             : pathname === href;
           return (
-            <Link key={href} href={href} aria-current={active ? 'page' : undefined}
+            <Link key={href} href={href} prefetch={false} aria-current={active ? 'page' : undefined}
               className={`mobile-bottom-nav-item ${active ? 'active' : ''}`}>
               <Icon size={19} strokeWidth={active ? 2.4 : 1.8} />
               <span>{label}</span>

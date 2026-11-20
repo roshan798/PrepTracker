@@ -74,6 +74,7 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
         <Link
           title='Metrics page'
           href="/metrics"
+          prefetch={false}
           style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-tertiary)' }}
           className="app-header-action flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border transition-all hover:opacity-80"
         >

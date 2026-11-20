@@ -1,14 +1,16 @@
 'use client';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { PenLine } from 'lucide-react';
 import Sidebar from '@/components/layout/Sidebar';
 import Header from '@/components/layout/Header';
-import AddRoadmapModal from '@/components/modals/AddRoadmapModal';
-import QuickNoteEditor from '@/components/QuickNotes/QuickNoteEditor';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { useAppDispatch } from '@/lib/store';
 import { StudyReference } from '@/lib/types';
+
+const AddRoadmapModal = dynamic(() => import('@/components/modals/AddRoadmapModal'));
+const QuickNoteEditor = dynamic(() => import('@/components/QuickNotes/QuickNoteEditor'));
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
@@ -52,10 +54,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <button
         type="button"
         onClick={() => setShowQuickNote(true)}
-        className="quick-note-fab fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-cyan-500 px-5 font-semibold text-gray-950 shadow-xl shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:bottom-7 sm:right-7"
+        className="quick-note-fab fixed bottom-24 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full p-0 font-semibold transition hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 lg:bottom-7 lg:right-7 lg:h-14 lg:w-auto lg:gap-2 lg:justify-start lg:px-5"
+        style={{ backgroundColor: 'var(--accent-cyan)', color: 'var(--accent-contrast)' }}
         aria-label="Create a quick note">
         <PenLine size={18} />
-        <span className="text-md">Quick note</span>
+        <span className="hidden text-md lg:inline">Quick note</span>
       </button>
       {showQuickNote && (
         <QuickNoteEditor

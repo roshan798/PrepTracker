@@ -168,7 +168,10 @@ export default function QuickNoteEditor({ note, defaultReference, onSave, onClos
             key={note?.id ?? 'new-quick-note'}
             initialValue={content}
             placeholder="# Key idea\n\nWrite your note here..."
-            onDraftChange={setContent}
+            onDraftChange={value => {
+              setContent(value);
+              setIsDirty(true);
+            }}
             onSave={save}
             onCancel={close}
             isEdit={Boolean(note)}
