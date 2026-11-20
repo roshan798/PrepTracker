@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { DailyMetric, Mood } from './types';
-import { formatMinutes } from './helpers';
+import { formatMinutes, todayStr } from './helpers';
 
 const MOODS: { key: Mood; emoji: string; label: string }[] = [
   { key: 'great', emoji: '🚀', label: 'Great' },
@@ -16,14 +16,15 @@ interface Props {
   open: boolean;
   onClose: () => void;
   initial: DailyMetric;
+  getLogForDate: (date: string) => DailyMetric;
   onSave: (log: DailyMetric) => void;
   activeSessionStart: string | null;
   onStartSession: () => void;
-  onStopSession: (topic?: string) => number | undefined;
+  onStopSession: (topic?: string) => DailyMetric | undefined;
 }
 
 export default function DailyLogModal({
-  open, onClose, initial, onSave, activeSessionStart, onStartSession, onStopSession
+  open, onClose, initial, getLogForDate, onSave, activeSessionStart, onStartSession, onStopSession
 }: Props) {
   const [log, setLog] = useState<DailyMetric>(initial);
   const [elapsed, setElapsed] = useState(0); // seconds
@@ -55,8 +56,15 @@ export default function DailyLogModal({
   };
 
   const handleStopTimer = () => {
-    const dur = onStopSession();
-    if (dur) setLog(prev => ({ ...prev, totalStudyTime: prev.totalStudyTime + dur }));
+    const updated = onStopSession();
+    if (updated) {
+      setLog(prev => ({
+        ...prev,
+        totalStudyTime: updated.totalStudyTime,
+        studyTimeManualAdjustment: updated.studyTimeManualAdjustment,
+        sessions: updated.sessions,
+      }));
+    }
   };
 
   const handleSave = () => { onSave(log); onClose(); };
@@ -82,10 +90,10 @@ export default function DailyLogModal({
           style={{ borderBottom: '1px solid var(--border)', background: 'linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.08))' }}>
           <div>
             <h2 className="text-base font-bold" style={{ color: 'var(--text-primary)', fontFamily: 'Georgia, serif' }}>
-              📋 Today's Session Log
+              📋 Daily Metrics
             </h2>
             <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }}>
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+              Correct today's data or choose a past date to edit.
             </p>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:opacity-70 transition-opacity"
@@ -93,6 +101,17 @@ export default function DailyLogModal({
         </div>
 
         <div className="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+          <label className="block text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
+            Day to edit
+            <input
+              type="date"
+              max={todayStr()}
+              value={log.date}
+              onChange={event => setLog(getLogForDate(event.target.value))}
+              className="mt-1 block w-full rounded-lg border px-3 py-2 text-sm"
+              style={{ background: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+            />
+          </label>
 
           {/* ── Timer ── */}
           <div className="rounded-xl p-4 text-center"
@@ -101,35 +120,43 @@ export default function DailyLogModal({
               style={{ fontFamily: 'ui-monospace, monospace', color: activeSessionStart ? '#06b6d4' : 'var(--text-primary)' }}>
               {activeSessionStart ? fmtElapsed(elapsed) : formatMinutes(log.totalStudyTime)}
             </div>
-            <div className="flex gap-2 justify-center">
-              {!activeSessionStart ? (
-                <button onClick={onStartSession}
-                  className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
-                  style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff', fontFamily: 'ui-monospace, monospace' }}>
-                  ▶ Start Timer
-                </button>
-              ) : (
-                <button onClick={handleStopTimer}
-                  className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
-                  style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.4)', color: '#f87171', fontFamily: 'ui-monospace, monospace' }}>
-                  ⏹ Stop
-                </button>
-              )}
+            {log.date === todayStr() ? (
+              <div className="flex flex-wrap gap-2 justify-center">
+                {!activeSessionStart ? (
+                  <button onClick={onStartSession}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+                    style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff', fontFamily: 'ui-monospace, monospace' }}>
+                    ▶ Start Timer
+                  </button>
+                ) : (
+                  <button onClick={handleStopTimer}
+                    className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+                    style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.4)', color: '#f87171', fontFamily: 'ui-monospace, monospace' }}>
+                    ⏹ Stop
+                  </button>
+                )}
               <div className="flex items-center gap-2">
                 <span className="text-xs" style={{ color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }}>
-                  Manual:
+                  Correct total:
                 </span>
                 <input
                   type="number"
+                  step={1}
                   value={log.totalStudyTime}
-                  onChange={e => setLog(p => ({ ...p, totalStudyTime: Number(e.target.value) }))}
+                  onChange={e => setLog(p => ({ ...p, totalStudyTime: Math.max(0, Math.round(Number(e.target.value))) }))}
                   min={0}
+                  aria-label="Correct total study minutes"
                   className="w-16 px-2 py-1 rounded-lg border text-xs text-center"
                   style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'ui-monospace, monospace', outline: 'none' }}
                 />
                 <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>min</span>
               </div>
             </div>
+            ) : (
+              <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                Focus time is recorded automatically from completed timers. You can correct the total here.
+              </p>
+            )}
           </div>
 
           {/* ── Confidence ── */}
@@ -141,7 +168,11 @@ export default function DailyLogModal({
             <div className="relative">
               <input
                 type="range" min={0} max={100} value={log.confidenceScore}
-                onChange={e => setLog(p => ({ ...p, confidenceScore: Number(e.target.value) }))}
+                onChange={e => setLog(p => ({
+                  ...p,
+                  confidenceScore: Number(e.target.value),
+                  confidenceLogged: true,
+                }))}
                 className="w-full h-2 rounded-full appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #06b6d4 ${log.confidenceScore}%, rgba(255,255,255,0.1) ${log.confidenceScore}%)`
@@ -163,7 +194,7 @@ export default function DailyLogModal({
               {MOODS.map(m => (
                 <button
                   key={m.key}
-                  onClick={() => setLog(p => ({ ...p, mood: m.key }))}
+                  onClick={() => setLog(p => ({ ...p, mood: m.key, moodLogged: true }))}
                   className="flex-1 flex flex-col items-center gap-1 py-2 rounded-xl border transition-all text-xs"
                   style={{
                     borderColor: log.mood === m.key ? '#06b6d4' : 'var(--border)',
@@ -183,36 +214,50 @@ export default function DailyLogModal({
           <div>
             <label className="block text-xs font-semibold mb-2"
               style={{ color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              🎯 Goals Completed
+              🎯 Roadmap tasks completed
             </label>
             <div className="flex items-center gap-3 p-3 rounded-xl"
               style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
-              <div className="flex gap-1.5">
-                {Array.from({ length: log.goalsTotal }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setLog(p => ({ ...p, goalsCompleted: i < p.goalsCompleted ? i : i + 1 }))}
-                    className="w-7 h-7 rounded-lg border text-xs transition-all"
-                    style={{
-                      borderColor: i < log.goalsCompleted ? '#10b981' : 'var(--border)',
-                      background: i < log.goalsCompleted ? 'rgba(16,185,129,0.15)' : 'var(--bg-secondary)',
-                      color: i < log.goalsCompleted ? '#10b981' : 'var(--text-secondary)',
-                    }}
-                  >
-                    {i < log.goalsCompleted ? '✓' : '○'}
-                  </button>
-                ))}
+              <div>
+                <div className="font-bold" style={{ color: 'var(--text-primary)' }}>
+                  {Math.max(0, log.goalsCompleted + (log.tasksCompletedAdjustment ?? 0))} completed
+                </div>
+                <p className="mt-1 text-[10px]" style={{ color: 'var(--text-secondary)' }}>
+                  Counted automatically when you complete problems.
+                </p>
+                <label className="mt-2 flex items-center gap-2 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  Correct count
+                  <input
+                    type="number" min={0} max={1000} step={1}
+                    value={Math.max(0, log.goalsCompleted + (log.tasksCompletedAdjustment ?? 0))}
+                    aria-label="Correct completed problem count"
+                    onChange={e => setLog(p => ({
+                      ...p,
+                      tasksCompletedAdjustment: Math.max(0, Math.round(Number(e.target.value))) - p.goalsCompleted,
+                    }))}
+                    className="w-16 rounded-lg border px-2 py-1 text-center"
+                    style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+                  />
+                </label>
               </div>
               <div className="flex items-center gap-2 ml-auto">
-                <span className="text-xs" style={{ color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }}>Total:</span>
+                <span className="text-xs" style={{ color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }}>Daily target:</span>
                 <input
-                  type="number" min={1} max={20} value={log.goalsTotal}
-                  onChange={e => setLog(p => ({ ...p, goalsTotal: Number(e.target.value), goalsCompleted: Math.min(p.goalsCompleted, Number(e.target.value)) }))}
-                  className="w-12 px-1 py-1 rounded-lg border text-xs text-center"
+                  type="number" min={0} max={100} step={1} value={log.goalsTotal}
+                  aria-label="Optional daily problem target"
+                  onChange={e => setLog(p => ({
+                    ...p,
+                    goalsTotal: Math.min(100, Math.max(0, Math.round(Number(e.target.value)))),
+                    goalTargetSet: true,
+                  }))}
+                  className="w-16 px-1 py-1 rounded-lg border text-xs text-center"
                   style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)', color: 'var(--text-primary)', fontFamily: 'ui-monospace, monospace', outline: 'none' }}
                 />
               </div>
             </div>
+            <p className="mt-1 text-[10px]" style={{ color: 'var(--text-secondary)' }}>
+              Set the target to 0 if you do not want goal tracking.
+            </p>
           </div>
 
           {/* ── Topics ── */}
@@ -279,7 +324,7 @@ export default function DailyLogModal({
           <button onClick={handleSave}
             className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all"
             style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff', fontFamily: 'ui-monospace, monospace', boxShadow: '0 4px 14px rgba(6,182,212,0.35)' }}>
-            Save Session ✓
+            Save Updates ✓
           </button>
         </div>
       </div>

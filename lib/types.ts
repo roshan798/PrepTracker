@@ -19,6 +19,7 @@ export interface Problem {
   name: string;
   difficulty: Difficulty;
   status: Status;
+  completedAt?: string;
   notes: string;
   url?: string;
   leetcodeNumber?: number;

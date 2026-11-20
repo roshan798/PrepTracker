@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pause, Play, RotateCcw, SkipForward, Timer, X } from 'lucide-react';
 import { useMetrics } from '@/components/Metrics/metricsStore';
+import { usePathname } from 'next/navigation';
+import { useAppState } from '@/lib/store';
+import { readSavedLocation } from '@/lib/location-persistence';
 
 const FOCUS_SECONDS = 25 * 60;
 const BREAK_SECONDS = 5 * 60;
@@ -33,11 +36,30 @@ function formatTime(seconds: number): string {
 
 export default function PomodoroTimer() {
   const { recordStudySession } = useMetrics();
+  const { roadmaps } = useAppState();
+  const pathname = usePathname();
   const [timer, setTimer] = useState<TimerState>(initialState);
   const [open, setOpen] = useState(false);
   const [notice, setNotice] = useState('');
   const [pendingLog, setPendingLog] = useState(false);
   const completionHandled = useRef(false);
+
+  const recordFocusSession = useCallback((startTime: string) => {
+    const activeLocation = readSavedLocation()?.activeProblem;
+    const currentRoadmapId = pathname.match(/^\/roadmaps\/([^/]+)/)?.[1];
+    const topic = activeLocation && currentRoadmapId === activeLocation.roadmapId
+      ? roadmaps.find(roadmap => roadmap.id === activeLocation.roadmapId)?.topics
+        .find(item => item.id === activeLocation.topicId)
+      : undefined;
+    recordStudySession(
+      25,
+      startTime,
+      topic?.name,
+      topic && activeLocation
+        ? { roadmapId: activeLocation.roadmapId, topicId: activeLocation.topicId }
+        : undefined,
+    );
+  }, [pathname, recordStudySession, roadmaps]);
 
   const enterBreak = useCallback(() => {
     setPendingLog(false);
@@ -59,7 +81,7 @@ export default function PomodoroTimer() {
     if (timer.phase === 'focus') {
       try {
         const startTime = timer.focusStartedAt ?? new Date(Date.now() - FOCUS_SECONDS * 1000).toISOString();
-        recordStudySession(25, startTime, 'Pomodoro focus');
+        recordFocusSession(startTime);
         enterBreak();
       } catch (error) {
         setPendingLog(true);
@@ -76,7 +98,7 @@ export default function PomodoroTimer() {
       focusStartedAt: null,
     });
     setNotice('Break complete. Start another focus session when you’re ready.');
-  }, [enterBreak, recordStudySession, timer.focusStartedAt, timer.phase]);
+  }, [enterBreak, recordFocusSession, timer.focusStartedAt, timer.phase]);
 
   useEffect(() => {
     if (!timer.running || !timer.endsAt) return;
@@ -131,7 +153,7 @@ export default function PomodoroTimer() {
   const retryLog = () => {
     try {
       const startTime = timer.focusStartedAt ?? new Date(Date.now() - FOCUS_SECONDS * 1000).toISOString();
-      recordStudySession(25, startTime, 'Pomodoro focus');
+      recordFocusSession(startTime);
       enterBreak();
     } catch (error) {
       setNotice(error instanceof Error ? error.message : 'Could not save this focus session.');

@@ -7,14 +7,14 @@ import {
   ResponsiveContainer, CartesianGrid
 } from 'recharts';
 import { useMetrics } from './metricsStore';
-import { formatMinutes, getDateRange, computeSummary, todayStr } from './helpers';
+import { formatMinutes, getDateRange, computeSummary, getTasksCompleted, localDateStr, todayStr } from './helpers';
 import { Mood, DailyMetric } from './types';
 import DailyLogModal from './DailyLogModal';
 import "../../app/css/metrics.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-type Period = 'today' | 'week' | 'month';
+type Period = 'today' | 'week' | 'month' | 'quarter';
 
 const MOOD_COLORS: Record<Mood, string> = {
   great: '#06b6d4',
@@ -54,7 +54,7 @@ function StudyHeatmap({ logs }: { logs: DailyMetric[] }) {
   for (let i = 89; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = localDateStr(d);
     const log = logs.find(l => l.date === dateStr);
     const mins = log?.totalStudyTime ?? 0;
     const intensity = mins === 0 ? 0 : mins < 30 ? 1 : mins < 60 ? 2 : mins < 120 ? 3 : 4;
@@ -111,7 +111,17 @@ function ChartTooltip({ active, payload, label, unit = '' }: any) {
 // ─── Main Dashboard ───────────────────────────────────────────────────────────
 
 export default function MetricsDashboard() {
-  const { hydrated, logs, getTodayLog, saveLog, activeSessionStart, startSession, stopSession, exportCSV } = useMetrics();
+  const {
+    hydrated,
+    logs,
+    getTodayLog,
+    getLogForDate,
+    saveLog,
+    activeSessionStart,
+    startSession,
+    stopSession,
+    exportCSV,
+  } = useMetrics();
   const [period, setPeriod] = useState<Period>('week');
   const [showModal, setShowModal] = useState(false);
 
@@ -125,21 +135,32 @@ export default function MetricsDashboard() {
       return {
         date: date.slice(5), // MM-DD
         studyTime: log?.totalStudyTime ?? 0,
-        confidence: log?.confidenceScore ?? null,
+        confidence: log?.confidenceLogged ? log.confidenceScore : null,
         notes: log?.notesCreated ?? 0,
-        goals: log ? Math.round((log.goalsCompleted / Math.max(log.goalsTotal, 1)) * 100) : null,
+        goals: log && log.goalsTotal > 0
+          ? Math.min(100, Math.round((getTasksCompleted(log) / log.goalsTotal) * 100))
+          : null,
       };
     });
   }, [logs, dates]);
 
-  // Pie data for topics
+  const hasTopicFocusTime = summary.topTopics.some(topic => topic.minutes > 0);
+
+  // Show measured focus time when available, otherwise show automatically recorded topic activity.
   const topicPieData = useMemo(() => {
-    const total = summary.topTopics.reduce((s, t) => s + t.count, 0);
+    const total = summary.topTopics.reduce(
+      (sum, topic) => sum + (hasTopicFocusTime ? topic.minutes : topic.count),
+      0
+    );
     return summary.topTopics.map(t => ({
       name: t.name,
-      value: Math.round((t.count / total) * 100),
+      value: total
+        ? Math.round(((hasTopicFocusTime ? t.minutes : t.count) / total) * 100)
+        : 0,
+      count: t.count,
+      minutes: t.minutes,
     }));
-  }, [summary.topTopics]);
+  }, [hasTopicFocusTime, summary.topTopics]);
 
   // Mood bar data
   const moodBarData = useMemo(() =>
@@ -151,6 +172,10 @@ export default function MetricsDashboard() {
 
   const todayLog = getTodayLog();
   const isStudying = !!activeSessionStart;
+  const recentSessions = useMemo(() => logs
+    .flatMap(log => log.sessions.map(session => ({ ...session, date: log.date })))
+    .sort((a, b) => b.startTime.localeCompare(a.startTime))
+    .slice(0, 7), [logs]);
 
   if (!hydrated) {
     return (
@@ -174,15 +199,15 @@ export default function MetricsDashboard() {
               Prep Metrics<span className="text-cyan-400">.</span>
             </h1>
             <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {logs.length} session{logs.length !== 1 ? 's' : ''} logged · {summary.streak} day streak 🔥
+              {summary.studySessions} focus session{summary.studySessions !== 1 ? 's' : ''} in this period · {summary.streak} day streak 🔥
             </p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             {/* Period selector */}
             <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
-              {(['today', 'week', 'month'] as Period[]).map(p => (
+              {(['today', 'week', 'month', 'quarter'] as Period[]).map(p => (
                 <button key={p} onClick={() => setPeriod(p)} className={`period-btn ${period === p ? 'active' : ''}`}>
-                  {p}
+                  {p === 'quarter' ? '90 days' : p}
                 </button>
               ))}
             </div>
@@ -197,7 +222,7 @@ export default function MetricsDashboard() {
                 boxShadow: isStudying ? 'none' : '0 4px 14px rgba(6,182,212,0.3)',
                 letterSpacing: '0.04em',
               }}>
-              {isStudying ? '⏱ Session Active' : '+ Log Today'}
+              {isStudying ? '⏱ Session Active' : '+ Edit Metrics'}
             </button>
             <button onClick={exportCSV}
               className="px-3 py-2 rounded-xl border text-xs font-semibold transition-all hover:opacity-70"
@@ -212,28 +237,36 @@ export default function MetricsDashboard() {
           <div className="metrics-card">
             <div className="empty-state">
               <span className="empty-state-icon">📈</span>
-              <p className="empty-state-title">No sessions logged yet</p>
-              <p className="empty-state-sub">Click "Log Today" to start tracking your prep sessions. Your progress will appear here.</p>
+              <p className="empty-state-title">No activity tracked yet</p>
+              <p className="empty-state-sub">Focus timers, roadmap completions, reviews, and notes are tracked automatically. Add a daily log only when you want to set a target or record mood and confidence.</p>
               <button onClick={() => setShowModal(true)}
                 className="px-6 py-3 rounded-xl text-sm font-bold mt-2 transition-all"
                 style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff', fontFamily: 'ui-monospace, monospace', boxShadow: '0 4px 14px rgba(6,182,212,0.3)' }}>
-                Log My First Session →
+                Add or correct daily details →
               </button>
             </div>
           </div>
         ) : (
           <div className="space-y-5">
             {/* ── Stat Cards ── */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
               <StatCard icon="⏱" label="Study Time" value={formatMinutes(summary.totalStudyMinutes)}
-                sub={period === 'today' ? 'today' : period === 'week' ? 'this week' : 'this month'}
+                sub={period === 'today' ? 'today' : period === 'week' ? 'last 7 days' : period === 'month' ? 'last 30 days' : 'last 90 days'}
                 accent="#06b6d4" delay={0} />
-              <StatCard icon="📝" label="Notes" value={String(summary.notesCreated)}
-                accent="#8b5cf6" delay={60} />
-              <StatCard icon="⭐" label="Avg Confidence" value={`${summary.avgConfidence}%`}
+              <StatCard icon="✅" label="Tasks Completed" value={String(summary.tasksCompleted)}
+                sub={summary.goalsCompletionRate === null ? 'tracked automatically' : `${summary.goalsCompletionRate}% of daily targets`}
+                accent="#10b981" delay={40} />
+              <StatCard icon="⏲" label="Focus Sessions" value={String(summary.studySessions)}
+                sub={summary.studySessions ? `${formatMinutes(summary.averageSessionMinutes)} average` : 'from timers'}
+                accent="#0ea5e9" delay={80} />
+              <StatCard icon="🧠" label="Review Recall" value={summary.recallRate === null ? '—' : `${summary.recallRate}%`}
+                sub={`${summary.reviewCount} review${summary.reviewCount === 1 ? '' : 's'} · Good/Easy`}
                 accent="#f59e0b" delay={120} />
-              <StatCard icon="🎯" label="Goals Done" value={`${summary.goalsCompletionRate}%`}
-                accent="#10b981" delay={180} />
+              <StatCard icon="📝" label="Notes" value={String(summary.notesCreated)}
+                accent="#8b5cf6" delay={160} />
+              <StatCard icon="⭐" label="Avg Confidence" value={summary.confidenceSampleCount ? `${summary.avgConfidence}%` : '—'}
+                sub={summary.confidenceSampleCount ? `${summary.confidenceSampleCount} self-report${summary.confidenceSampleCount === 1 ? '' : 's'}` : 'not rated yet'}
+                accent="#a855f7" delay={200} />
             </div>
 
             {/* ── Study Time Chart ── */}
@@ -248,7 +281,7 @@ export default function MetricsDashboard() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                  <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
+                  <XAxis dataKey="date" interval={period === 'quarter' ? 13 : 'preserveStartEnd'} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                   <YAxis tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                   <Tooltip content={<ChartTooltip unit=" min" />} />
                   <Area type="monotone" dataKey="studyTime" stroke="#06b6d4" strokeWidth={2} fill="url(#studyGrad)" dot={{ fill: '#06b6d4', r: 3 }} connectNulls />
@@ -263,7 +296,7 @@ export default function MetricsDashboard() {
                 <ResponsiveContainer width="100%" height={150}>
                   <LineChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                    <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
+                    <XAxis dataKey="date" interval={period === 'quarter' ? 13 : 'preserveStartEnd'} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip unit="%" />} />
                     <Line type="monotone" dataKey="confidence" stroke="#f59e0b" strokeWidth={2} dot={{ fill: '#f59e0b', r: 3 }} connectNulls />
@@ -272,11 +305,11 @@ export default function MetricsDashboard() {
               </div>
 
               <div className="metrics-card" style={{ animationDelay: '300ms' }}>
-                <div className="metrics-card-title">🎯 Goals Completion %</div>
+                <div className="metrics-card-title">🎯 Daily Target Completion</div>
                 <ResponsiveContainer width="100%" height={150}>
                   <BarChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                    <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
+                    <XAxis dataKey="date" interval={period === 'quarter' ? 13 : 'preserveStartEnd'} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace' }} tickLine={false} axisLine={false} />
                     <Tooltip content={<ChartTooltip unit="%" />} />
                     <Bar dataKey="goals" fill="#10b981" radius={[4, 4, 0, 0]} />
@@ -289,10 +322,10 @@ export default function MetricsDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Topics pie */}
               <div className="metrics-card" style={{ animationDelay: '340ms' }}>
-                <div className="metrics-card-title">📚 Topic Coverage</div>
+                <div className="metrics-card-title">{hasTopicFocusTime ? '📚 Focus Time by Topic' : '📚 Topic Activity'}</div>
                 {topicPieData.length === 0 ? (
                   <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', padding: '20px 0', textAlign: 'center' }}>
-                    No topics logged yet
+                    Complete roadmap problems or study with a topic open to see topic insights.
                   </div>
                 ) : (
                   <div className="flex items-center gap-4">
@@ -314,7 +347,9 @@ export default function MetricsDashboard() {
                             <div style={{ width: 8, height: 8, borderRadius: '50%', background: TOPIC_COLORS[i % TOPIC_COLORS.length], flexShrink: 0 }} />
                             <span style={{ fontSize: 11, color: 'var(--text-primary)', fontFamily: 'ui-monospace, monospace', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{t.name}</span>
                           </div>
-                          <span style={{ fontSize: 11, color: TOPIC_COLORS[i % TOPIC_COLORS.length], fontFamily: 'ui-monospace, monospace', fontWeight: 700 }}>{t.value}%</span>
+                          <span style={{ fontSize: 11, color: TOPIC_COLORS[i % TOPIC_COLORS.length], fontFamily: 'ui-monospace, monospace', fontWeight: 700 }}>
+                            {hasTopicFocusTime ? formatMinutes(t.minutes) : `${t.count} day${t.count === 1 ? '' : 's'}`}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -357,29 +392,24 @@ export default function MetricsDashboard() {
 
             {/* ── Recent Sessions ── */}
             <div className="metrics-card" style={{ animationDelay: '460ms' }}>
-              <div className="metrics-card-title">🕐 Recent Sessions</div>
-              {logs.length === 0 ? (
-                <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', textAlign: 'center', padding: '20px 0' }}>No sessions yet</div>
+              <div className="metrics-card-title">🕐 Recent Focus Sessions</div>
+              {recentSessions.length === 0 ? (
+                <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', textAlign: 'center', padding: '20px 0' }}>No timed focus sessions yet. Roadmap activity is still tracked automatically.</div>
               ) : (
                 <div className="space-y-2">
-                  {[...logs].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 7).map(log => (
-                    <div key={log.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
+                  {recentSessions.map(session => (
+                    <div key={session.id} className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
                       style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
-                      <div style={{ fontSize: 16 }}>{MOOD_EMOJI[log.mood]}</div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span style={{ fontSize: 12, color: 'var(--text-primary)', fontFamily: 'ui-monospace, monospace', fontWeight: 700 }}>{log.date}</span>
-                          {log.topicsCovered.slice(0, 2).map(t => (
-                            <span key={t} style={{ fontSize: 9, fontFamily: 'ui-monospace, monospace', padding: '1px 6px', borderRadius: 4, background: 'rgba(6,182,212,0.12)', color: '#06b6d4', border: '1px solid rgba(6,182,212,0.25)' }}>{t}</span>
-                          ))}
+                        <div style={{ fontSize: 12, color: 'var(--text-primary)', fontFamily: 'ui-monospace, monospace', fontWeight: 700 }}>
+                          {session.topic ?? 'Focus session'}
                         </div>
                         <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'ui-monospace, monospace', marginTop: 2 }}>
-                          {log.goalsCompleted}/{log.goalsTotal} goals · {log.distractions} distractions
+                          {session.date} · {new Date(session.startTime).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}
                         </div>
                       </div>
                       <div className="text-right">
-                        <div style={{ fontSize: 13, fontWeight: 700, color: '#06b6d4', fontFamily: 'ui-monospace, monospace' }}>{formatMinutes(log.totalStudyTime)}</div>
-                        <div style={{ fontSize: 10, color: '#f59e0b', fontFamily: 'ui-monospace, monospace' }}>{log.confidenceScore}%</div>
+                        <div style={{ fontSize: 13, fontWeight: 700, color: '#06b6d4', fontFamily: 'ui-monospace, monospace' }}>{formatMinutes(session.durationMinutes)}</div>
                       </div>
                     </div>
                   ))}
@@ -394,6 +424,7 @@ export default function MetricsDashboard() {
         open={showModal}
         onClose={() => setShowModal(false)}
         initial={todayLog}
+        getLogForDate={getLogForDate}
         onSave={saveLog}
         activeSessionStart={activeSessionStart}
         onStartSession={startSession}

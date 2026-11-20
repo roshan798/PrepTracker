@@ -30,7 +30,6 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
     const [text, setText] = useState(initialValue);
     const [tab, setTab] = useState<'write' | 'preview'>('write');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    // const { recordNoteCreated } = useMetrics();
 
     useEffect(() => {
         textareaRef.current?.focus();
@@ -39,15 +38,15 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
     const handleSave = () => {
         const trimmed = text.trim();
         if (!trimmed) return;
-        // recordNoteCreated();
         if (!isEdit) {
-            patchTodayMetric(log => ({
-                ...log,
-                notesCreated: log.notesCreated + 1,
-                // topicsCovered: topicName && !log.topicsCovered.includes(topicName)
-                //     ? [...log.topicsCovered, topicName]
-                //     : log.topicsCovered,
-            }));
+            try {
+                patchTodayMetric(log => ({
+                    ...log,
+                    notesCreated: log.notesCreated + 1,
+                }));
+            } catch (error) {
+                console.error('Failed to record the created note in study metrics:', error);
+            }
         }
         onSave(trimmed);
     };

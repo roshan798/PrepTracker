@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { CalendarCheck, Check, Clock3, RotateCcw } from 'lucide-react';
 import { useAppDispatch, useAppState } from '@/lib/store';
+import { useMetrics } from '@/components/Metrics/metricsStore';
 import { getDueReviews, getNextReviewInterval, getNextReviewSchedule, ReviewRating } from '@/lib/spaced-repetition';
 
 const ratings: { value: ReviewRating; label: string }[] = [
@@ -15,9 +16,17 @@ const ratings: { value: ReviewRating; label: string }[] = [
 export default function ReviewQueue() {
   const { roadmaps } = useAppState();
   const dispatch = useAppDispatch();
+  const { recordReview } = useMetrics();
   const dueReviews = getDueReviews(roadmaps);
 
   const scheduleReview = (review: typeof dueReviews[number], rating: ReviewRating) => {
+    recordReview({
+      problemId: review.problem.id,
+      roadmapId: review.roadmapId,
+      topicId: review.topicId,
+      topicName: review.topicName,
+      rating,
+    });
     dispatch({
       type: 'UPDATE_PROBLEM',
       payload: {

@@ -14,6 +14,7 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Interactive prerequisite graphs for System Design and GenAI roadmaps
 - ✅ Spaced-repetition queue for completed problems with recall-based review intervals
 - ✅ Pomodoro focus timer that logs completed 25-minute sessions to Metrics
+- ✅ Metrics automatically track focus time, completed problems, notes, and review recall, with optional manual corrections
 - ✅ Quick notes with a floating Markdown capture editor, tags, and roadmap links
 - ✅ Searchable Notes page with tag and study-item filters
 - ✅ Problem checklist with difficulty badges
@@ -29,6 +30,12 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Confetti on 100% completion 🎉
 - ✅ PWA-ready (installable on mobile)
 - ✅ Mobile responsive
+
+## Metrics and automatic tracking
+
+Metrics are collected from normal study activity: completed focus timers record study time and topic when available, roadmap problem completions are counted once on their completion date, new notes are counted, and review ratings contribute to recall statistics. Confidence and mood are only included after you explicitly rate them.
+
+Use **Edit Metrics** on the Metrics page to correct study time or completed-problem counts, set an optional daily target, add topics, and enter or revise mood, confidence, and distractions for today or a past date. Metrics remain in local browser storage and can be exported as CSV.
 
 ## Setup
 
