@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from 'next/dynamic';
 import { patchTodayMetric } from '@/lib/store/metrics';
+import styles from './Notes.module.css';
 
 const MarkdownPreview = dynamic(() => import('./MarkdownPreview'), {
-    loading: () => <div className="notes-preview-empty">Loading preview…</div>,
+    loading: () => <div className={styles['notes-preview-empty']}>Loading preview…</div>,
 });
 
 const toolbarButtons = [
@@ -72,29 +73,29 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
     };
 
     return (
-        <div className="note-editor">
+        <div className={styles['note-editor']}>
             {/* Toolbar */}
-            <div className="note-editor-toolbar">
+            <div className={styles['note-editor-toolbar']}>
                 {toolbarButtons.map((btn) => (
-                    <div key={btn.label} className="note-toolbar-wrap">
+                    <div key={btn.label} className={styles['note-toolbar-wrap']}>
                         <button
                             onClick={() => insertSyntax(btn.before, btn.after, btn.placeholder)}
-                            className="note-toolbar-btn"
+                            className={styles['note-toolbar-btn']}
                             type="button"
                         >
                             {btn.label}
                         </button>
-                        <div className="note-toolbar-tooltip">{btn.title}</div>
+                        <div className={styles['note-toolbar-tooltip']}>{btn.title}</div>
                     </div>
                 ))}
-                <div className="note-toolbar-spacer" />
+                <div className={styles['note-toolbar-spacer']} />
                 <button
-                    className={`note-tab-btn ${tab === 'write' ? 'active' : ''}`}
+                    className={`${styles['note-tab-btn']} ${tab === 'write' ? styles.active : ''}`}
                     onClick={() => setTab('write')}
                     type="button"
                 >Write</button>
                 <button
-                    className={`note-tab-btn ${tab === 'preview' ? 'active' : ''}`}
+                    className={`${styles['note-tab-btn']} ${tab === 'preview' ? styles.active : ''}`}
                     onClick={() => setTab('preview')}
                     type="button"
                 >Preview</button>
@@ -110,7 +111,7 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
                         onDraftChange?.(e.target.value);
                     }}
                     placeholder={placeholder ?? '# Your note\n\nSupports **Markdown** — headings, lists, `code`, and more…'}
-                    className="note-editor-textarea"
+                    className={styles['note-editor-textarea']}
                     rows={8}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
@@ -132,22 +133,22 @@ export default function NoteEditor({ initialValue = '', placeholder, onSave, onC
                     }}
                 />
             ) : (
-                <div className="note-editor-preview">
+                <div className={styles['note-editor-preview']}>
                     <MarkdownPreview content={text} empty="Nothing to preview yet — switch to Write and type something." />
                 </div>
             )}
 
             {/* Actions */}
-            <div className="note-editor-footer">
-                <span className="note-editor-hint">
+            <div className={styles['note-editor-footer']}>
+                <span className={styles['note-editor-hint']}>
                     {tab === 'write' ? <><kbd>Ctrl+Enter</kbd> to save · <kbd>Esc</kbd> to cancel</> : 'Preview mode'}
                 </span>
-                <div className="note-editor-btns">
-                    <button onClick={onCancel} className="note-btn-secondary" type="button">Cancel</button>
+                <div className={styles['note-editor-btns']}>
+                    <button onClick={onCancel} className={styles['note-btn-secondary']} type="button">Cancel</button>
                     <button
                         onClick={handleSave}
                         disabled={!text.trim()}
-                        className="note-btn-primary"
+                        className={styles['note-btn-primary']}
                         type="button"
                     >
                         {isEdit ? 'Save Changes' : 'Add Note'}

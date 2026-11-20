@@ -2,6 +2,7 @@ import { useState } from "react";
 import MarkdownPreview from "./MarkdownPreview";
 import { NoteItem } from "./types";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
+import styles from './Notes.module.css';
 
 interface NoteCardProps {
     note: NoteItem;
@@ -15,13 +16,13 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
     const [collapsed, setCollapsed] = useState(index!==0);
 
     return (
-        <div className="note-card" style={{ animationDelay: `${index * 60}ms` }}>
-            <div className="note-card-header">
-                <span className="note-card-index">#{index + 1}</span>
-                <div className="note-card-actions">
+        <div className={styles['note-card']} style={{ animationDelay: `${index * 60}ms` }}>
+            <div className={styles['note-card-header']}>
+                <span className={styles['note-card-index']}>#{index + 1}</span>
+                <div className={styles['note-card-actions']}>
                     <button
                         onClick={() => setCollapsed(p => !p)}
-                        className="note-action-btn note-action-edit"
+                        className={`${styles['note-action-btn']} ${styles['note-action-edit']}`}
                         title={collapsed ? 'Expand' : 'Collapse'}
                     >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -34,7 +35,7 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                     </button>
                     <button
                         onClick={() => onEdit(note.id)}
-                        className="note-action-btn note-action-edit"
+                        className={`${styles['note-action-btn']} ${styles['note-action-edit']}`}
                         title="Edit note"
                         aria-label="Edit note"
                     >
@@ -46,7 +47,7 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                     </button>
                     <button
                         onClick={() => setConfirmDelete(true)}
-                        className="note-action-btn note-action-delete"
+                        className={`${styles['note-action-btn']} ${styles['note-action-delete']}`}
                         title="Delete note"
                         aria-label="Delete note"
                     >
@@ -61,7 +62,7 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
                 </div>
             </div>
             <div
-                className="note-card-body"
+                className={styles['note-card-body']}
                 style={collapsed ? {
                     maxHeight: '3em',
                     overflow: 'hidden',
@@ -75,7 +76,7 @@ export default function NoteCard({ note, index, onEdit, onDelete }: NoteCardProp
             {collapsed && (
                 <button
                     onClick={() => setCollapsed(false)}
-                    className="note-action-btn"
+                    className={styles['note-action-btn']}
                     style={{ width: '100%', textAlign: 'center', marginTop: 4, opacity: 0.5, fontSize: 11 }}
                 >
                     click to expand

@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import { useMetrics } from '@/components/Metrics/metricsStore';
 import { formatMinutes } from '@/components/Metrics/helpers';
 import { DailyMetric, Mood } from '@/components/Metrics/types';
-import "../../app/css/metrics.css";
+import styles from "../../app/css/metrics.module.css";
 import { getWeekDates, getWeekLabel } from '@/lib/utils';
 import WeekSelector from './WeekSelector';
 import StatRow from './StatRow';
@@ -117,7 +117,7 @@ export default function WeeklyReport() {
     const hasData = current.logs.length > 0;
 
     return (
-        <div className="metrics-root p-5 md:p-8 max-w-5xl mx-auto">
+        <div className={`${styles['metrics-root']} p-5 md:p-8 max-w-5xl mx-auto`}>
 
             {/* ── Header ── */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -135,11 +135,11 @@ export default function WeeklyReport() {
 
             {!hasData ? (
                 /* ── Empty State ── */
-                <div className="metrics-card">
-                    <div className="empty-state">
-                        <span className="empty-state-icon">📋</span>
-                        <p className="empty-state-title">No data for this week</p>
-                        <p className="empty-state-sub">Log your study sessions in Metrics to see weekly reports here.</p>
+                <div className={styles['metrics-card']}>
+                    <div className={styles['empty-state']}>
+                        <span className={styles['empty-state-icon']}>📋</span>
+                        <p className={styles['empty-state-title']}>No data for this week</p>
+                        <p className={styles['empty-state-sub']}>Log your study sessions in Metrics to see weekly reports here.</p>
                     </div>
                 </div>
             ) : (
@@ -214,8 +214,8 @@ export default function WeeklyReport() {
                     </div>
 
                     {/* ── Daily Study Time Bar Chart ── */}
-                    <div className="metrics-card">
-                        <div className="metrics-card-title">⏱ Daily Study Time</div>
+                    <div className={styles['metrics-card']}>
+                        <div className={styles['metrics-card-title']}>⏱ Daily Study Time</div>
                         <ResponsiveContainer width="100%" height={180}>
                             <BarChart data={current.dailyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -236,8 +236,8 @@ export default function WeeklyReport() {
 
                     {/* ── Confidence Trend ── */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div className="metrics-card">
-                            <div className="metrics-card-title">⭐ Daily Confidence</div>
+                        <div className={styles['metrics-card']}>
+                            <div className={styles['metrics-card-title']}>⭐ Daily Confidence</div>
                             <ResponsiveContainer width="100%" height={150}>
                                 <LineChart data={current.dailyData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -250,8 +250,8 @@ export default function WeeklyReport() {
                         </div>
 
                         {/* ── Topics Covered ── */}
-                        <div className="metrics-card">
-                            <div className="metrics-card-title">📚 Topics This Week</div>
+                        <div className={styles['metrics-card']}>
+                            <div className={styles['metrics-card-title']}>📚 Topics This Week</div>
                             {current.topTopics.length === 0 ? (
                                 <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'JetBrains Mono, monospace', padding: '20px 0', textAlign: 'center' }}>
                                     No topics logged
@@ -278,8 +278,8 @@ export default function WeeklyReport() {
                     </div>
 
                     {/* ── Daily Breakdown Table ── */}
-                    <div className="metrics-card">
-                        <div className="metrics-card-title">📅 Day by Day Breakdown</div>
+                    <div className={styles['metrics-card']}>
+                        <div className={styles['metrics-card-title']}>📅 Day by Day Breakdown</div>
                         <div className="space-y-2">
                             {current.dailyData.map((d, i) => {
                                 const log = current.logs.find(l => l.date === d.date);
@@ -334,8 +334,8 @@ export default function WeeklyReport() {
 
                     {/* ── Mood Summary ── */}
                     {current.logs.length > 0 && (
-                        <div className="metrics-card">
-                            <div className="metrics-card-title">😊 Mood This Week</div>
+                        <div className={styles['metrics-card']}>
+                            <div className={styles['metrics-card-title']}>😊 Mood This Week</div>
                             <div className="flex gap-3 flex-wrap">
                                 {current.logs.map(log => (
                                     <div key={log.id} style={{

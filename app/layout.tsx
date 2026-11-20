@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './css/globals.css';
-import './css/notes.css';
 import { AppProvider } from '@/lib/store';
 import { Analytics } from '@vercel/analytics/next';
 import LocationPersistence from '@/components/LocationPersistence';

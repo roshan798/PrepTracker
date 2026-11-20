@@ -435,7 +435,7 @@
     font-size: 13.5px;
 }
 
-.notes-markdown-body .md-h1 {
+.notes-markdown-body :global(.md-h1) {
     font-family: 'Georgia', serif;
     font-size: 1.45em;
     font-weight: 800;
@@ -446,7 +446,7 @@
     padding-bottom: 0.2em;
 }
 
-.notes-markdown-body .md-h2 {
+.notes-markdown-body :global(.md-h2) {
     font-family: 'Georgia', serif;
     font-size: 1.2em;
     font-weight: 700;
@@ -454,46 +454,46 @@
     margin: 0.5em 0 0.25em;
 }
 
-.notes-markdown-body .md-h3 {
+.notes-markdown-body :global(.md-h3) {
     font-size: 1.05em;
     font-weight: 700;
     color: #cbd5e1;
     margin: 0.5em 0 0.2em;
 }
 
-.notes-markdown-body .md-h4,
-.notes-markdown-body .md-h5,
-.notes-markdown-body .md-h6 {
+.notes-markdown-body :global(.md-h4),
+.notes-markdown-body :global(.md-h5),
+.notes-markdown-body :global(.md-h6) {
     font-size: 0.95em;
     font-weight: 700;
     color: #94a3b8;
     margin: 0.4em 0 0.15em;
 }
 
-.notes-markdown-body .md-p {
+.notes-markdown-body :global(.md-p) {
     margin: 0 0 0.55em;
 }
 
-.notes-markdown-body .md-p:last-child {
+.notes-markdown-body :global(.md-p):last-child {
     margin-bottom: 0;
 }
 
-.notes-markdown-body .md-bold {
+.notes-markdown-body :global(.md-bold) {
     font-weight: 700;
     color: #f1f5f9;
 }
 
-.notes-markdown-body .md-italic {
+.notes-markdown-body :global(.md-italic) {
     font-style: italic;
     color: #cbd5e1;
 }
 
-.notes-markdown-body .md-del {
+.notes-markdown-body :global(.md-del) {
     text-decoration: line-through;
     opacity: 0.55;
 }
 
-.notes-markdown-body .md-code {
+.notes-markdown-body :global(.md-code) {
     font-family: ui-monospace, 'Cascadia Code', monospace;
     font-size: 0.85em;
     background: rgba(99, 102, 241, 0.14);
@@ -503,7 +503,7 @@
     color: #a5b4fc;
 }
 
-.notes-markdown-body .md-pre {
+.notes-markdown-body :global(.md-pre) {
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
@@ -513,7 +513,7 @@
     position: relative;
 }
 
-.notes-markdown-body .md-pre[data-language]::before {
+.notes-markdown-body :global(.md-pre)[data-language]::before {
     content: attr(data-language);
     position: absolute;
     top: 6px;
@@ -526,7 +526,7 @@
     letter-spacing: 0.06em;
 }
 
-.notes-markdown-body .md-code-block {
+.notes-markdown-body :global(.md-code-block) {
     font-family: ui-monospace, 'Cascadia Code', monospace;
     font-size: 0.82em;
     /* color: #94a3b8; */
@@ -534,7 +534,7 @@
     display: block;
 }
 
-.notes-markdown-body .md-blockquote {
+.notes-markdown-body :global(.md-blockquote) {
     border-left: 3px solid rgba(99, 102, 241, 0.5);
     margin: 0.5em 0;
     padding: 4px 12px;
@@ -544,25 +544,25 @@
     border-radius: 0 6px 6px 0;
 }
 
-.notes-markdown-body .md-ul,
-.notes-markdown-body .md-ol {
+.notes-markdown-body :global(.md-ul),
+.notes-markdown-body :global(.md-ol) {
     padding-left: 18px;
     margin: 0.3em 0 0.55em;
 }
 
-.notes-markdown-body .md-li {
+.notes-markdown-body :global(.md-li) {
     color: #cbd5e1;
     line-height: 1.6;
     margin-bottom: 2px;
 }
 
-.notes-markdown-body .md-hr {
+.notes-markdown-body :global(.md-hr) {
     border: none;
     border-top: 1px solid rgba(99, 102, 241, 0.2);
     margin: 0.8em 0;
 }
 
-.notes-markdown-body .md-link {
+.notes-markdown-body :global(.md-link) {
     color: #818cf8;
     text-decoration: underline;
     text-decoration-color: rgba(129, 140, 248, 0.4);
@@ -570,7 +570,7 @@
     transition: color 0.14s;
 }
 
-.notes-markdown-body .md-link:hover {
+.notes-markdown-body :global(.md-link):hover {
     color: #a5b4fc;
 }
 
@@ -722,7 +722,9 @@
     }
 }
 
-:root {
+.notes-root,
+.note-editor,
+.notes-markdown-body {
     --note-editor-surface: #f7f5ef;
     --note-toolbar-surface: #eeece5;
     --note-control-surface: #f3f1ea;
@@ -735,7 +737,9 @@
     --note-code-number: #953800;
 }
 
-.dark {
+:global(.dark) .notes-root,
+:global(.dark) .note-editor,
+:global(.dark) .notes-markdown-body {
     --note-editor-surface: #141916;
     --note-toolbar-surface: #1d2420;
     --note-control-surface: #232b27;
@@ -877,86 +881,86 @@
     color: var(--text-primary);
 }
 
-.notes-markdown-body .md-h1,
-.notes-markdown-body .md-h2,
-.notes-markdown-body .md-bold {
+.notes-markdown-body :global(.md-h1),
+.notes-markdown-body :global(.md-h2),
+.notes-markdown-body :global(.md-bold) {
     color: var(--text-primary);
 }
 
-.notes-markdown-body .md-h3,
-.notes-markdown-body .md-h4,
-.notes-markdown-body .md-h5,
-.notes-markdown-body .md-h6,
-.notes-markdown-body .md-italic,
-.notes-markdown-body .md-li {
+.notes-markdown-body :global(.md-h3),
+.notes-markdown-body :global(.md-h4),
+.notes-markdown-body :global(.md-h5),
+.notes-markdown-body :global(.md-h6),
+.notes-markdown-body :global(.md-italic),
+.notes-markdown-body :global(.md-li) {
     color: var(--text-secondary);
 }
 
-.notes-markdown-body .md-code {
+.notes-markdown-body :global(.md-code) {
     border-color: color-mix(in srgb, var(--accent-violet) 35%, var(--border));
     background: color-mix(in srgb, var(--accent-violet) 12%, var(--bg-secondary));
     color: var(--note-code-keyword);
 }
 
-.notes-markdown-body .md-pre {
+.notes-markdown-body :global(.md-pre) {
     border-color: var(--border);
     background: var(--note-code-surface);
 }
 
-.notes-markdown-body .md-code-block {
+.notes-markdown-body :global(.md-code-block) {
     color: var(--note-code-text);
 }
 
-.notes-markdown-body .md-code-block.hljs {
+.notes-markdown-body :global(.md-code-block):global(.hljs) {
     background: transparent !important;
     color: var(--note-code-text);
 }
 
-.notes-markdown-body .md-code-block .hljs-keyword,
-.notes-markdown-body .md-code-block .hljs-selector-tag,
-.notes-markdown-body .md-code-block .hljs-literal,
-.notes-markdown-body .md-code-block .hljs-section {
+.notes-markdown-body :global(.md-code-block) :global(.hljs-keyword),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-selector-tag),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-literal),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-section) {
     color: var(--note-code-keyword) !important;
 }
 
-.notes-markdown-body .md-code-block .hljs-string,
-.notes-markdown-body .md-code-block .hljs-template-tag,
-.notes-markdown-body .md-code-block .hljs-template-variable,
-.notes-markdown-body .md-code-block .hljs-regexp,
-.notes-markdown-body .md-code-block .hljs-addition {
+.notes-markdown-body :global(.md-code-block) :global(.hljs-string),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-template-tag),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-template-variable),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-regexp),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-addition) {
     color: var(--note-code-string) !important;
 }
 
-.notes-markdown-body .md-code-block .hljs-title,
-.notes-markdown-body .md-code-block .hljs-title.function_,
-.notes-markdown-body .md-code-block .hljs-title.class_,
-.notes-markdown-body .md-code-block .hljs-function .hljs-title,
-.notes-markdown-body .md-code-block .hljs-attr {
+.notes-markdown-body :global(.md-code-block) :global(.hljs-title),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-title):global(.function_),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-title):global(.class_),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-function) :global(.hljs-title),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-attr) {
     color: var(--note-code-function) !important;
 }
 
-.notes-markdown-body .md-code-block .hljs-comment,
-.notes-markdown-body .md-code-block .hljs-quote,
-.notes-markdown-body .md-code-block .hljs-doctag {
+.notes-markdown-body :global(.md-code-block) :global(.hljs-comment),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-quote),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-doctag) {
     color: var(--note-code-comment) !important;
 }
 
-.notes-markdown-body .md-code-block .hljs-number,
-.notes-markdown-body .md-code-block .hljs-variable,
-.notes-markdown-body .md-code-block .hljs-params,
-.notes-markdown-body .md-code-block .hljs-type,
-.notes-markdown-body .md-code-block .hljs-built_in {
+.notes-markdown-body :global(.md-code-block) :global(.hljs-number),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-variable),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-params),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-type),
+.notes-markdown-body :global(.md-code-block) :global(.hljs-built_in) {
     color: var(--note-code-number) !important;
 }
 
-.notes-markdown-body .md-blockquote {
+.notes-markdown-body :global(.md-blockquote) {
     border-color: color-mix(in srgb, var(--accent-violet) 60%, var(--border));
     background: color-mix(in srgb, var(--accent-violet) 5%, transparent);
     color: var(--text-secondary);
 }
 
-.notes-markdown-body .md-link,
-.notes-markdown-body .md-link:hover {
+.notes-markdown-body :global(.md-link),
+.notes-markdown-body :global(.md-link):hover {
     color: var(--accent-cyan);
     text-decoration-color: color-mix(in srgb, var(--accent-cyan) 55%, transparent);
 }
@@ -969,16 +973,4 @@
 
 .note-toolbar-tooltip::after {
     border-top-color: var(--border);
-}
-
-.quick-note-fab {
-    box-shadow: var(--surface-shadow-hover);
-}
-
-.quick-note-fab:hover {
-    filter: brightness(0.94);
-}
-
-.dark .quick-note-fab:hover {
-    filter: brightness(1.08);
 }

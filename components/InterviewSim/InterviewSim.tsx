@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useAppState } from '@/lib/store';
 import { Problem, Topic, Roadmap } from '@/lib/types';
-import "../../app/css/metrics.css";
+import styles from "../../app/css/metrics.module.css";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -533,7 +533,7 @@ export default function InterviewSim() {
   };
 
   return (
-    <div className="interview-page metrics-root p-5 md:p-8 max-w-4xl mx-auto">
+    <div className={`interview-page ${styles['metrics-root']} p-5 md:p-8 max-w-4xl mx-auto`}>
       {/* Header */}
       <div className="mb-8">
         <div className="page-kicker mb-2">Practice under pressure</div>

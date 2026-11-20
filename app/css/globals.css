@@ -2274,3 +2274,15 @@ textarea:focus {
     width: 100%;
   }
 }
+
+.quick-note-fab {
+  box-shadow: var(--surface-shadow-hover);
+}
+
+.quick-note-fab:hover {
+  filter: brightness(0.94);
+}
+
+.dark .quick-note-fab:hover {
+  filter: brightness(1.08);
+}

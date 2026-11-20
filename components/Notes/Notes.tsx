@@ -6,6 +6,7 @@ import { NoteItem } from './types';
 import { genId, parseValue, serializeNotes, syntheticEvent } from './utils';
 import NoteCard from './NoteCard';
 import NoteEditor from './NoteEditor';
+import styles from './Notes.module.css';
 
 export interface NotesProps {
   value: string;
@@ -75,18 +76,18 @@ export default function Notes({ value, onChange, placeholder, rows = 3, label }:
   const editingNote = notes.find((n) => n.id === editingId);
 
   const notesHeader = (
-    <div className="notes-header">
-      <span className="notes-header-icon">{label ? '📋' : '📝'}</span>
-      <span className="notes-header-title">{label ?? 'Notes'}</span>
+    <div className={styles['notes-header']}>
+      <span className={styles['notes-header-icon']}>{label ? '📋' : '📝'}</span>
+      <span className={styles['notes-header-title']}>{label ?? 'Notes'}</span>
       {notes.length > 0 && (
-        <span className="notes-header-count">{notes.length} {notes.length === 1 ? 'note' : 'notes'}</span>
+        <span className={styles['notes-header-count']}>{notes.length} {notes.length === 1 ? 'note' : 'notes'}</span>
       )}
       {!isAdding && !editingId && (
         <button
           type="button"
           onClick={() => setIsFullscreen(value => !value)}
           autoFocus={isFullscreen}
-          className="notes-expand-btn"
+          className={styles['notes-expand-btn']}
           aria-label={isFullscreen ? 'Exit expanded notes view' : 'Expand notes'}
           title={isFullscreen ? 'Exit expanded view' : 'Expand notes'}>
           {isFullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}
@@ -97,18 +98,18 @@ export default function Notes({ value, onChange, placeholder, rows = 3, label }:
   );
 
   const notesBody = (
-    <div className={isFullscreen ? 'notes-fullscreen-scroll' : undefined}>
+    <div className={isFullscreen ? styles['notes-fullscreen-scroll'] : undefined}>
       {notes.length === 0 && !isAdding ? (
-        <div className="notes-empty">
-          <span className="notes-empty-icon">🗒️</span>
+        <div className={styles['notes-empty']}>
+          <span className={styles['notes-empty-icon']}>🗒️</span>
           <span>No notes yet.</span>
           <span style={{ opacity: 0.5 }}>Click below to add your first note.</span>
         </div>
       ) : (
-        <div className="notes-list">
+        <div className={styles['notes-list']}>
           {notes.map((note, i) =>
             editingId === note.id ? (
-              <div key={note.id} className="note-edit-wrapper">
+              <div key={note.id} className={styles['note-edit-wrapper']}>
                 <NoteEditor
                   initialValue={note.content}
                   onSave={(content) => updateNote(note.id, content)}
@@ -138,10 +139,10 @@ export default function Notes({ value, onChange, placeholder, rows = 3, label }:
       ) : (
         !editingId && (
           <button
-            className="notes-add-btn"
+            className={styles['notes-add-btn']}
             onClick={() => { setIsAdding(true); setEditingId(null); }}
             type="button">
-            <span className="notes-add-btn-icon">+</span>
+            <span className={styles['notes-add-btn-icon']}>+</span>
             Add New Note
           </button>
         )
@@ -150,7 +151,7 @@ export default function Notes({ value, onChange, placeholder, rows = 3, label }:
   );
 
   const notesRoot = (
-    <div className={`notes-root${isFullscreen ? ' notes-root-fullscreen' : ''}`}>
+    <div className={`${styles['notes-root']} ${isFullscreen ? styles['notes-root-fullscreen'] : ''}`}>
       {notesHeader}
       {notesBody}
     </div>
@@ -159,11 +160,11 @@ export default function Notes({ value, onChange, placeholder, rows = 3, label }:
   if (isFullscreen && typeof document !== 'undefined') {
     return createPortal(
       <div
-        className="notes-fullscreen-overlay"
+        className={styles['notes-fullscreen-overlay']}
         onMouseDown={event => {
           if (event.target === event.currentTarget) setIsFullscreen(false);
         }}>
-        <section className="notes-fullscreen-panel" role="dialog" aria-modal="true" aria-label={`${label ?? 'Notes'} expanded view`}>
+        <section className={styles['notes-fullscreen-panel']} role="dialog" aria-modal="true" aria-label={`${label ?? 'Notes'} expanded view`}>
           {notesRoot}
         </section>
       </div>,

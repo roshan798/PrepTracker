@@ -10,7 +10,7 @@ import { useMetrics } from './metricsStore';
 import { formatMinutes, getDateRange, computeSummary, getTasksCompleted, localDateStr, todayStr } from './helpers';
 import { Mood, DailyMetric } from './types';
 import DailyLogModal from './DailyLogModal';
-import "../../app/css/metrics.css";
+import styles from "../../app/css/metrics.module.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -35,13 +35,13 @@ const TOPIC_COLORS = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#e
 function StatCard({ icon, label, value, sub, accent = '#06b6d4', delay = 0 }:
   { icon: string; label: string; value: string; sub?: string; accent?: string; delay?: number }) {
   return (
-    <div className="metrics-stat-card" style={{ animationDelay: `${delay}ms` }}>
-      <div className="metrics-stat-icon" style={{ color: accent, background: `${accent}18`, borderColor: `${accent}30` }}>
+    <div className={styles['metrics-stat-card']} style={{ animationDelay: `${delay}ms` }}>
+      <div className={styles['metrics-stat-icon']} style={{ color: accent, background: `${accent}18`, borderColor: `${accent}30` }}>
         {icon}
       </div>
-      <div className="metrics-stat-value" style={{ color: 'var(--text-primary)' }}>{value}</div>
-      <div className="metrics-stat-label" style={{ color: 'var(--text-secondary)' }}>{label}</div>
-      {sub && <div className="metrics-stat-sub" style={{ color: accent }}>{sub}</div>}
+      <div className={styles['metrics-stat-value']} style={{ color: 'var(--text-primary)' }}>{value}</div>
+      <div className={styles['metrics-stat-label']} style={{ color: 'var(--text-secondary)' }}>{label}</div>
+      {sub && <div className={styles['metrics-stat-sub']} style={{ color: accent }}>{sub}</div>}
     </div>
   );
 }
@@ -189,7 +189,7 @@ export default function MetricsDashboard() {
 
   return (
     <>
-      <div className="metrics-root p-5 md:p-8 max-w-7xl mx-auto"
+      <div className={`${styles['metrics-root']} p-5 md:p-8 max-w-7xl mx-auto`}
       >
         {/* ── Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -206,7 +206,7 @@ export default function MetricsDashboard() {
             {/* Period selector */}
             <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border)' }}>
               {(['today', 'week', 'month', 'quarter'] as Period[]).map(p => (
-                <button key={p} onClick={() => setPeriod(p)} className={`period-btn ${period === p ? 'active' : ''}`}>
+                <button key={p} onClick={() => setPeriod(p)} className={`${styles['period-btn']} ${period === p ? styles.active : ''}`}>
                   {p === 'quarter' ? '90 days' : p}
                 </button>
               ))}
@@ -234,11 +234,11 @@ export default function MetricsDashboard() {
 
         {logs.length === 0 ? (
           /* ── Empty State ── */
-          <div className="metrics-card">
-            <div className="empty-state">
-              <span className="empty-state-icon">📈</span>
-              <p className="empty-state-title">No activity tracked yet</p>
-              <p className="empty-state-sub">Focus timers, roadmap completions, reviews, and notes are tracked automatically. Add a daily log only when you want to set a target or record mood and confidence.</p>
+          <div className={styles['metrics-card']}>
+            <div className={styles['empty-state']}>
+              <span className={styles['empty-state-icon']}>📈</span>
+              <p className={styles['empty-state-title']}>No activity tracked yet</p>
+              <p className={styles['empty-state-sub']}>Focus timers, roadmap completions, reviews, and notes are tracked automatically. Add a daily log only when you want to set a target or record mood and confidence.</p>
               <button onClick={() => setShowModal(true)}
                 className="px-6 py-3 rounded-xl text-sm font-bold mt-2 transition-all"
                 style={{ background: 'linear-gradient(135deg, #06b6d4, #0891b2)', color: '#fff', fontFamily: 'ui-monospace, monospace', boxShadow: '0 4px 14px rgba(6,182,212,0.3)' }}>
@@ -270,8 +270,8 @@ export default function MetricsDashboard() {
             </div>
 
             {/* ── Study Time Chart ── */}
-            <div className="metrics-card" style={{ animationDelay: '200ms' }}>
-              <div className="metrics-card-title">⏱ Study Time Trend</div>
+            <div className={styles['metrics-card']} style={{ animationDelay: '200ms' }}>
+              <div className={styles['metrics-card-title']}>⏱ Study Time Trend</div>
               <ResponsiveContainer width="100%" height={180}>
                 <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                   <defs>
@@ -291,8 +291,8 @@ export default function MetricsDashboard() {
 
             {/* ── Confidence + Goals row ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div className="metrics-card" style={{ animationDelay: '260ms' }}>
-                <div className="metrics-card-title">⭐ Confidence Trend</div>
+              <div className={styles['metrics-card']} style={{ animationDelay: '260ms' }}>
+                <div className={styles['metrics-card-title']}>⭐ Confidence Trend</div>
                 <ResponsiveContainer width="100%" height={150}>
                   <LineChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -304,8 +304,8 @@ export default function MetricsDashboard() {
                 </ResponsiveContainer>
               </div>
 
-              <div className="metrics-card" style={{ animationDelay: '300ms' }}>
-                <div className="metrics-card-title">🎯 Daily Target Completion</div>
+              <div className={styles['metrics-card']} style={{ animationDelay: '300ms' }}>
+                <div className={styles['metrics-card-title']}>🎯 Daily Target Completion</div>
                 <ResponsiveContainer width="100%" height={150}>
                   <BarChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -321,8 +321,8 @@ export default function MetricsDashboard() {
             {/* ── Topics + Mood row ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Topics pie */}
-              <div className="metrics-card" style={{ animationDelay: '340ms' }}>
-                <div className="metrics-card-title">{hasTopicFocusTime ? '📚 Focus Time by Topic' : '📚 Topic Activity'}</div>
+              <div className={styles['metrics-card']} style={{ animationDelay: '340ms' }}>
+                <div className={styles['metrics-card-title']}>{hasTopicFocusTime ? '📚 Focus Time by Topic' : '📚 Topic Activity'}</div>
                 {topicPieData.length === 0 ? (
                   <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', padding: '20px 0', textAlign: 'center' }}>
                     Complete roadmap problems or study with a topic open to see topic insights.
@@ -358,8 +358,8 @@ export default function MetricsDashboard() {
               </div>
 
               {/* Mood distribution */}
-              <div className="metrics-card" style={{ animationDelay: '380ms' }}>
-                <div className="metrics-card-title">😊 Mood Distribution</div>
+              <div className={styles['metrics-card']} style={{ animationDelay: '380ms' }}>
+                <div className={styles['metrics-card-title']}>😊 Mood Distribution</div>
                 {moodBarData.length === 0 ? (
                   <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', padding: '20px 0', textAlign: 'center' }}>
                     No mood data yet
@@ -385,14 +385,14 @@ export default function MetricsDashboard() {
             </div>
 
             {/* ── Activity Heatmap ── */}
-            <div className="metrics-card" style={{ animationDelay: '420ms' }}>
-              <div className="metrics-card-title">📅 90-Day Activity Heatmap</div>
+            <div className={styles['metrics-card']} style={{ animationDelay: '420ms' }}>
+              <div className={styles['metrics-card-title']}>📅 90-Day Activity Heatmap</div>
               <StudyHeatmap logs={logs} />
             </div>
 
             {/* ── Recent Sessions ── */}
-            <div className="metrics-card" style={{ animationDelay: '460ms' }}>
-              <div className="metrics-card-title">🕐 Recent Focus Sessions</div>
+            <div className={styles['metrics-card']} style={{ animationDelay: '460ms' }}>
+              <div className={styles['metrics-card-title']}>🕐 Recent Focus Sessions</div>
               {recentSessions.length === 0 ? (
                 <div style={{ color: 'var(--text-secondary)', fontSize: 12, fontFamily: 'ui-monospace, monospace', textAlign: 'center', padding: '20px 0' }}>No timed focus sessions yet. Roadmap activity is still tracked automatically.</div>
               ) : (

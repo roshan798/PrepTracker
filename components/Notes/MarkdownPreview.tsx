@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-dark.min.css';
 import { renderMarkdown } from './utils';
+import styles from './Notes.module.css';
 
 hljs.configure({ ignoreUnescapedHTML: true });
 
@@ -22,12 +23,12 @@ export default function MarkdownPreview({ content, empty }: { content: string; e
     });
 
     if (!rendered)
-        return <div className="notes-preview-empty">{empty ?? 'Nothing to preview…'}</div>;
+        return <div className={styles['notes-preview-empty']}>{empty ?? 'Nothing to preview…'}</div>;
 
     return (
         <div
             ref={ref}
-            className="notes-markdown-body"
+            className={styles['notes-markdown-body']}
             dangerouslySetInnerHTML={{ __html: rendered }}
         />
     );
