@@ -11,6 +11,7 @@ A beautiful, production-ready personal preparation tracker for job switch prep �
 - ✅ Resume the last page and scroll position when reopening from the dashboard; explicit links are honored
 - ✅ Notes editor per topic/subtopic
 - ✅ Split problem workspace with syntax-highlighted solutions, notes, and complexity selectors
+- ✅ Interactive prerequisite graphs for System Design and GenAI roadmaps
 - ✅ Spaced-repetition queue for completed problems with recall-based review intervals
 - ✅ Pomodoro focus timer that logs completed 25-minute sessions to Metrics
 - ✅ Quick notes with a floating Markdown capture editor, tags, and roadmap links

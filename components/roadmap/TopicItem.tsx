@@ -100,6 +100,7 @@ export default function TopicItem({
 
   return (
     <article
+      id={`topic-card-${topic.id}`}
       className="roadmap-topic-card mb-3 overflow-hidden rounded-2xl border transition-all"
       style={{
         borderColor: expanded
@@ -113,7 +114,7 @@ export default function TopicItem({
           type="button"
           onClick={() => setExpansionOverride({ key: expansionKey, expanded: !expanded })}
           aria-expanded={expanded}
-          aria-controls={expanded ? panelId : undefined}
+          aria-controls={panelId}
           aria-label={`${expanded ? 'Collapse' : 'Expand'} ${topic.name}`}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors hover:bg-cyan-500/10"
           style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>

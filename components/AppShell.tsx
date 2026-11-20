@@ -55,7 +55,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         className="quick-note-fab fixed bottom-5 right-5 z-40 flex h-14 items-center gap-2 rounded-full bg-cyan-500 px-5 font-semibold text-gray-950 shadow-xl shadow-cyan-950/25 transition hover:-translate-y-0.5 hover:bg-cyan-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:bottom-7 sm:right-7"
         aria-label="Create a quick note">
         <PenLine size={18} />
-        <span className="text-sm">Quick note</span>
+        <span className="text-md">Quick note</span>
       </button>
       {showQuickNote && (
         <QuickNoteEditor

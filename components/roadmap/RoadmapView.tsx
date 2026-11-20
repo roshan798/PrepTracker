@@ -6,6 +6,7 @@ import { RoadmapStatusFilter, topicMatchesFilter } from '@/lib/roadmap-filter';
 import { readSavedLocation } from '@/lib/location-persistence';
 import type { ActiveProblemLocation } from '@/lib/location-persistence';
 import TopicItem from './TopicItem';
+import TopicDependencyGraph from './TopicDependencyGraph';
 import ProgressBar from '@/components/ui/ProgressBar';
 import Confetti from '@/components/ui/Confetti';
 import AddTopicModal from '@/components/modals/AddTopicModal';
@@ -172,6 +173,18 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
     topicMatchesFilter(topic, searchTerm, filterStatus)
   );
 
+  const openTopicFromGraph = (topicId: string) => {
+    setSearchTerm('');
+    setFilterStatus('all');
+    requestAnimationFrame(() => {
+      const card = document.getElementById(`topic-card-${topicId}`);
+      if (!card) return;
+      const toggle = card.querySelector<HTMLButtonElement>('[aria-controls]');
+      if (toggle?.getAttribute('aria-expanded') === 'false') toggle.click();
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  };
+
   return (
     <div className="roadmap-page mx-auto max-w-5xl p-4 sm:p-5 md:p-8">
       <Confetti active={confetti} />
@@ -318,6 +331,10 @@ export default function RoadmapView({ roadmapId }: RoadmapViewProps) {
           {searchTerm.trim() ? ` matching “${searchTerm.trim()}” across lessons and tasks` : ''}
         </p>
       </section>
+
+      {['system-design', 'system-design-masterclass', 'genai-agentic-ai'].includes(roadmap.id) && (
+        <TopicDependencyGraph roadmap={roadmap} onOpenTopic={openTopicFromGraph} />
+      )}
 
       <section aria-label="Learning modules">
         <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
