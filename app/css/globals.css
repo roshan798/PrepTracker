@@ -1978,7 +1978,44 @@ textarea:focus {
     padding-left: 0.65rem;
   }
 
+  .roadmap-topic-header + section > div {
+    margin-left: 0;
+    padding-left: 0.5rem;
+  }
+
+  .roadmap-topic-header + section > div.flex {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roadmap-topic-header + section > div.flex input {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .roadmap-topic-header + section > div.flex button {
+    min-height: 2.75rem;
+  }
+
+  .roadmap-topic-header + section > button {
+    min-height: 2.75rem;
+  }
+
+  .roadmap-add-problem-form > input,
+  .roadmap-add-problem-form select {
+    min-height: 2.75rem;
+    min-width: 0;
+    font-size: 0.8rem;
+  }
+
+  .roadmap-add-problem-trigger,
+  .roadmap-add-problem-actions button {
+    min-height: 2.75rem;
+  }
+
   .roadmap-problem-row {
+    align-items: flex-start;
     gap: 0.4rem;
     padding: 0.45rem;
   }
@@ -1994,11 +2031,112 @@ textarea:focus {
     min-width: 0;
     font-size: 0.78rem;
   }
+
+  .roadmap-problem-controls {
+    flex-basis: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    padding-left: 2.75rem;
+  }
+
+  .roadmap-problem-meta {
+    gap: 0.4rem;
+  }
+
+  .roadmap-problem-actions {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .roadmap-problem-meta > span,
+  .roadmap-problem-meta > button {
+    min-height: 2.25rem;
+  }
+
+  .roadmap-problem-row .roadmap-problem-meta > button {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 2.75rem;
+    max-width: 100%;
+    padding: 0.4rem 0.55rem;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  .roadmap-problem-row .roadmap-problem-actions button,
+  .roadmap-problem-row .roadmap-problem-actions a {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    justify-content: center;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg-primary) 55%, transparent);
+  }
+
+  .roadmap-problem-actions a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .problem-workspace {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .problem-workspace-column {
+    padding: 0.6rem;
+  }
+
+  .problem-workspace-heading {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .problem-workspace-heading select {
+    width: 100%;
+    max-width: none;
+    min-height: 2.75rem;
+    font-size: 0.8rem;
+  }
+
+  .problem-complexity-grid select {
+    min-height: 2.75rem;
+    font-size: 0.75rem;
+  }
+
+  .problem-code-preview {
+    max-width: 100%;
+    font-size: 0.65rem;
+  }
+
+  .roadmap-topic-controls button,
+  .roadmap-subtopic-controls button {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+  }
+
+  .roadmap-topic-controls select,
+  .roadmap-subtopic-controls select {
+    min-height: 2.75rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .roadmap-add-problem-fields {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 1023px) {
   .app-main-mobile {
-    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+    padding-bottom: calc(9rem + env(safe-area-inset-bottom));
   }
 
   .quick-note-fab {

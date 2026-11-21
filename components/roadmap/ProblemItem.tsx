@@ -89,70 +89,74 @@ export default function ProblemItem({ roadmapId, topicId, subtopicId, problem, r
                     {problem.name}
                 </span>
 
-                <div className="flex w-full shrink-0 flex-wrap items-center justify-end gap-1 pl-7 sm:w-auto sm:pl-0">
-                {problem.status === 'completed' && problem.reviewDueAt ? (
-                    <span className={`review-schedule-badge ${problem.reviewDueAt <= dateKey() ? 'due' : ''}`}
-                        title={`Next review: ${problem.reviewDueAt}`}>
-                        <CalendarClock size={12} />
-                        {problem.reviewDueAt <= dateKey() ? 'Review due' : `Review ${problem.reviewDueAt}`}
-                    </span>
-                ) : problem.status === 'completed' ? (
-                    <button type="button" onClick={() => updateProblem(getInitialReviewSchedule())}
-                        className="review-schedule-action" aria-label={`Add ${problem.name} to review schedule`}>
-                        <CalendarPlus size={13} />
-                        Review in 3 days
-                    </button>
-                ) : null}
-                <span
-                    aria-label={`${problem.difficulty} difficulty`}
-                    className={`text-[11px] px-2 py-1 rounded-lg border mono shrink-0 ${getDifficultyColor(problem.difficulty)}`}
-                    title={problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}>
-                    {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
-                </span>
+                <div className="roadmap-problem-controls flex w-full shrink-0 flex-wrap items-center justify-end gap-1 pl-7 sm:w-auto sm:pl-0">
+                    <div className="roadmap-problem-meta flex flex-wrap items-center gap-1">
+                        {problem.status === 'completed' && problem.reviewDueAt ? (
+                            <span className={`review-schedule-badge ${problem.reviewDueAt <= dateKey() ? 'due' : ''}`}
+                                title={`Next review: ${problem.reviewDueAt}`}>
+                                <CalendarClock size={12} />
+                                {problem.reviewDueAt <= dateKey() ? 'Review due' : `Review ${problem.reviewDueAt}`}
+                            </span>
+                        ) : problem.status === 'completed' ? (
+                            <button type="button" onClick={() => updateProblem(getInitialReviewSchedule())}
+                                className="review-schedule-action" aria-label={`Add ${problem.name} to review schedule`}>
+                                <CalendarPlus size={13} />
+                                Review in 3 days
+                            </button>
+                        ) : null}
+                        <span
+                            aria-label={`${problem.difficulty} difficulty`}
+                            className={`text-[11px] px-2 py-1 rounded-lg border mono shrink-0 ${getDifficultyColor(problem.difficulty)}`}
+                            title={problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}>
+                            {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
+                        </span>
+                    </div>
 
-                <NotesToggleButton
-                    value={problem.notes}
-                    showNotes={showNotes || showWorkspace}
-                    onToggle={() => {
-                        if (showWorkspace) {
-                            setShowWorkspace(false);
-                            setShowNotes(true);
-                        } else {
-                            setShowNotes(value => !value);
-                        }
-                    }}
-                    label={problem.name}
-                />
+                    <div className="roadmap-problem-actions flex items-center gap-1">
+                        <NotesToggleButton
+                            value={problem.notes}
+                            showNotes={showNotes || showWorkspace}
+                            onToggle={() => {
+                                if (showWorkspace) {
+                                    setShowWorkspace(false);
+                                    setShowNotes(true);
+                                } else {
+                                    setShowNotes(value => !value);
+                                }
+                            }}
+                            label={problem.name}
+                        />
 
-                <button type="button" onClick={() => {
-                    setShowWorkspace(value => !value);
-                    setShowNotes(false);
-                }}
-                    aria-label={`${showWorkspace ? 'Close' : 'Open'} code workspace for ${problem.name}`}
-                    aria-expanded={showWorkspace}
-                    title={showWorkspace ? 'Close code workspace' : 'Open code workspace'}
-                    className={`flex h-9 w-9 items-center justify-center rounded-lg border transition-colors ${showWorkspace ? 'border-violet-500/40 bg-violet-500/10 text-violet-400' : 'border-transparent hover:bg-violet-500/10'}`}
-                    style={{ color: showWorkspace ? undefined : 'var(--text-secondary)' }}>
-                    <Code2 size={14} />
-                </button>
+                        <button type="button" onClick={() => {
+                            setShowWorkspace(value => !value);
+                            setShowNotes(false);
+                        }}
+                            aria-label={`${showWorkspace ? 'Close' : 'Open'} code workspace for ${problem.name}`}
+                            aria-expanded={showWorkspace}
+                            title={showWorkspace ? 'Close code workspace' : 'Open code workspace'}
+                            className={`flex h-9 w-9 items-center justify-center rounded-lg border transition-colors ${showWorkspace ? 'border-violet-500/40 bg-violet-500/10 text-violet-400' : 'border-transparent hover:bg-violet-500/10'}`}
+                            style={{ color: showWorkspace ? undefined : 'var(--text-secondary)' }}>
+                            <Code2 size={14} />
+                        </button>
 
-                {problem.url && (
-                    <a href={problem.url} target="_blank" rel="noopener noreferrer"
-                        aria-label={`Open link for ${problem.name} in a new tab`}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-cyan-500/10"
-                        style={{ color: 'var(--text-secondary)' }}>
-                        <ExternalLink size={14} />
-                    </a>
-                )}
+                        {problem.url && (
+                            <a href={problem.url} target="_blank" rel="noopener noreferrer"
+                                aria-label={`Open link for ${problem.name} in a new tab`}
+                                className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-cyan-500/10"
+                                style={{ color: 'var(--text-secondary)' }}>
+                                <ExternalLink size={14} />
+                            </a>
+                        )}
 
-                <button onClick={() => setConfirmDelete(true)}
-                    type="button"
-                    aria-label={`Delete ${problem.name}`}
-                    title="Delete task"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-rose-500/10 hover:text-rose-400"
-                    style={{ color: 'var(--text-secondary)' }}>
-                    <Trash2 size={13} />
-                </button>
+                        <button onClick={() => setConfirmDelete(true)}
+                            type="button"
+                            aria-label={`Delete ${problem.name}`}
+                            title="Delete task"
+                            className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:bg-rose-500/10 hover:text-rose-400"
+                            style={{ color: 'var(--text-secondary)' }}>
+                            <Trash2 size={13} />
+                        </button>
+                    </div>
                 </div>
             </div>
             {showWorkspace && (

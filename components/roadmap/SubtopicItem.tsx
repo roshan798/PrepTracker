@@ -169,12 +169,12 @@ export default function SubtopicItem({
           </ul>
 
           {addingProblem ? (
-            <div className="flex flex-col gap-2 p-3 rounded-xl border" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-secondary)' }}>
+            <div className="roadmap-add-problem-form flex flex-col gap-2 p-3 rounded-xl border" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-secondary)' }}>
               <input value={newProbName} onChange={e => setNewProbName(e.target.value)}
                 placeholder="Problem name..."
                 className="w-full px-3 py-2 rounded-lg border text-xs"
                 style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none' }} />
-              <div className="flex gap-2">
+              <div className="roadmap-add-problem-fields flex gap-2">
                 <select value={newProbDiff} onChange={e => setNewProbDiff(e.target.value as Difficulty)}
                   className="flex-1 px-2 py-1.5 rounded-lg border text-xs"
                   style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none' }}>
@@ -187,7 +187,7 @@ export default function SubtopicItem({
                   className="flex-1 px-2 py-1.5 rounded-lg border text-xs"
                   style={{ backgroundColor: 'var(--bg-tertiary)', borderColor: 'var(--border)', color: 'var(--text-primary)', outline: 'none' }} />
               </div>
-              <div className="flex gap-2">
+              <div className="roadmap-add-problem-actions flex gap-2">
                 <button type="button" onClick={() => setAddingProblem(false)}
                   className="flex-1 py-1.5 text-xs rounded-lg border hover:opacity-70"
                   style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
@@ -199,7 +199,7 @@ export default function SubtopicItem({
             </div>
           ) : (
             <button type="button" onClick={() => setAddingProblem(true)}
-              className="flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg border border-dashed transition-all hover:opacity-80"
+              className="roadmap-add-problem-trigger flex items-center gap-1.5 text-xs px-3 py-2 rounded-lg border border-dashed transition-all hover:opacity-80"
               style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
               <Plus size={11} /> Add Problem
             </button>
